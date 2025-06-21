@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>Schengen Visa Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+    <!-- Modal for 1-day trip creation -->
+    <div class="modal-overlay" id="oneday-modal">
+        <div class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-content">
+            <div class="modal-title" id="modal-title">
+                📅 Create 1-Day Trip?
+            </div>
+            <div class="modal-content" id="modal-content">
+                You clicked on <span class="modal-date" id="modal-date"></span> twice. Would you like to:
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" id="cancel-btn">
+                    ❌ Remove
+                </button>
+                <button class="modal-btn modal-btn-primary" id="confirm-btn">
+                    ✅ Add Trip
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <button class="header-theme-toggle" id="theme-toggle">
+                <span id="theme-icon">🌙</span>
+                <span id="theme-text">Light Mode</span>
+            </button>
+            <h1>🇪🇺 Schengen Short-Stay Visa Planner</h1>
+            <p>Track your 90/180 day compliance across Schengen countries.</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Main Layout Container -->
+            <div class="main-layout">
+                <!-- Calendar Section -->
+                <div class="calendar-section">
+                    <div class="calendar-container">
+                        <!-- Calendar Header with Add Trip Form -->
+                        <div class="calendar-header-container flex-between">
+                            <div class="section-title">📆 Calendar</div>
+                            
+                            <!-- Compact Add Trip Form -->
+                            <form id="trip-form" class="compact-form">
+                                <div class="form-group form-group-compact">
+                                    <label for="entry-date" class="form-label-compact">Entry Date</label>
+                                    <input type="text" id="entry-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                </div>
+                                
+                                <div class="form-group form-group-compact">
+                                    <label for="exit-date" class="form-label-compact">Exit Date</label>
+                                    <input type="text" id="exit-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-compact">Add Trip</button>
+                            </form>
+                        </div>
+
+                        <!-- Calendar with Side Navigation -->
+                        <div class="calendar-with-nav">
+                            <button class="nav-btn-side nav-btn-left" id="prev-btn">
+                                <span class="nav-btn-arrow">‹</span>
+                            </button>
+                            
+                            <div class="six-month-container six-month-spacing" id="six-month-container">
+                                <!-- Six months will be generated here -->
+                            </div>
+                            
+                            <button class="nav-btn-side nav-btn-right" id="next-btn">
+                                <span class="nav-btn-arrow">›</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Info Sections - Under Calendar -->
+                    <div class="info-sections-grid">
+                        <div class="info-box-warning">
+                            <strong>⚠️ Warnings:</strong> Entry/exit days count • Depart by day 88-89 for safety • Penalties: fines/bans possible • Verify with EU calculator
+                        </div>
+
+                        <div class="info-box-resources">
+                            <strong>🔗 Resources:</strong> Official calculator: <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank">EC Visa Calculator</a> • Planning tool only, not legally binding
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Controls -->
+                <div class="sidebar-controls">
+                    <div class="control-panel">
+                        <div class="section-title">🎯 Planner</div>
+                        <div class="form-group">
+                            <label for="stay-duration">How many days do you want to stay?</label>
+                            <input type="number" id="stay-duration" min="1" max="90" value="30" class="input-spacing" aria-describedby="stay-duration-hint">
+                            <div class="date-input-hint hint-spacing" id="stay-duration-hint">1-90 days</div>
+                            <button class="btn btn-full-width" id="find-stay-btn">
+                                🔍 When can I stay for this long?
+                            </button>
+                            <div id="planning-result" class="planning-result-box">
+                                <!-- Planning results will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-group form-group-separated">
+                            <label for="arrival-date">When do you intend to arrive?</label>
+                            <input type="text" id="arrival-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" class="input-spacing" aria-describedby="arrival-date-hint">
+                            <div class="date-input-hint hint-spacing" id="arrival-date-hint">dd/mm/yy</div>
+                            <button class="btn btn-full-width" id="calculate-stay-btn">
+                                📅 How long can I stay from this date?
+                            </button>
+                            <div id="arrival-planning-result" class="planning-result-box">
+                                <!-- Arrival planning results will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div class="section-title">📊 Status</div>
+                        <div class="status-item">
+                            <span>Days Used (180-day period):</span>
+                            <span class="status-value" id="days-used">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span>Days Remaining:</span>
+                            <span class="status-value" id="days-remaining">90</span>
+                        </div>
+                        <div class="status-item">
+                            <span>Next Safe Entry:</span>
+                            <span class="status-value" id="next-safe-entry">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span>Violations:</span>
+                            <span class="status-value" id="violations">0</span>
+                        </div>
+                    </div>
+
+                    <div class="control-panel control-panel-hidden" id="selection-info">
+                        <div class="section-title">🎯 Selection</div>
+                        <div id="selection-details">
+                            Click on a date to start planning your trip!
+                        </div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div class="section-title">🧪 Debug</div>
+                        <button class="btn btn-full-width" id="test-calculation-btn">
+                            📋 Show Rolling Calculation
+                        </button>
+                        <div id="test-output" class="test-output-box">
+                            <!-- Test results will appear here -->
+                        </div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div class="section-title">✈️ Trips</div>
+                        <div id="trips-container">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">✈️</div>
+                                <p>No trips added yet.<br>Add your first trip above!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
