@@ -1,4 +1,81 @@
 // Schengen Visa Calculator - Main Script
+//
+// TIMEZONE SAFETY IMPROVEMENTS:
+// ===============================
+// This application has been enhanced with comprehensive timezone-safe date handling to ensure
+// consistent behavior across all timezones and daylight saving time transitions:
+//
+// 1. All date parsing uses local timezone components (year, month, day) to avoid timezone shifts
+// 2. Date storage uses ISO date strings (YYYY-MM-DD) which are timezone-agnostic
+// 3. All date comparisons normalize dates to local midnight to prevent DST issues
+// 4. Calendar rendering uses timezone-safe date creation and comparison functions
+// 5. State saving/loading uses timezone-safe serialization
+//
+// Key Functions for Timezone Safety:
+// - parseISODateLocal(): Parse ISO strings to local Date objects
+// - dateToISOString(): Convert Date objects to ISO strings using local components
+// - getTodayLocal(): Get today's date normalized to local timezone
+// - isSameDate(): Compare dates safely without timezone issues
+// - createLocalDate(): Create dates from components safely
+//
+// All date operations in this application should use these functions to maintain timezone safety.
+
+// Validate date object for timezone safety
+function validateDateObject(date, context = 'Unknown') {
+    if (!date) {
+        console.warn(`[${context}] Null or undefined date object`);
+        return false;
+    }
+    
+    if (!(date instanceof Date)) {
+        console.warn(`[${context}] Object is not a Date instance:`, typeof date);
+        return false;
+    }
+    
+    if (isNaN(date.getTime())) {
+        console.warn(`[${context}] Invalid Date object (NaN):`, date);
+        return false;
+    }
+    
+    // Check for reasonable date range (1900-2100) to catch timezone-related issues
+    const year = date.getFullYear();
+    if (year < 1900 || year > 2100) {
+        console.warn(`[${context}] Date year out of reasonable range:`, year);
+        return false;
+    }
+    
+    return true;
+}
+
+// Validate ISO date string format
+function validateISODateString(dateStr, context = 'Unknown') {
+    if (!dateStr || typeof dateStr !== 'string') {
+        console.warn(`[${context}] Invalid date string:`, dateStr);
+        return false;
+    }
+    
+    const isoPattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!isoPattern.test(dateStr)) {
+        console.warn(`[${context}] Date string not in ISO format (YYYY-MM-DD):`, dateStr);
+        return false;
+    }
+    
+    // Try to parse and validate
+    const parsedDate = parseISODateLocal(dateStr);
+    if (!parsedDate) {
+        console.warn(`[${context}] Failed to parse ISO date string:`, dateStr);
+        return false;
+    }
+    
+    // Verify round-trip consistency
+    const roundTrip = dateToISOString(parsedDate);
+    if (roundTrip !== dateStr) {
+        console.warn(`[${context}] Date string round-trip inconsistency:`, dateStr, '!=', roundTrip);
+        return false;
+    }
+    
+    return true;
+}
 
 // Global variables
 let trips = [];
@@ -21,21 +98,42 @@ class SchengenCalculationEngine {
     // Core function: Build daily history arrays for comprehensive calculation
     buildDailyHistory(trips, startDate = null, endDate = null) {
         if (!trips || trips.length === 0) {
-            return { dailyPresence: [], cumulativeDays: [], dateRange: { start: new Date(), end: new Date() } };
+            const today = getTodayLocal();
+            return { 
+                dailyPresence: [], 
+                cumulativeDays: [], 
+                dateRange: { start: today, end: today },
+                totalDays: 0
+            };
         }
 
-        // Determine date range to analyze
-        const tripDates = trips.flatMap(trip => [
-            this.parseDate(trip.entryDate),
-            this.parseDate(trip.exitDate)
-        ]);
+        // Determine date range to analyze - use timezone-safe parsing
+        const tripDates = trips.flatMap(trip => {
+            const entry = this.parseDate(trip.entryDate);
+            const exit = this.parseDate(trip.exitDate);
+            return entry && exit ? [entry, exit] : [];
+        }).filter(date => date !== null);
+        
+        if (tripDates.length === 0) {
+            const today = getTodayLocal();
+            return { 
+                dailyPresence: [], 
+                cumulativeDays: [], 
+                dateRange: { start: today, end: today },
+                totalDays: 0
+            };
+        }
         
         const earliestTrip = new Date(Math.min(...tripDates.map(d => d.getTime())));
         const latestTrip = new Date(Math.max(...tripDates.map(d => d.getTime())));
         
         // Extend range to include 180 days before and after for complete analysis
         const analysisStart = startDate || new Date(earliestTrip.getTime() - (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
-        const analysisEnd = endDate || new Date(Math.max(latestTrip.getTime(), Date.now()) + (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
+        const analysisEnd = endDate || new Date(Math.max(latestTrip.getTime(), getTodayLocal().getTime()) + (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
+        
+        // Normalize start and end dates to midnight local time
+        analysisStart.setHours(0, 0, 0, 0);
+        analysisEnd.setHours(0, 0, 0, 0);
         
         const totalDays = Math.ceil((analysisEnd.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000)) + 1;
         
@@ -48,11 +146,22 @@ class SchengenCalculationEngine {
             const tripStart = this.parseDate(trip.entryDate);
             const tripEnd = this.parseDate(trip.exitDate);
             
-            for (let date = new Date(tripStart); date <= tripEnd; date.setDate(date.getDate() + 1)) {
-                const dayIndex = Math.floor((date.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000));
+            if (!tripStart || !tripEnd) {
+                console.warn('Invalid trip dates:', trip);
+                return;
+            }
+            
+            // Create date iterator that doesn't depend on timezone
+            const currentDate = new Date(tripStart.getFullYear(), tripStart.getMonth(), tripStart.getDate());
+            const endDate = new Date(tripEnd.getFullYear(), tripEnd.getMonth(), tripEnd.getDate());
+            
+            while (currentDate <= endDate) {
+                const dayIndex = Math.floor((currentDate.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000));
                 if (dayIndex >= 0 && dayIndex < totalDays) {
                     dailyPresence[dayIndex] = 1;
                 }
+                // Move to next day safely
+                currentDate.setDate(currentDate.getDate() + 1);
             }
         });
         
@@ -166,16 +275,19 @@ class SchengenCalculationEngine {
     }
 
     // Find next safe entry date
-    findNextSafeEntry(fromDate = new Date(), trips = null) {
+    findNextSafeEntry(fromDate = null, trips = null) {
         const tripsToUse = trips || window.trips || [];
-        const checkDate = new Date(fromDate);
+        
+        // Use timezone-safe starting date
+        const startFromDate = fromDate || getTodayLocal();
+        const checkDate = new Date(startFromDate.getFullYear(), startFromDate.getMonth(), startFromDate.getDate());
         checkDate.setDate(checkDate.getDate() + 1); // Start from next day
 
         for (let i = 0; i < 730; i++) { // Check up to 2 years
             const daysInPeriod = this.getDaysInPeriod(checkDate, tripsToUse);
             if (daysInPeriod < this.MAX_DAYS_IN_PERIOD) {
                 return {
-                    date: new Date(checkDate),
+                    date: new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate()),
                     daysUsed: daysInPeriod,
                     daysAvailable: this.MAX_DAYS_IN_PERIOD - daysInPeriod
                 };
@@ -190,19 +302,23 @@ class SchengenCalculationEngine {
     calculateMaxStayFromDate(startDate, trips = null) {
         const tripsToUse = trips || window.trips || [];
         let maxDays = 0;
-        const testDate = new Date(startDate);
-
+        
+        // Normalize start date to avoid timezone issues
+        const normalizedStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        
         for (let days = 1; days <= this.MAX_DAYS_IN_PERIOD; days++) {
-            testDate.setTime(startDate.getTime() + ((days - 1) * 24 * 60 * 60 * 1000));
+            // Calculate test end date using timezone-safe method
+            const testEndDate = new Date(normalizedStartDate.getFullYear(), normalizedStartDate.getMonth(), normalizedStartDate.getDate());
+            testEndDate.setDate(testEndDate.getDate() + days - 1);
             
             // Create hypothetical trip for testing
             const testTrips = [...tripsToUse, {
                 id: 'test',
-                entryDate: this.dateToString(startDate),
-                exitDate: this.dateToString(testDate)
+                entryDate: this.dateToString(normalizedStartDate),
+                exitDate: this.dateToString(testEndDate)
             }];
 
-            const daysInPeriod = this.getDaysInPeriod(testDate, testTrips);
+            const daysInPeriod = this.getDaysInPeriod(testEndDate, testTrips);
             if (daysInPeriod <= this.MAX_DAYS_IN_PERIOD) {
                 maxDays = days;
             } else {
@@ -214,19 +330,25 @@ class SchengenCalculationEngine {
     }
 
     // Find optimal travel windows (safe periods for travel)
-    findSafeTravelWindows(daysNeeded, fromDate = new Date(), trips = null) {
+    findSafeTravelWindows(daysNeeded, fromDate = null, trips = null) {
         const tripsToUse = trips || window.trips || [];
         const windows = [];
-        const checkDate = new Date(fromDate);
-        const maxCheckDate = new Date(fromDate.getTime() + (365 * 2 * 24 * 60 * 60 * 1000)); // 2 years ahead
+        
+        // Use timezone-safe starting date
+        const startFromDate = fromDate || getTodayLocal();
+        const checkDate = new Date(startFromDate.getFullYear(), startFromDate.getMonth(), startFromDate.getDate());
+        const maxCheckDate = new Date(checkDate.getTime() + (365 * 2 * 24 * 60 * 60 * 1000)); // 2 years ahead
 
         while (checkDate <= maxCheckDate) {
             const maxStay = this.calculateMaxStayFromDate(checkDate, tripsToUse);
             
             if (maxStay >= daysNeeded) {
-                const endDate = new Date(checkDate.getTime() + ((daysNeeded - 1) * 24 * 60 * 60 * 1000));
+                // Calculate end date more precisely to avoid timezone issues
+                const endDate = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate());
+                endDate.setDate(endDate.getDate() + daysNeeded - 1);
+                
                 windows.push({
-                    startDate: new Date(checkDate),
+                    startDate: new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate()),
                     endDate: endDate,
                     daysRequested: daysNeeded,
                     maxPossibleDays: maxStay,
@@ -279,8 +401,12 @@ class SchengenCalculationEngine {
 
     // Utility functions
     parseDate(dateStr) {
-        if (dateStr instanceof Date) return dateStr;
-        return parseISODateLocal(dateStr); // Use existing function
+        if (dateStr instanceof Date) {
+            // If it's already a Date object, normalize it to local timezone
+            return new Date(dateStr.getFullYear(), dateStr.getMonth(), dateStr.getDate());
+        }
+        // Use the timezone-safe parsing function
+        return parseISODateLocal(dateStr);
     }
 
     dateToString(date) {
@@ -288,7 +414,7 @@ class SchengenCalculationEngine {
     }
 
     daysBetween(startDate, endDate) {
-        return daysBetweenDates(startDate, endDate); // Use existing function
+        return calculateStayDuration(startDate, endDate) - 1; // Subtract 1 to get days between (exclusive)
     }
 
     clearCache() {
@@ -316,13 +442,17 @@ function getDaysInPeriod(checkDate) {
     return schengenEngine.getDaysInPeriod(checkDate, trips);
 }
 
-// Helper function to calculate days between dates
+// Helper function to calculate days between dates (timezone-safe)
 function daysBetweenDates(startDate, endDate) {
+    // Normalize dates to local timezone components to avoid timezone issues
     const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
     
     const timeDifference = end.getTime() - start.getTime();
-    return Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    
+    // Return inclusive count (both start and end dates count)
+    return daysDifference + 1;
 }
 
 // Increment counter when trips change (more efficient than clearing entire cache)
@@ -451,7 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Always set displayDate to current month, regardless of saved state
     // This ensures the first month shown is always the one containing today's date
-    const today = new Date();
+    const today = getTodayLocal(); // Use timezone-safe today function
     displayDate = new Date(today.getFullYear(), today.getMonth(), 1);
     
     renderTrips();
@@ -462,7 +592,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedStartDate) {
         const startDate = parseISODateLocal(selectedStartDate);
         const endDate = selectedEndDate ? parseISODateLocal(selectedEndDate) : null;
-        updateSelectionInfo(startDate, endDate);
+        if (startDate) {
+            updateSelectionInfo(startDate, endDate);
+        }
     }
     
     // Set up form handler
@@ -667,15 +799,29 @@ function isValidDateFormat(dateStr) {
 
 // Convert 2-digit year to 4-digit year with dynamic cutoff
 function convertTwoDigitYear(twoDigitYear) {
-    const currentYear = new Date().getFullYear();
+    // Get current year in local timezone to avoid timezone issues
+    const currentYear = getTodayLocal().getFullYear();
     const currentCentury = Math.floor(currentYear / 100) * 100;
-    const cutoff = (currentYear + 10) % 100; // 10-year forward window
+    const currentTwoDigit = currentYear % 100;
     
-    if (twoDigitYear <= cutoff) {
+    // If the two-digit year is within 20 years of the current year (forward or backward),
+    // assume it's in the current century
+    if (Math.abs(twoDigitYear - currentTwoDigit) <= 20) {
         return currentCentury + twoDigitYear;
-    } else {
+    }
+    
+    // If the two-digit year is much larger than current, it's probably in the past century
+    if (twoDigitYear > currentTwoDigit + 20) {
         return currentCentury - 100 + twoDigitYear;
     }
+    
+    // If the two-digit year is much smaller than current, it's probably in the next century
+    if (twoDigitYear < currentTwoDigit - 20) {
+        return currentCentury + 100 + twoDigitYear;
+    }
+    
+    // Default to current century
+    return currentCentury + twoDigitYear;
 }
 
 // Parse ISO date string to local Date object (timezone-agnostic)
@@ -684,15 +830,60 @@ function parseISODateLocal(isoDateString) {
     const year = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
     const day = parseInt(parts[2], 10);
-    return new Date(year, month, day);
+    
+    // Create date in local timezone to avoid timezone shifts
+    const date = new Date(year, month, day);
+    
+    // Verify the date was created correctly (handles invalid dates)
+    if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+        console.warn(`Invalid date created from ${isoDateString}:`, date);
+        return null;
+    }
+    
+    return date;
 }
 
 // Convert Date object to ISO date string (timezone-agnostic)
 function dateToISOString(date) {
+    if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+        console.warn('Invalid date passed to dateToISOString:', date);
+        return null;
+    }
+    
+    // Use local date components to avoid timezone issues
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+// Create timezone-safe date from components
+function createLocalDate(year, month, day) {
+    // Ensure month is 0-indexed for Date constructor
+    const date = new Date(year, month - 1, day);
+    
+    // Verify the date was created correctly
+    if (date.getFullYear() !== year || date.getMonth() !== (month - 1) || date.getDate() !== day) {
+        console.warn(`Invalid date components: ${year}-${month}-${day}`);
+        return null;
+    }
+    
+    return date;
+}
+
+// Get today's date in local timezone (noon to avoid DST issues)
+function getTodayLocal() {
+    const now = new Date();
+    // Set to noon to avoid any DST transition issues
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
+}
+
+// Compare dates safely without timezone issues
+function isSameDate(date1, date2) {
+    if (!date1 || !date2) return false;
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
 }
 
 // Calculate duration between two dates (inclusive of both entry and exit dates)
@@ -701,18 +892,26 @@ function calculateStayDuration(startDate, endDate) {
     let start, end;
     if (typeof startDate === 'string') {
         start = parseISODateLocal(startDate);
+        if (!start) return 0;
     } else {
+        // Normalize to local date components to avoid timezone issues
         start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     }
     
     if (typeof endDate === 'string') {
         end = parseISODateLocal(endDate);
+        if (!end) return 0;
     } else {
+        // Normalize to local date components to avoid timezone issues
         end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
     }
     
+    // Calculate difference in days
     const timeDifference = end.getTime() - start.getTime();
-    return Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1;
+    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    
+    // Return inclusive count (entry and exit dates both count)
+    return daysDifference + 1;
 }
 
 // Convert dd/mm/yy format to ISO date string (yyyy-mm-dd)
@@ -770,6 +969,23 @@ function handleAddTrip(e) {
         return;
     }
     
+    // Validate the converted ISO date strings
+    if (!validateISODateString(date1, 'Entry Date Conversion') || 
+        !validateISODateString(date2, 'Exit Date Conversion')) {
+        alert('Date conversion failed. Please check your date formats.');
+        return;
+    }
+    
+    // Parse dates to validate they're reasonable
+    const parsedDate1 = parseISODateLocal(date1);
+    const parsedDate2 = parseISODateLocal(date2);
+    
+    if (!validateDateObject(parsedDate1, 'Parsed Entry Date') ||
+        !validateDateObject(parsedDate2, 'Parsed Exit Date')) {
+        alert('Invalid dates detected. Please check your entries.');
+        return;
+    }
+    
     // Automatically determine which date is start and which is end
     let entryDate, exitDate;
     if (date1 <= date2) {
@@ -778,6 +994,13 @@ function handleAddTrip(e) {
     } else {
         entryDate = date2;
         exitDate = date1;
+    }
+    
+    // Final validation before creating trip
+    const tripDuration = calculateStayDuration(entryDate, exitDate);
+    if (tripDuration <= 0 || tripDuration > 365) {
+        alert(`Invalid trip duration: ${tripDuration} days. Please check your dates.`);
+        return;
     }
     
     const trip = {
@@ -813,11 +1036,11 @@ function saveAppState() {
     try {
         const state = {
             trips: trips,
-            displayDate: displayDate.toISOString(),
+            displayDate: dateToISOString(displayDate), // Use timezone-safe conversion
             selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate,
             selectionMode: selectionMode,
-            lastUpdated: new Date().toISOString()
+            lastUpdated: dateToISOString(getTodayLocal()) // Use timezone-safe today function
         };
         
         // Save both legacy trips format and full state for compatibility
@@ -861,8 +1084,12 @@ function loadAppState() {
             }
             
             // Skip loading display date - we always want to start with current month
+            // This ensures consistent behavior regardless of when the state was saved
             // if (state.displayDate) {
-            //     displayDate = new Date(state.displayDate);
+            //     const savedDisplayDate = parseISODateLocal(state.displayDate);
+            //     if (savedDisplayDate) {
+            //         displayDate = savedDisplayDate;
+            //     }
             // }
             
             // Load selected dates
@@ -879,11 +1106,18 @@ function loadAppState() {
         if (legacyTrips) {
             try {
                 trips = JSON.parse(legacyTrips);
-            } catch (e) {
-                console.warn('Error loading legacy trips:', e);
+                return true;
+            } catch (legacyError) {
+                console.warn('Error loading legacy trips:', legacyError);
             }
         }
     }
+    
+    // If all else fails, start with empty state
+    trips = [];
+    selectedStartDate = null;
+    selectedEndDate = null;
+    selectionMode = false;
     return false;
 }
 
@@ -1002,8 +1236,7 @@ function renderCalendar() {
         }
         
         // Generate calendar days (only for the current month)
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = getTodayLocal(); // Use timezone-safe today function
         
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(year, month, day);
@@ -1017,7 +1250,10 @@ function renderCalendar() {
             // Add accessibility attributes
             dayElement.setAttribute('role', 'button');
             dayElement.setAttribute('tabindex', '0');
-            dayElement.setAttribute('data-date', dateToISOString(date));
+            const dateStr = dateToISOString(date);
+            if (dateStr) {
+                dayElement.setAttribute('data-date', dateStr);
+            }
             
             // Add click handler
             dayElement.addEventListener('click', () => handleDateClick(date));
@@ -1030,9 +1266,8 @@ function renderCalendar() {
                 }
             });
             
-            // Check if date is selected
-            const dateStr = dateToISOString(date);
-            if (selectedStartDate && selectedEndDate && dateStr > selectedStartDate && dateStr < selectedEndDate) {
+            // Check if date is selected - use safe date string comparison
+            if (dateStr && selectedStartDate && selectedEndDate && dateStr > selectedStartDate && dateStr < selectedEndDate) {
                 dayElement.classList.add('selected-range');
             }
             
@@ -1058,10 +1293,14 @@ function renderCalendar() {
                 let previewStatus = null;
                 if (selectedStartDate && !selectedEndDate) {
                     const selectedDate = parseISODateLocal(selectedStartDate);
-                    previewStatus = getBidirectionalPreviewStatus(date, selectedDate);
+                    if (selectedDate) {
+                        previewStatus = getBidirectionalPreviewStatus(date, selectedDate);
+                    }
                 } else if (!selectedStartDate && selectedEndDate) {
                     const selectedDate = parseISODateLocal(selectedEndDate);
-                    previewStatus = getBidirectionalPreviewStatus(date, selectedDate);
+                    if (selectedDate) {
+                        previewStatus = getBidirectionalPreviewStatus(date, selectedDate);
+                    }
                 }
                 
                 if (previewStatus && !dayElement.classList.contains('selected-range')) {
@@ -1102,7 +1341,8 @@ function renderCalendar() {
             }
             
             // Apply today class last to ensure it overrides other styling but works with them
-            if (date.getTime() === today.getTime()) {
+            // Use timezone-safe date comparison
+            if (isSameDate(date, today)) {
                 dayElement.classList.add('today');
             }
             
@@ -1126,47 +1366,55 @@ function renderCalendar() {
 }
 
 function updateStatus() {
-    const today = new Date();
+    const today = getTodayLocal(); // Use timezone-safe today function
     const daysUsed = memoizedGetDaysInPeriod(today);
     const daysRemaining = Math.max(0, 90 - daysUsed);
     
+    // Update status display
     document.getElementById('days-used').textContent = daysUsed;
     document.getElementById('days-remaining').textContent = daysRemaining;
     
-    const daysUsedEl = document.getElementById('days-used');
-    const daysRemainingEl = document.getElementById('days-remaining');
+    // Update status value styling
+    const daysUsedElement = document.getElementById('days-used');
+    const daysRemainingElement = document.getElementById('days-remaining');
     
+    // Clear existing classes
+    daysUsedElement.className = 'status-value';
+    daysRemainingElement.className = 'status-value';
+    
+    // Add warning/danger classes based on usage
     if (daysUsed > 90) {
-        daysUsedEl.className = 'status-value warning';
-        daysRemainingEl.className = 'status-value warning';
-        daysUsedEl.title = '⚠️ VIOLATION: Over 90-day limit! Risk of fines and entry bans.';
-        daysRemainingEl.title = '⚠️ VIOLATION: Must leave Schengen immediately!';
+        daysUsedElement.classList.add('danger');
+    } else if (daysUsed > 75) {
+        daysUsedElement.classList.add('warning');
     } else {
-        daysUsedEl.className = 'status-value good';
-        daysRemainingEl.className = 'status-value good';
-        daysUsedEl.title = 'Days used in current 180-day period';
-        daysRemainingEl.title = 'Days remaining in current 180-day period';
+        daysUsedElement.classList.add('good');
     }
     
-    calculateNextSafeEntry();
+    if (daysRemaining === 0) {
+        daysRemainingElement.classList.add('danger');
+    } else if (daysRemaining <= 15) {
+        daysRemainingElement.classList.add('warning');
+    } else {
+        daysRemainingElement.classList.add('good');
+    }
     
-    // Use new engine for comprehensive violation detection
+    // Calculate and display next safe entry
+    const safeEntry = calculateNextSafeEntry();
+    const nextSafeEntryElement = document.getElementById('next-safe-entry');
+    if (safeEntry) {
+        nextSafeEntryElement.textContent = formatDate(safeEntry.date);
+        nextSafeEntryElement.className = 'status-value good';
+    } else {
+        nextSafeEntryElement.textContent = 'Check trips';
+        nextSafeEntryElement.className = 'status-value warning';
+    }
+    
+    // Calculate and display violations
     const violations = schengenEngine.findViolationPeriods(trips);
-    const violationCount = violations.length;
-    
-    document.getElementById('violations').textContent = violationCount;
-    const violationsEl = document.getElementById('violations');
-    
-    if (violationCount > 0) {
-        violationsEl.className = 'status-value warning';
-        const violationDetails = violations.map(v => 
-            `${formatDate(v.startDate)} - ${formatDate(v.endDate)} (${v.daysOver} days over)`
-        ).join('\n');
-        violationsEl.title = `⚠️ Violation periods:\n${violationDetails}`;
-    } else {
-        violationsEl.className = 'status-value good';
-        violationsEl.title = 'No violations detected';
-    }
+    const violationsElement = document.getElementById('violations');
+    violationsElement.textContent = violations.length;
+    violationsElement.className = violations.length > 0 ? 'status-value danger' : 'status-value good';
 }
 
 function calculateNextSafeEntry() {
@@ -1729,14 +1977,32 @@ function findNextAvailableStay() {
         return;
     }
     
-    // Use new engine's enhanced planning capability
-    const today = new Date();
+    // Use timezone-safe today function
+    const today = getTodayLocal();
     const travelWindows = schengenEngine.findSafeTravelWindows(desiredDays, today, trips);
     
     if (travelWindows.length > 0) {
         const firstWindow = travelWindows[0];
-        const suggestedEndDate = new Date(firstWindow.startDate);
+        
+        // Calculate end date using timezone-safe method
+        const suggestedEndDate = new Date(firstWindow.startDate.getFullYear(), firstWindow.startDate.getMonth(), firstWindow.startDate.getDate());
         suggestedEndDate.setDate(suggestedEndDate.getDate() + desiredDays - 1);
+        
+        // Validate the calculated dates
+        const startDateStr = dateToISOString(firstWindow.startDate);
+        const endDateStr = dateToISOString(suggestedEndDate);
+        
+        if (!startDateStr || !endDateStr) {
+            resultDiv.innerHTML = '<div class="planning-error">❌ Date calculation error. Please try again.</div>';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        
+        // Verify the duration is correct
+        const actualDuration = calculateStayDuration(startDateStr, endDateStr);
+        if (actualDuration !== desiredDays) {
+            console.warn(`Duration mismatch: requested ${desiredDays}, calculated ${actualDuration}`);
+        }
         
         // Show additional windows if available
         let additionalInfo = '';
@@ -1745,7 +2011,7 @@ function findNextAvailableStay() {
             additionalInfo = `<br><small>💡 Next option: ${formatDate(nextWindow.startDate)} (${travelWindows.length} total options found)</small>`;
         }
         
-        resultDiv.innerHTML = `<strong>✅ Available:</strong> ${formatDate(firstWindow.startDate)} to ${formatDate(suggestedEndDate)} (${desiredDays} days)<br><small>Days used before trip: ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${dateToISOString(firstWindow.startDate)}" data-end-date="${dateToISOString(suggestedEndDate)}">✅ Add Trip (${desiredDays} days)</button>`;
+        resultDiv.innerHTML = `<strong>✅ Available:</strong> ${formatDate(firstWindow.startDate)} to ${formatDate(suggestedEndDate)} (${desiredDays} days)<br><small>Days used before trip: ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ Add Trip (${desiredDays} days)</button>`;
         
         // Add event listener to the newly created button
         const addTripBtn = resultDiv.querySelector('.btn');
@@ -1809,11 +2075,17 @@ function calculateStayFromDate() {
         return;
     }
     
-    const arrivalDate = new Date(arrivalDateISO);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Use timezone-safe date parsing and validation
+    const arrivalDate = parseISODateLocal(arrivalDateISO);
+    if (!validateDateObject(arrivalDate, 'Arrival Date')) {
+        resultDiv.innerHTML = '<div class="planning-error">Invalid arrival date. Please check your input.</div>';
+        resultDiv.style.display = 'block';
+        return;
+    }
     
-    const oneDayAgo = new Date(today);
+    const today = getTodayLocal(); // Use timezone-safe today function
+    
+    const oneDayAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
     
     if (arrivalDate < oneDayAgo) {
@@ -1827,10 +2099,27 @@ function calculateStayFromDate() {
     if (maxStayDays === 0) {
         resultDiv.innerHTML = `<div class="planning-error"><strong>❌ No availability</strong><br>${formatDate(arrivalDate)}: 0 days possible (90/180 rule violation)</div>`;
     } else {
-        const suggestedExitDate = new Date(arrivalDate);
+        // Calculate end date using timezone-safe method
+        const suggestedExitDate = new Date(arrivalDate.getFullYear(), arrivalDate.getMonth(), arrivalDate.getDate());
         suggestedExitDate.setDate(suggestedExitDate.getDate() + maxStayDays - 1);
         
-        resultDiv.innerHTML = `<strong>Available:</strong> ${formatDate(arrivalDate)} to ${formatDate(suggestedExitDate)} (${maxStayDays} days)<br><button class="btn planning-btn" data-start-date="${dateToISOString(arrivalDate)}" data-end-date="${dateToISOString(suggestedExitDate)}">✅ Add Trip (${maxStayDays} days)</button>`;
+        // Validate the calculated dates
+        const startDateStr = dateToISOString(arrivalDate);
+        const endDateStr = dateToISOString(suggestedExitDate);
+        
+        if (!startDateStr || !endDateStr) {
+            resultDiv.innerHTML = '<div class="planning-error">❌ Date calculation error. Please try again.</div>';
+            resultDiv.style.display = 'block';
+            return;
+        }
+        
+        // Verify the duration is correct
+        const actualDuration = calculateStayDuration(startDateStr, endDateStr);
+        if (actualDuration !== maxStayDays) {
+            console.warn(`Duration mismatch: max stay ${maxStayDays}, calculated ${actualDuration}`);
+        }
+        
+        resultDiv.innerHTML = `<strong>Available:</strong> ${formatDate(arrivalDate)} to ${formatDate(suggestedExitDate)} (${maxStayDays} days)<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ Add Trip (${maxStayDays} days)</button>`;
         
         // Add event listener to the newly created button
         const addTripBtn = resultDiv.querySelector('.btn');
