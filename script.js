@@ -1329,7 +1329,13 @@ function renderCalendar() {
                 const anchorType = selectedStartDate && !selectedEndDate ? 'Fixed Start' : 'Fixed End';
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip';
-                const tooltipText = createTooltipText(anchorType, daysInPeriod);
+                let tooltipText = createTooltipText(anchorType, daysInPeriod);
+                
+                // Special handling for today
+                if (isSameDate(date, today)) {
+                    tooltipText = `TODAY - ${tooltipText}`;
+                }
+                
                 tooltip.textContent = tooltipText;
                 dayElement.appendChild(tooltip);
                 
@@ -1356,7 +1362,13 @@ function renderCalendar() {
                     const daysInPeriod = memoizedGetDaysInPeriod(date);
                     const tooltip = document.createElement('div');
                     tooltip.className = 'tooltip';
-                    const tooltipText = createTooltipText(previewStatus.tooltip, daysInPeriod);
+                    let tooltipText = createTooltipText(previewStatus.tooltip, daysInPeriod);
+                    
+                    // Special handling for today
+                    if (isSameDate(date, today)) {
+                        tooltipText = `TODAY - ${tooltipText}`;
+                    }
+                    
                     tooltip.textContent = tooltipText;
                     dayElement.appendChild(tooltip);
                     
@@ -1372,7 +1384,22 @@ function renderCalendar() {
                     // Add tooltip with concise information
                     const daysInPeriod = memoizedGetDaysInPeriod(date);
                     const baseStatus = status.tooltip || 'Outside Schengen';
-                    const tooltipText = createTooltipText(baseStatus, daysInPeriod);
+                    let tooltipText = createTooltipText(baseStatus, daysInPeriod);
+                    
+                    // Special handling for today - prefix with "TODAY" to make it distinctive
+                    const isToday = isSameDate(date, today);
+                    if (isToday) {
+                        // For special status days, integrate "TODAY" more naturally
+                        if (status.class === 'next-safe-entry') {
+                            tooltipText = `TODAY - Next Safe Entry • ${daysInPeriod}/90 days`;
+                        } else if (status.class === 'rollover-date') {
+                            tooltipText = `TODAY - Rollover Date - Old trips stop counting`;
+                        } else if (status.class === 'violation') {
+                            tooltipText = `TODAY: ${tooltipText}`;
+                        } else {
+                            tooltipText = `TODAY: ${tooltipText}`;
+                        }
+                    }
                     
                     if (tooltipText) {
                         const tooltip = document.createElement('div');
@@ -1636,7 +1663,7 @@ function getDateStatus(date) {
         } else if (engineStatus.isRolloverDate) {
             // Check for rollover dates only if not in a trip or selected range and not the next safe entry
             result.class = 'rollover-date';
-            result.tooltip = '📅 Rollover Date';
+            result.tooltip = '📅 Rollover Date - Old trips stop counting';
         } else {
             result.class = 'outside';
             result.tooltip = 'Outside Schengen';
@@ -2431,8 +2458,6 @@ function toggleFAQ(button) {
 
 // Helper function to create concise tooltip text
 function createTooltipText(status, daysInPeriod, isViolation = false, daysOver = 0) {
-    let text = status;
-    
     if (isViolation) {
         return `⚠️ VIOLATION! ${daysInPeriod}/90 days (${daysOver} over)`;
     }

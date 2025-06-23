@@ -78,8 +78,7 @@ All calendar states are now distinguishable through multiple visual cues beyond 
     --border-hover: #4a5fb8;
     --shadow: var(--shadow-md);
     --input-focus: #4a5fb8;
-    --legend-bg: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-    --legend-hover: linear-gradient(135deg, #bbdefb 0%, #e1bee7 100%);
+
     --status-bg: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
     --info-warning: #fff3e0;
     --info-purple: #f3e5f5;
@@ -98,6 +97,7 @@ All calendar states are now distinguishable through multiple visual cues beyond 
     
     /* Calendar day colors - Colorblind accessible */
     --cal-today: #6f42c1;           /* Purple - universally distinguishable */
+    --cal-today-bg: #f8f4ff;        /* Light purple background */
     --cal-in-schengen: #0d7c2b;     /* Dark green */
     --cal-entry-exit: #0d6efd;      /* Strong blue */
     --cal-violation: #c41e3a;       /* Dark red */
@@ -135,8 +135,7 @@ All calendar states are now distinguishable through multiple visual cues beyond 
     --border-hover: #4a5fb8;
     --shadow: var(--shadow-lg);
     --input-focus: #4a5fb8;
-    --legend-bg: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
-    --legend-hover: linear-gradient(135deg, #283593 0%, #6a1b9a 100%);
+
     --status-bg: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
     --info-warning: #3d2a00;
     --info-purple: #3d2a3d;
@@ -155,6 +154,7 @@ All calendar states are now distinguishable through multiple visual cues beyond 
     
     /* Calendar day colors for dark mode - Colorblind accessible */
     --cal-today: #9966cc;           /* Light purple */
+    --cal-today-bg: #3d2b4d;        /* Dark purple background */
     --cal-in-schengen: #28a745;     /* Bright green */
     --cal-entry-exit: #17a2b8;      /* Cyan-blue */
     --cal-violation: #dc3545;       /* Bright red */
@@ -598,7 +598,10 @@ body {
 }
 
 .calendar-day.today {
-    border: var(--border-width) dashed var(--cal-rollover) !important;
+    background-color: var(--cal-today-bg);
+    color: var(--cal-today);
+    border: var(--border-width) solid var(--cal-today);
+    font-weight: 600;
     position: relative;
 }
 
@@ -612,6 +615,8 @@ body {
 }
 
 .calendar-day.today:hover {
+    background-color: var(--cal-today);
+    color: var(--cal-today-bg);
     transform: scale(1.05);
 }
 
@@ -722,9 +727,10 @@ body {
 }
 
 .calendar-day.rollover-date {
-    background: var(--bg-secondary) !important;
-    color: var(--text-primary) !important;
-    border: var(--border-width) dashed var(--cal-rollover) !important;
+    background-color: var(--cal-rollover-bg);
+    color: var(--cal-rollover);
+    border: var(--border-width) solid var(--cal-rollover);
+    font-weight: 600;
     position: relative;
 }
 
@@ -738,6 +744,8 @@ body {
 }
 
 .calendar-day.rollover-date:hover {
+    background-color: var(--cal-rollover);
+    color: var(--cal-rollover-bg);
     transform: scale(1.05);
 }
 
@@ -755,114 +763,7 @@ body {
     transform: scale(1.05);
 }
 
-.legend-container {
-    margin-bottom: var(--space-md);
-}
 
-.legend-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-md) var(--space-md);
-    background: var(--legend-bg);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-weight: 600;
-    color: var(--text-accent);
-    transition: background var(--transition-fast);
-    margin-bottom: var(--space-sm);
-}
-
-.legend-header:hover {
-    background: var(--legend-hover);
-}
-
-.legend-toggle {
-    transition: transform var(--transition-normal);
-    font-size: 0.8em;
-}
-
-.legend-toggle.expanded {
-    transform: rotate(180deg);
-}
-
-.legend {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-md);
-    margin-top: var(--space-sm);
-    transition: opacity var(--transition-normal);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: 0.9em;
-    color: var(--text-primary);
-}
-
-.legend-color {
-    width: var(--space-lg);
-    height: var(--space-lg);
-    border-radius: var(--radius-sm);
-    position: relative;
-    border: 1px solid var(--border-color);
-}
-
-/* Legend colors to match calendar days */
-.legend-color.legend-success {
-    background: var(--cal-in-schengen);
-}
-
-.legend-color.legend-success::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: transparent;
-    border-radius: inherit;
-}
-
-.legend-color.legend-entry-exit {
-    background: var(--cal-entry-exit);
-    border: 2px dashed var(--border-color);
-}
-
-.legend-color.legend-entry-exit::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-}
-
-.legend-color.legend-violation {
-    background: var(--cal-violation);
-}
-
-.legend-color.legend-warning {
-    background: var(--cal-warning);
-}
-
-.legend-color.legend-today {
-    background: transparent;
-    border: 3px solid var(--cal-today);
-    box-shadow: 0 0 0 1px var(--cal-today);
-}
-
-.legend-color.legend-outside {
-    background: var(--cal-outside);
-}
-
-.legend-color.legend-next-safe-entry {
-    background: var(--cal-next-safe-entry-bg);
-    border: 2px solid var(--cal-next-safe-entry);
-}
 
 .status-summary {
     background: var(--status-bg);
@@ -1080,7 +981,7 @@ body {
     text-align: center;
     margin-top: var(--space-lg);
     padding: var(--space-md);
-    background: var(--legend-bg);
+    background: var(--status-bg);
     border-radius: var(--radius-md);
     color: var(--text-primary);
 }
@@ -1211,6 +1112,17 @@ body {
     .calendar-day {
         border: var(--border-width) solid var(--text-primary) !important;
         font-weight: bold !important;
+    }
+    
+    .calendar-day.today {
+        background-color: var(--cal-today) !important;
+        color: var(--cal-today-bg) !important;
+        border: var(--border-width) solid var(--cal-today) !important;
+    }
+    
+    .calendar-day.today:hover {
+        background-color: var(--cal-today-bg) !important;
+        color: var(--cal-today) !important;
     }
     
     .calendar-day:focus {
@@ -1851,7 +1763,7 @@ SEO CONTENT SECTIONS STYLES
 }
 
 .step-item:hover {
-    background: var(--legend-hover);
+    background: var(--bg-tertiary);
     transform: translateX(4px);
 }
 
@@ -1943,7 +1855,7 @@ SEO CONTENT SECTIONS STYLES
 }
 
 .faq-question:hover {
-    background: var(--legend-hover);
+    background: var(--bg-secondary);
     color: var(--text-accent);
 }
 
