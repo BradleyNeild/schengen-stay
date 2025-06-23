@@ -84,6 +84,7 @@ let displayDate = new Date();
 let selectedStartDate = null;
 let selectedEndDate = null;
 let selectionMode = false;
+let nextSafeEntryDate = null;
 
 // Modern Schengen Calculation Engine - Extracted and modernized from reference
 class SchengenCalculationEngine {
@@ -468,6 +469,52 @@ function invalidateCalculationCache() {
 // Legacy function name for compatibility
 function clearCalculationCache() {
     invalidateCalculationCache();
+}
+
+// Calculate maximum days used across all trips (including future ones)
+function calculateMaxDaysUsedAcrossAllTrips() {
+    if (!trips || trips.length === 0) {
+        return 0;
+    }
+    
+    // Use the SchengenCalculationEngine to find the maximum days used
+    // across all possible 180-day periods that include any trips
+    let maxDaysUsed = 0;
+    
+    // Get all trip dates (both entry and exit dates)
+    const allTripDates = [];
+    trips.forEach(trip => {
+        const entryDate = parseISODateLocal(trip.entryDate);
+        const exitDate = parseISODateLocal(trip.exitDate);
+        if (entryDate && exitDate) {
+            allTripDates.push(entryDate, exitDate);
+        }
+    });
+    
+    if (allTripDates.length === 0) {
+        return 0;
+    }
+    
+    // Sort dates to find the range we need to check
+    allTripDates.sort((a, b) => a.getTime() - b.getTime());
+    const earliestDate = allTripDates[0];
+    const latestDate = allTripDates[allTripDates.length - 1];
+    
+    // Check every day from earliest trip to latest trip + 180 days
+    // This ensures we capture any possible 180-day window that includes trips
+    const checkStartDate = new Date(earliestDate);
+    const checkEndDate = new Date(latestDate.getTime() + (180 * 24 * 60 * 60 * 1000));
+    
+    const currentDate = new Date(checkStartDate);
+    while (currentDate <= checkEndDate) {
+        const daysUsed = schengenEngine.getDaysInPeriod(currentDate, trips);
+        maxDaysUsed = Math.max(maxDaysUsed, daysUsed);
+        
+        // Move to next day
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+    
+    return maxDaysUsed;
 }
 
 // Safe localStorage operations with error handling
@@ -1279,10 +1326,10 @@ function renderCalendar() {
                 dayElement.classList.add('entry-exit');
                 
                 const daysInPeriod = memoizedGetDaysInPeriod(date);
-                const anchorType = selectedStartDate && !selectedEndDate ? 'Fixed Start Date' : 'Fixed End Date';
+                const anchorType = selectedStartDate && !selectedEndDate ? 'Fixed Start' : 'Fixed End';
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip';
-                const tooltipText = `${anchorType} (${daysInPeriod}/90 days in 180-day period)`;
+                const tooltipText = createTooltipText(anchorType, daysInPeriod);
                 tooltip.textContent = tooltipText;
                 dayElement.appendChild(tooltip);
                 
@@ -1309,7 +1356,7 @@ function renderCalendar() {
                     const daysInPeriod = memoizedGetDaysInPeriod(date);
                     const tooltip = document.createElement('div');
                     tooltip.className = 'tooltip';
-                    const tooltipText = `${previewStatus.tooltip} (${daysInPeriod}/90 days in 180-day period)`;
+                    const tooltipText = createTooltipText(previewStatus.tooltip, daysInPeriod);
                     tooltip.textContent = tooltipText;
                     dayElement.appendChild(tooltip);
                     
@@ -1322,11 +1369,10 @@ function renderCalendar() {
                         dayElement.classList.add(status.class);
                     }
                     
-                    // Add tooltip with 180-day period information
+                    // Add tooltip with concise information
                     const daysInPeriod = memoizedGetDaysInPeriod(date);
-                    let tooltipText = status.tooltip || 'Outside Schengen Area';
-                    
-                    tooltipText += ` (${daysInPeriod}/90 days in 180-day period)`;
+                    const baseStatus = status.tooltip || 'Outside Schengen';
+                    const tooltipText = createTooltipText(baseStatus, daysInPeriod);
                     
                     if (tooltipText) {
                         const tooltip = document.createElement('div');
@@ -1366,13 +1412,17 @@ function renderCalendar() {
 }
 
 function updateStatus() {
-    const today = getTodayLocal(); // Use timezone-safe today function
-    const daysUsed = memoizedGetDaysInPeriod(today);
-    const daysRemaining = Math.max(0, 90 - daysUsed);
+    // Calculate maximum days used across all trips (including future ones)
+    const maxDaysUsed = calculateMaxDaysUsedAcrossAllTrips();
+    const daysRemaining = Math.max(0, 90 - maxDaysUsed);
     
     // Update status display
-    document.getElementById('days-used').textContent = daysUsed;
+    document.getElementById('days-used').textContent = maxDaysUsed;
     document.getElementById('days-remaining').textContent = daysRemaining;
+    
+    // Add concise tooltip to explain the calculation
+    document.getElementById('days-used').title = `Max days used in any 180-day period`;
+    document.getElementById('days-remaining').title = `Days remaining: ${daysRemaining}`;
     
     // Update status value styling
     const daysUsedElement = document.getElementById('days-used');
@@ -1383,9 +1433,9 @@ function updateStatus() {
     daysRemainingElement.className = 'status-value';
     
     // Add warning/danger classes based on usage
-    if (daysUsed > 90) {
+    if (maxDaysUsed > 90) {
         daysUsedElement.classList.add('danger');
-    } else if (daysUsed > 75) {
+    } else if (maxDaysUsed > 75) {
         daysUsedElement.classList.add('warning');
     } else {
         daysUsedElement.classList.add('good');
@@ -1400,15 +1450,7 @@ function updateStatus() {
     }
     
     // Calculate and display next safe entry
-    const safeEntry = calculateNextSafeEntry();
-    const nextSafeEntryElement = document.getElementById('next-safe-entry');
-    if (safeEntry) {
-        nextSafeEntryElement.textContent = formatDate(safeEntry.date);
-        nextSafeEntryElement.className = 'status-value good';
-    } else {
-        nextSafeEntryElement.textContent = 'Check trips';
-        nextSafeEntryElement.className = 'status-value warning';
-    }
+    calculateNextSafeEntry();
     
     // Calculate and display violations
     const violations = schengenEngine.findViolationPeriods(trips);
@@ -1418,28 +1460,50 @@ function updateStatus() {
 }
 
 function calculateNextSafeEntry() {
-    const today = new Date();
-    const currentDaysUsed = memoizedGetDaysInPeriod(today);
+    const today = getTodayLocal();
     
-    // If we can enter today (not exceeding 90 days), show "Now"
-    if (currentDaysUsed < 90) {
+    // Find the last exit date of all trips to determine where to start checking
+    let startCheckDate = new Date(today);
+    
+    if (trips && trips.length > 0) {
+        const lastExitDate = trips.reduce((latest, trip) => {
+            const exitDate = parseISODateLocal(trip.exitDate);
+            return exitDate > latest ? exitDate : latest;
+        }, new Date(0)); // Start with epoch date
+        
+        // Start checking from the day after the last trip, or today if later
+        startCheckDate = new Date(Math.max(today.getTime(), lastExitDate.getTime() + (24 * 60 * 60 * 1000)));
+    }
+    
+    // Check if we can enter today (considering all future trips)
+    const todayDaysUsed = schengenEngine.getDaysInPeriod(today, trips);
+    const hasCurrentOrFutureTrips = trips.some(trip => {
+        const entryDate = parseISODateLocal(trip.entryDate);
+        return entryDate >= today;
+    });
+    
+    // Only show "Now" if today's usage is safe AND we don't have future trips starting today or later
+    if (todayDaysUsed < 90 && !hasCurrentOrFutureTrips) {
         document.getElementById('next-safe-entry').textContent = 'Now';
         document.getElementById('next-safe-entry').className = 'status-value good';
-        document.getElementById('next-safe-entry').title = `Currently using ${currentDaysUsed}/90 days in 180-day period`;
+        document.getElementById('next-safe-entry').title = `Currently using ${todayDaysUsed}/90 days`;
+        nextSafeEntryDate = null; // Clear the date since we can enter now
         return;
     }
     
-    // Use new engine to find next safe entry
-    const safeEntry = schengenEngine.findNextSafeEntry(today, trips);
+    // Use new engine to find next safe entry starting from appropriate date
+    const safeEntry = schengenEngine.findNextSafeEntry(startCheckDate, trips);
     
     if (safeEntry) {
         document.getElementById('next-safe-entry').textContent = formatDate(safeEntry.date);
         document.getElementById('next-safe-entry').className = 'status-value';
-        document.getElementById('next-safe-entry').title = `Can enter on this date - would use ${safeEntry.daysUsed}/90 days in 180-day period (${safeEntry.daysAvailable} days available)`;
+        document.getElementById('next-safe-entry').title = `Would use ${safeEntry.daysUsed}/90 days (${safeEntry.daysAvailable} available)`;
+        nextSafeEntryDate = dateToISOString(safeEntry.date); // Store the date for calendar highlighting
     } else {
         document.getElementById('next-safe-entry').textContent = 'Unable to calculate';
         document.getElementById('next-safe-entry').className = 'status-value warning';
-        document.getElementById('next-safe-entry').title = 'No safe entry date found within 2 years';
+        document.getElementById('next-safe-entry').title = 'No safe entry found within 2 years';
+        nextSafeEntryDate = null; // Clear the date if unable to calculate
     }
 }
 
@@ -1477,6 +1541,20 @@ function changeMonth(direction) {
 function autoNavigateToTrip(entryDate, exitDate) {
     const entryDateObj = parseISODateLocal(entryDate);
     const exitDateObj = parseISODateLocal(exitDate);
+    
+    // Check if the trip is already fully visible in the current 6-month view
+    const currentViewStart = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1);
+    const currentViewEnd = new Date(displayDate.getFullYear(), displayDate.getMonth() + 5, 1);
+    currentViewEnd.setMonth(currentViewEnd.getMonth() + 1); // Move to start of month after the 6th month
+    currentViewEnd.setDate(0); // Go back to last day of the 6th month
+    
+    const entryMonth = new Date(entryDateObj.getFullYear(), entryDateObj.getMonth(), 1);
+    const exitMonth = new Date(exitDateObj.getFullYear(), exitDateObj.getMonth(), 1);
+    
+    // If both entry and exit months are within the current view, don't navigate
+    if (entryMonth >= currentViewStart && exitMonth < currentViewEnd) {
+        return; // Trip is already fully visible, no need to change the view
+    }
     
     // Calculate the optimal start month to show the entire trip
     // We want to show at least the entry month and possibly more if the trip spans multiple months
@@ -1542,22 +1620,26 @@ function getDateStatus(date) {
             result.tooltip = tooltipPrefix;
         }
         
-        // Enhanced violation detection with detailed info
+        // Enhanced violation detection with concise info
         if (engineStatus.isViolation) {
             result.class = 'violation';
-            result.tooltip = `⚠️ VIOLATION! ${engineStatus.daysInPeriod} days in 180-day period (${engineStatus.daysOver} over limit)`;
+            result.tooltip = createTooltipText(tooltipPrefix, engineStatus.daysInPeriod, true, engineStatus.daysOver);
         } else {
-            // Add days info to tooltip
-            result.tooltip += ` • ${engineStatus.daysInPeriod}/90 days used`;
+            // Add days info to tooltip if meaningful
+            result.tooltip = createTooltipText(tooltipPrefix, engineStatus.daysInPeriod);
         }
     } else {
-        // Check for rollover dates only if not in a trip or selected range
-        if (engineStatus.isRolloverDate) {
+        // Check for next safe entry date first
+        if (nextSafeEntryDate && dateStr === nextSafeEntryDate) {
+            result.class = 'next-safe-entry';
+            result.tooltip = createTooltipText('Next Safe Entry', engineStatus.daysInPeriod);
+        } else if (engineStatus.isRolloverDate) {
+            // Check for rollover dates only if not in a trip or selected range and not the next safe entry
             result.class = 'rollover-date';
-            result.tooltip = `📅 Rollover Date - Old trips stop counting in 180-day window`;
+            result.tooltip = '📅 Rollover Date';
         } else {
             result.class = 'outside';
-            result.tooltip = 'Outside Schengen Area';
+            result.tooltip = 'Outside Schengen';
         }
     }
     
@@ -1885,24 +1967,25 @@ function getBidirectionalPreviewStatus(date, anchorDate) {
     
     const tripDuration = Math.ceil((parseISODateLocal(theoreticalTrip.exitDate) - parseISODateLocal(theoreticalTrip.entryDate)) / (1000 * 60 * 60 * 24)) + 1;
     
-    let tooltipText;
+    let baseText;
     if (direction === 'forward') {
-        tooltipText = `Preview ${tripDuration}d trip ending here`;
+        baseText = `Preview ${tripDuration}d ending here`;
     } else {
-        tooltipText = `Preview ${tripDuration}d trip starting here`;
+        baseText = `Preview ${tripDuration}d starting here`;
     }
     
     if (daysInPeriod > 90) {
+        const daysOver = daysInPeriod - 90;
         return { 
             class: 'preview-violation', 
-            tooltip: `${tooltipText} - Violation (${daysInPeriod}/90 days)` 
+            tooltip: createTooltipText(`${baseText} - Violation`, daysInPeriod, true, daysOver)
         };
     }
     
     const previewClass = direction === 'backward' ? 'preview-available-past' : 'preview-available';
     return { 
         class: previewClass, 
-        tooltip: `${tooltipText} - Available (${daysInPeriod}/90 days)` 
+        tooltip: createTooltipText(baseText, daysInPeriod)
     };
 }
 
@@ -2318,4 +2401,46 @@ function setupKeyboardNavigation() {
             }
         }
     });
+}
+
+// FAQ Toggle functionality for SEO content sections
+function toggleFAQ(button) {
+    const faqItem = button.parentElement;
+    const faqAnswer = faqItem.querySelector('.faq-answer');
+    const toggle = button.querySelector('.faq-toggle');
+    
+    // Toggle active state
+    faqItem.classList.toggle('active');
+    
+    // Update the toggle icon
+    if (faqItem.classList.contains('active')) {
+        toggle.textContent = '−';
+    } else {
+        toggle.textContent = '+';
+    }
+    
+    // Handle smooth animation by setting max-height dynamically
+    if (faqItem.classList.contains('active')) {
+        // Set max-height to actual content height + padding for smooth animation
+        const contentHeight = faqAnswer.scrollHeight;
+        faqAnswer.style.maxHeight = Math.max(contentHeight + 20, 100) + 'px'; // Add buffer space
+    } else {
+        faqAnswer.style.maxHeight = '0px';
+    }
+}
+
+// Helper function to create concise tooltip text
+function createTooltipText(status, daysInPeriod, isViolation = false, daysOver = 0) {
+    let text = status;
+    
+    if (isViolation) {
+        return `⚠️ VIOLATION! ${daysInPeriod}/90 days (${daysOver} over)`;
+    }
+    
+    if (daysInPeriod !== undefined && daysInPeriod > 0) {
+        // Only show days used if meaningful (greater than 0)
+        return `${status} • ${daysInPeriod}/90 days`;
+    }
+    
+    return status;
 } 

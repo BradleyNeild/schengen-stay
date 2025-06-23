@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
-    <title>Schengen Visa Calculator</title>
+    <title>Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner</title>
+    <meta name="description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator. Avoid overstays and plan trips confidently – free Schengen short-stay tracker.">
+    <meta name="keywords" content="Schengen visa calculator, 90/180 day rule, Schengen short stay, visa tracker, Europe visa planner, Schengen overstay, visa days remaining">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body data-theme="dark">
@@ -34,8 +36,15 @@
                 <span id="theme-icon">🌙</span>
                 <span id="theme-text">Light Mode</span>
             </button>
-            <h1>🇪🇺 Schengen Short-Stay Visa Planner</h1>
+            <h1>🇪🇺 Schengen Short-Stay Visa Planner & Calculator</h1>
             <p>Track your 90/180 day compliance across Schengen countries.</p>
+        </div>
+
+        <!-- Introductory SEO Content -->
+        <div class="seo-content-section">
+            <div class="intro-content">
+                <p>Visitors to the Schengen Area can stay <strong>90 days in any 180-day period</strong> without a visa. Our Schengen visa calculator helps you track your used days and remaining allowance, so you avoid overstays and penalties. Whether you're planning business trips, tourism, or extended stays across Europe, this free tool ensures you never exceed your Schengen short-stay limits.</p>
+            </div>
         </div>
 
         <div class="main-content">
@@ -124,7 +133,7 @@
                     <div class="control-panel">
                         <div class="section-title">📊 Status</div>
                         <div class="status-item">
-                            <span>Days Used (180-day period):</span>
+                            <span>Days used:</span>
                             <span class="status-value" id="days-used">0</span>
                         </div>
                         <div class="status-item">
@@ -169,6 +178,114 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Additional SEO Content Sections -->
+        <div class="seo-content-sections">
+            <section class="content-section">
+                <h2>📊 Calculate Your Schengen 90/180-Day Allowance</h2>
+                <p>The Schengen Area operates under a strict <strong>90/180-day rule</strong> for short-stay visitors. This means you can stay up to 90 days within any rolling 180-day period. Our calculator automatically tracks your visa days remaining and alerts you to potential violations before they occur.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>🎯 How to Use the Schengen Stay Calculator</h2>
+                <div class="how-to-use">
+                    <div class="step-list">
+                        <div class="step-item">
+                            <strong>1. Select your entry and exit dates</strong> - Click on the calendar to add your travel dates, or use the quick form to enter dates manually.
+                        </div>
+                        <div class="step-item">
+                            <strong>2. Add multiple trips</strong> - Include all past visits and planned future trips to get accurate calculations for your Schengen visa allowance.
+                        </div>
+                        <div class="step-item">
+                            <strong>3. Monitor your status</strong> - The planner displays days used, days remaining, and your next safe entry date automatically.
+                        </div>
+                        <div class="step-item">
+                            <strong>4. Plan future stays</strong> - Use the planning tools to find the best dates for your upcoming European travels while staying compliant.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>📚 Understanding the Schengen 90/180-Day Rule</h2>
+                <p>The <strong>90/180-day rule</strong> is often misunderstood. The 180-day period "looks backward" from any given day to count your past stays in the Schengen Area. This rolling calculation means that every day, a new 180-day window begins, and you must ensure you haven't exceeded 90 days within that period.</p>
+                
+                <div class="rule-explanation">
+                    <h3>Key Points About the Schengen Short-Stay Rules:</h3>
+                    <ul>
+                        <li><strong>Entry and exit days both count</strong> toward your 90-day allowance</li>
+                        <li><strong>The 180-day period is rolling</strong>, not fixed calendar periods</li>
+                        <li><strong>All Schengen countries share the same limit</strong> - it's not per country</li>
+                        <li><strong>Transit doesn't count</strong> if you don't leave the international zone</li>
+                        <li><strong>Overstaying can result in fines, bans, or deportation</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>❓ Frequently Asked Questions</h2>
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What counts as a day in the Schengen Area?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Both your entry day and exit day count as full days, even if you arrive late or leave early. If you enter on Monday and leave on Friday, that counts as 5 days (Monday, Tuesday, Wednesday, Thursday, Friday).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>When does the 180-day clock start?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>There's no fixed start date. The 180-day period is a rolling window that moves every day. On any given day, you count back 180 days and check if you've stayed more than 90 days within that period.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What happens if I overstay my Schengen visa allowance?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Overstaying can result in serious consequences including fines (up to €500+ in some countries), entry bans (1-10 years), deportation, and difficulties obtaining future visas. Always depart by day 88-89 for safety.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I reset my 90 days by leaving for a day?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>No, you cannot reset your allowance by briefly leaving. You must wait until enough time has passed so that looking back 180 days, you have fewer than 90 days of stays recorded.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Do all Schengen countries follow the same rules?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, the 90/180-day rule applies to the entire Schengen Area as one zone. This includes 27 countries sharing the same visa-free short-stay allowance. Some countries have bilateral agreements that may provide exceptions, but these are rare.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>⚠️ Important Disclaimers</h2>
+                <div class="disclaimer-content">
+                    <p><strong>This Schengen visa calculator is for planning purposes only</strong> and is not legally binding. Always verify your calculations with the <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank">official EU Commission calculator</a> and consult immigration authorities for complex situations.</p>
+                    
+                    <p><strong>Border control officers have final authority</strong> on entry decisions. While this tool helps you plan compliant stays, exceptional circumstances or officer discretion may affect your entry.</p>
+                </div>
+            </section>
         </div>
     </div>
 
