@@ -136,7 +136,7 @@ class SchengenCalculationEngine {
         analysisStart.setHours(0, 0, 0, 0);
         analysisEnd.setHours(0, 0, 0, 0);
         
-        const totalDays = Math.ceil((analysisEnd.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000)) + 1;
+        const totalDays = Math.round((analysisEnd.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000)) + 1;
         
         // Initialize arrays
         const dailyPresence = new Array(totalDays).fill(0); // hist[] equivalent
@@ -168,13 +168,12 @@ class SchengenCalculationEngine {
         
         // Calculate cumulative days in rolling 180-day window
         for (let i = 0; i < totalDays; i++) {
-            if (i === 0) {
-                cumulativeDays[i] = dailyPresence[i];
-            } else if (i < this.PERIOD_LENGTH_DAYS) {
-                cumulativeDays[i] = cumulativeDays[i - 1] + dailyPresence[i];
-            } else {
-                cumulativeDays[i] = cumulativeDays[i - 1] + dailyPresence[i] - dailyPresence[i - this.PERIOD_LENGTH_DAYS];
+            let sum = 0;
+            const startOfWindow = Math.max(0, i - this.PERIOD_LENGTH_DAYS + 1);
+            for (let j = startOfWindow; j <= i; j++) {
+                sum += dailyPresence[j];
             }
+            cumulativeDays[i] = sum;
         }
         
         return {
@@ -431,31 +430,6 @@ const schengenEngine = new SchengenCalculationEngine();
 const calculationCache = new Map();
 let tripsModificationCounter = 0;
 
-// Performance optimization: Improved memoized getDaysInPeriod using new engine
-const memoizedGetDaysInPeriod = (() => {
-    return function(date) {
-        return schengenEngine.getDaysInPeriod(date, trips);
-    };
-})();
-
-// Calculate days spent in Schengen area in the 180-day period ending on checkDate
-function getDaysInPeriod(checkDate) {
-    return schengenEngine.getDaysInPeriod(checkDate, trips);
-}
-
-// Helper function to calculate days between dates (timezone-safe)
-function daysBetweenDates(startDate, endDate) {
-    // Normalize dates to local timezone components to avoid timezone issues
-    const start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-    
-    const timeDifference = end.getTime() - start.getTime();
-    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    
-    // Return inclusive count (both start and end dates count)
-    return daysDifference + 1;
-}
-
 // Increment counter when trips change (more efficient than clearing entire cache)
 function invalidateCalculationCache() {
     tripsModificationCounter++;
@@ -476,45 +450,16 @@ function calculateMaxDaysUsedAcrossAllTrips() {
     if (!trips || trips.length === 0) {
         return 0;
     }
-    
-    // Use the SchengenCalculationEngine to find the maximum days used
-    // across all possible 180-day periods that include any trips
-    let maxDaysUsed = 0;
-    
-    // Get all trip dates (both entry and exit dates)
-    const allTripDates = [];
-    trips.forEach(trip => {
-        const entryDate = parseISODateLocal(trip.entryDate);
-        const exitDate = parseISODateLocal(trip.exitDate);
-        if (entryDate && exitDate) {
-            allTripDates.push(entryDate, exitDate);
-        }
-    });
-    
-    if (allTripDates.length === 0) {
+
+    // This check is now entirely handled by the SchengenCalculationEngine,
+    // which is more efficient and accurate. We can leverage its internal history.
+    const history = schengenEngine.buildDailyHistory(trips);
+    if (!history || history.cumulativeDays.length === 0) {
         return 0;
     }
-    
-    // Sort dates to find the range we need to check
-    allTripDates.sort((a, b) => a.getTime() - b.getTime());
-    const earliestDate = allTripDates[0];
-    const latestDate = allTripDates[allTripDates.length - 1];
-    
-    // Check every day from earliest trip to latest trip + 180 days
-    // This ensures we capture any possible 180-day window that includes trips
-    const checkStartDate = new Date(earliestDate);
-    const checkEndDate = new Date(latestDate.getTime() + (180 * 24 * 60 * 60 * 1000));
-    
-    const currentDate = new Date(checkStartDate);
-    while (currentDate <= checkEndDate) {
-        const daysUsed = schengenEngine.getDaysInPeriod(currentDate, trips);
-        maxDaysUsed = Math.max(maxDaysUsed, daysUsed);
-        
-        // Move to next day
-        currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    return maxDaysUsed;
+
+    // Find the maximum value in the cumulativeDays array
+    return Math.max(...history.cumulativeDays);
 }
 
 // Safe localStorage operations with error handling
@@ -941,21 +886,27 @@ function calculateStayDuration(startDate, endDate) {
         start = parseISODateLocal(startDate);
         if (!start) return 0;
     } else {
-        // Normalize to local date components to avoid timezone issues
-        start = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        start = startDate; // Assume it's a valid Date object
     }
     
     if (typeof endDate === 'string') {
         end = parseISODateLocal(endDate);
         if (!end) return 0;
     } else {
-        // Normalize to local date components to avoid timezone issues
-        end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        end = endDate; // Assume it's a valid Date object
     }
     
-    // Calculate difference in days
-    const timeDifference = end.getTime() - start.getTime();
-    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    // Normalize to local date components to avoid timezone issues
+    const normalizedStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const normalizedEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+
+    if (normalizedEnd < normalizedStart) {
+        return 0;
+    }
+    
+    // Calculate difference in days using a robust, timezone-safe method
+    const timeDifference = normalizedEnd.getTime() - normalizedStart.getTime();
+    const daysDifference = Math.round(timeDifference / (1000 * 60 * 60 * 24));
     
     // Return inclusive count (entry and exit dates both count)
     return daysDifference + 1;
@@ -1325,7 +1276,7 @@ function renderCalendar() {
             if (isSelectedAnchor) {
                 dayElement.classList.add('entry-exit');
                 
-                const daysInPeriod = memoizedGetDaysInPeriod(date);
+                const daysInPeriod = schengenEngine.getDaysInPeriod(date, trips);
                 const anchorType = selectedStartDate && !selectedEndDate ? 'Fixed Start' : 'Fixed End';
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip';
@@ -1359,7 +1310,7 @@ function renderCalendar() {
                 if (previewStatus && !dayElement.classList.contains('selected-range')) {
                     dayElement.classList.add(previewStatus.class);
                     
-                    const daysInPeriod = memoizedGetDaysInPeriod(date);
+                    const daysInPeriod = schengenEngine.getDaysInPeriod(date, trips);
                     const tooltip = document.createElement('div');
                     tooltip.className = 'tooltip';
                     let tooltipText = createTooltipText(previewStatus.tooltip, daysInPeriod);
@@ -1382,7 +1333,7 @@ function renderCalendar() {
                     }
                     
                     // Add tooltip with concise information
-                    const daysInPeriod = memoizedGetDaysInPeriod(date);
+                    const daysInPeriod = schengenEngine.getDaysInPeriod(date, trips);
                     const baseStatus = status.tooltip || 'Outside Schengen';
                     let tooltipText = createTooltipText(baseStatus, daysInPeriod);
                     
@@ -1532,30 +1483,6 @@ function calculateNextSafeEntry() {
         document.getElementById('next-safe-entry').title = 'No safe entry found within 2 years';
         nextSafeEntryDate = null; // Clear the date if unable to calculate
     }
-}
-
-// Helper function to calculate days for a potential entry date
-function calculateDaysInPeriodForEntry(entryDate) {
-    const periodStart = new Date(entryDate);
-    periodStart.setDate(periodStart.getDate() - 179); // 180 days before entry date
-    
-    let daysCount = 0;
-    
-    trips.forEach(trip => {
-        const tripStart = parseISODateLocal(trip.entryDate);
-        const tripEnd = parseISODateLocal(trip.exitDate);
-        
-        // Find overlap between trip and the 180-day period ending on entry date
-        const overlapStart = new Date(Math.max(tripStart.getTime(), periodStart.getTime()));
-        const overlapEnd = new Date(Math.min(tripEnd.getTime(), entryDate.getTime()));
-        
-        if (overlapStart <= overlapEnd) {
-            const overlapDays = daysBetweenDates(overlapStart, overlapEnd);
-            daysCount += overlapDays;
-        }
-    });
-    
-    return daysCount;
 }
 
 function changeMonth(direction) {
@@ -1913,41 +1840,21 @@ function calculateMaxDaysBackFromEnd(endDate) {
         testStartDate.setDate(testStartDate.getDate() - testDays + 1);
         
         const theoreticalTrip = {
+            id: 'test-back',
             entryDate: dateToISOString(testStartDate),
             exitDate: dateToISOString(endDate)
         };
         
-        const tempTrips = [...trips, theoreticalTrip];
-        
-        if (getDaysInPeriodWithTrips(endDate, tempTrips) > 90) {
+        // Use the reliable engine for this calculation
+        const daysInPeriod = schengenEngine.getDaysInPeriod(endDate, [...trips, theoreticalTrip]);
+
+        if (daysInPeriod > 90) {
             break;
         }
         maxDays = testDays;
     }
     
     return maxDays;
-}
-
-function getDaysInPeriodWithTrips(checkDate, tripsArray) {
-    const periodStart = new Date(checkDate);
-    periodStart.setDate(periodStart.getDate() - 179);
-    
-    let daysCount = 0;
-    
-    tripsArray.forEach(trip => {
-        const tripStart = parseISODateLocal(trip.entryDate);
-        const tripEnd = parseISODateLocal(trip.exitDate);
-        
-        const overlapStart = new Date(Math.max(tripStart.getTime(), periodStart.getTime()));
-        const overlapEnd = new Date(Math.min(tripEnd.getTime(), checkDate.getTime()));
-        
-        if (overlapStart <= overlapEnd) {
-            const overlapDays = daysBetweenDates(overlapStart, overlapEnd);
-            daysCount += overlapDays;
-        }
-    });
-    
-    return daysCount;
 }
 
 function getBidirectionalPreviewStatus(date, anchorDate) {
@@ -1990,9 +1897,10 @@ function getBidirectionalPreviewStatus(date, anchorDate) {
     }
     
     const tempTrips = [...trips, theoreticalTrip];
-    const daysInPeriod = getDaysInPeriodWithTrips(checkDate, tempTrips);
+    // Use the engine for consistent calculation
+    const daysInPeriod = schengenEngine.getDaysInPeriod(checkDate, tempTrips);
     
-    const tripDuration = Math.ceil((parseISODateLocal(theoreticalTrip.exitDate) - parseISODateLocal(theoreticalTrip.entryDate)) / (1000 * 60 * 60 * 24)) + 1;
+    const tripDuration = calculateStayDuration(theoreticalTrip.entryDate, theoreticalTrip.exitDate);
     
     let baseText;
     if (direction === 'forward') {
