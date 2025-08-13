@@ -72,7 +72,7 @@
     ">
     <title>{{head.title}}</title>
     <meta name="description" content="{{head.description}}">
-    <meta name="keywords" content="Schengen visa calculator, 90/180 day rule, Schengen short stay, visa tracker, Europe visa planner, Schengen overstay, visa days remaining">
+    <meta name="keywords" content="{{head.keywords}}">
     <!-- Open Graph / Twitter Meta -->
     <meta property="og:title" content="{{head.ogTitle}}">
     <meta property="og:description" content="{{head.ogDescription}}">
@@ -85,7 +85,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:image" content="https://schengen-stay.com/icons/og-image.svg">
-    <meta property="og:image:alt" content="Schengen Visa Calculator – Track your 90/180-day allowance">
+    <meta property="og:image:alt" content="{{head.ogImageAlt}}">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#1e3c72">
@@ -128,7 +128,7 @@
                 <span id="theme-icon">🌙</span>
                 <span id="theme-text">{{ui.themeLight}}</span>
             </button>
-            <nav class="lang-switcher" aria-label="Language">
+            <nav class="lang-switcher" aria-label="{{ui.languageAriaLabel}}">
                 {{langSwitcher}}
             </nav>
             <h1>{{home.h1}}</h1>
@@ -157,12 +157,12 @@
                             <form id="trip-form" class="compact-form">
                                 <div class="form-group form-group-compact">
                                     <label for="entry-date" class="form-label-compact">{{ui.entryDateLabel}}</label>
-                                    <input type="text" id="entry-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                    <input type="text" id="entry-date" placeholder="{{ui.arrivalHint}}" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
                                 </div>
                                 
                                 <div class="form-group form-group-compact">
                                     <label for="exit-date" class="form-label-compact">{{ui.exitDateLabel}}</label>
-                                    <input type="text" id="exit-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                    <input type="text" id="exit-date" placeholder="{{ui.arrivalHint}}" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
                                 </div>
                                 
                                 <button type="submit" class="btn btn-compact">{{ui.addTrip}}</button>
@@ -215,7 +215,7 @@
                         
                         <div class="form-group form-group-separated">
                             <label for="arrival-date">{{ui.arrivalLabel}}</label>
-                            <input type="text" id="arrival-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" class="input-spacing" aria-describedby="arrival-date-hint">
+                            <input type="text" id="arrival-date" placeholder="{{ui.arrivalHint}}" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" class="input-spacing" aria-describedby="arrival-date-hint">
                             <div class="date-input-hint hint-spacing" id="arrival-date-hint">{{ui.arrivalHint}}</div>
                             <button class="btn btn-full-width" id="calculate-stay-btn">
                                 📅 {{ui.howLongFromDateCta}}
@@ -300,11 +300,11 @@
                 <div class="rule-explanation">
                     <h3>{{content.ruleKeyPointsH3}}</h3>
                     <ul>
-                        <li><strong>Entry and exit days both count</strong> toward your 90-day allowance</li>
-                        <li><strong>The 180-day period is rolling</strong>, not fixed calendar periods</li>
-                        <li><strong>All Schengen countries share the same limit</strong> - it's not per country</li>
-                        <li><strong>Transit doesn't count</strong> if you don't leave the international zone</li>
-                        <li><strong>Overstaying can result in fines, bans, or deportation</strong></li>
+                        <li>{{content.ruleLi1}}</li>
+                        <li>{{content.ruleLi2}}</li>
+                        <li>{{content.ruleLi3}}</li>
+                        <li>{{content.ruleLi4}}</li>
+                        <li>{{content.ruleLi5}}</li>
                     </ul>
                 </div>
             </section>
@@ -380,7 +380,7 @@
         <div class="footer-content">
             <div class="footer-contact">
                 <span class="footer-text">
-                    💻 Developed by <a href="mailto:bradleyeneild@tfss.dev" class="footer-link">bradleyeneild@tfss.dev</a>
+                    💻 {{ui.developedBy}} <a href="mailto:bradleyeneild@tfss.dev" class="footer-link">bradleyeneild@tfss.dev</a>
                 </span>
                 <span class="footer-divider">•</span>
                 <span class="footer-text">
@@ -392,14 +392,14 @@
                 </span>
             </div>
             <div class="footer-disclaimer">
-                <small>This tool is for planning purposes only and is not legally binding. Always verify with official EU sources.</small>
+                <small>{{content.footerDisclaimer}}</small>
                 <br>
             </div>
         </div>
     </footer>
 
     <!-- Simple consent banner (interim, not a certified CMP) -->
-    <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="Consent for ads" aria-modal="false">
+    <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="{{ui.consentAriaLabel}}" aria-modal="false">
         <div class="consent-content">
             <p>{{ui.consentBannerP}}</p>
             <div class="consent-actions">
@@ -415,11 +415,11 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Schengen Visa Calculator",
+      "name": "{{home.h1}}",
       "applicationCategory": "TravelApplication",
       "operatingSystem": "Web",
-      "description": "Interactive calculator to plan and track compliance with the Schengen 90/180-day rule.",
-      "url": "https://schengen-stay.com/",
+      "description": "{{head.description}}",
+      "url": "{{head.canonical}}",
       "softwareVersion": "1.0.0",
       "publisher": {
         "@type": "Organization",
@@ -437,42 +437,42 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What counts as a day in the Schengen Area?",
+          "name": "{{content.faq1Q}}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Both your entry day and exit day count as full days, even if you arrive late or leave early. If you enter on Monday and leave on Friday, that counts as 5 days."
+            "text": "{{content.faq1A}}"
           }
         },
         {
           "@type": "Question",
-          "name": "When does the 180-day clock start?",
+          "name": "{{content.faq2Q}}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "There is no fixed start date. The 180-day period is a rolling window that moves every day. On any given day, you count back 180 days and check if you've stayed more than 90 days within that period."
+            "text": "{{content.faq2A}}"
           }
         },
         {
           "@type": "Question",
-          "name": "What happens if I overstay my Schengen visa allowance?",
+          "name": "{{content.faq3Q}}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Overstaying can result in fines, entry bans, deportation, and difficulties obtaining future visas. Always depart by day 88-89 for safety."
+            "text": "{{content.faq3A}}"
           }
         },
         {
           "@type": "Question",
-          "name": "Can I reset my 90 days by leaving for a day?",
+          "name": "{{content.faq4Q}}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. You cannot reset your allowance by briefly leaving. You must wait until enough time has passed so that looking back 180 days, you have fewer than 90 days of stays recorded."
+            "text": "{{content.faq4A}}"
           }
         },
         {
           "@type": "Question",
-          "name": "Do all Schengen countries follow the same rules?",
+          "name": "{{content.faq5Q}}",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The 90/180-day rule applies to the entire Schengen Area as one zone. Some countries have bilateral agreements that may provide exceptions, but these are rare."
+            "text": "{{content.faq5A}}"
           }
         }
       ]
@@ -482,29 +482,29 @@
     {
       "@context": "https://schema.org",
       "@type": "HowTo",
-      "name": "How to use the Schengen Visa Calculator",
-      "description": "Step-by-step guide to plan compliant stays using the 90/180-day rule.",
+      "name": "{{content.howToH2}}",
+      "description": "{{content.calcP}}",
       "totalTime": "PT2M",
       "step": [
         {
           "@type": "HowToStep",
-          "name": "Select your entry and exit dates",
-          "text": "Click on the calendar to add your travel dates, or use the quick form to enter dates manually."
+          "name": "{{content.step1Title}}",
+          "text": "{{content.step1Body}}"
         },
         {
           "@type": "HowToStep",
-          "name": "Add multiple trips",
-          "text": "Include all past visits and planned future trips to get accurate calculations for your Schengen visa allowance."
+          "name": "{{content.step2Title}}",
+          "text": "{{content.step2Body}}"
         },
         {
           "@type": "HowToStep",
-          "name": "Monitor your status",
-          "text": "Review days used, days remaining, next safe entry, and any violations shown in the status panel."
+          "name": "{{content.step3Title}}",
+          "text": "{{content.step3Body}}"
         },
         {
           "@type": "HowToStep",
-          "name": "Plan future stays",
-          "text": "Use the planning tools to find the best dates for your upcoming European travels while staying compliant."
+          "name": "{{content.step4Title}}",
+          "text": "{{content.step4Body}}"
         }
       ]
     }
