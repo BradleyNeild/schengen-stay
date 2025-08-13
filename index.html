@@ -12,6 +12,28 @@
         'ad_personalization': 'denied'
     });
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Schengen Stay",
+      "url": "https://schengen-stay.com/",
+      "logo": "https://schengen-stay.com/icons/icon-512.svg",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "bradleyeneild@tfss.dev"
+      }]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Schengen Stay",
+      "url": "https://schengen-stay.com/"
+    }
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -22,6 +44,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1e3c72">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <meta name="google-adsense-account" content="ca-pub-2906753934728760">
     <!-- Preconnect/DNS Prefetch for Google/Ads domains -->
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
@@ -57,16 +80,26 @@
     <meta property="og:url" content="https://schengen-stay.com/">
     <meta property="og:site_name" content="Schengen Stay">
     <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://schengen-stay.com/icons/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="https://schengen-stay.com/icons/og-image.svg">
+    <meta property="og:image:alt" content="Schengen Visa Calculator – Track your 90/180-day allowance">
     <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#1e3c72">
+    <link rel="apple-touch-icon" href="/icons/icon-192.svg">
     <meta name="twitter:title" content="Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner">
     <meta name="twitter:description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator.">
     <link rel="canonical" href="https://schengen-stay.com/">
     <link rel="alternate" hreflang="en" href="https://schengen-stay.com/">
     <link rel="alternate" hreflang="x-default" href="https://schengen-stay.com/">
+    <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body data-theme="dark">
+    <a class="skip-link" href="#main">Skip to main content</a>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4NLRS4Q"
     height="0" width="0" style="display:none;visibility:hidden" title="GTM"></iframe></noscript>
@@ -92,14 +125,14 @@
     </div>
 
     <div class="container">
-        <div class="header">
+    <header class="header">
             <button class="header-theme-toggle" id="theme-toggle">
                 <span id="theme-icon">🌙</span>
                 <span id="theme-text">Light Mode</span>
             </button>
             <h1>🇪🇺 Schengen Short-Stay Visa Planner & Calculator</h1>
             <p>Track your 90/180 day compliance across Schengen countries.</p>
-        </div>
+        </header>
 
         <!-- Introductory SEO Content -->
         <div class="seo-content-section">
@@ -109,7 +142,7 @@
             </div>
         </div>
 
-        <div class="main-content">
+        <main id="main" class="main-content" role="main">
             <!-- Main Layout Container -->
             <div class="main-layout">
                 <!-- Calendar Section -->
@@ -230,7 +263,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
 
         <!-- Additional SEO Content Sections -->
         <div class="seo-content-sections">
@@ -387,6 +420,13 @@
       "operatingSystem": "Web",
       "description": "Interactive calculator to plan and track compliance with the Schengen 90/180-day rule.",
       "url": "https://schengen-stay.com/",
+      "softwareVersion": "1.0.0",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Schengen Stay",
+        "url": "https://schengen-stay.com/",
+        "logo": "https://schengen-stay.com/icons/icon-512.svg"
+      },
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
     }
     </script>
@@ -434,6 +474,37 @@
             "@type": "Answer",
             "text": "Yes. The 90/180-day rule applies to the entire Schengen Area as one zone. Some countries have bilateral agreements that may provide exceptions, but these are rare."
           }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to use the Schengen Visa Calculator",
+      "description": "Step-by-step guide to plan compliant stays using the 90/180-day rule.",
+      "totalTime": "PT2M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Select your entry and exit dates",
+          "text": "Click on the calendar to add your travel dates, or use the quick form to enter dates manually."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add multiple trips",
+          "text": "Include all past visits and planned future trips to get accurate calculations for your Schengen visa allowance."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Monitor your status",
+          "text": "Review days used, days remaining, next safe entry, and any violations shown in the status panel."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Plan future stays",
+          "text": "Use the planning tools to find the best dates for your upcoming European travels while staying compliant."
         }
       ]
     }
