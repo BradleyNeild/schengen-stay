@@ -86,6 +86,23 @@ let selectedEndDate = null;
 let selectionMode = false;
 let nextSafeEntryDate = null;
 
+// Simple i18n helper using window.I18N injected by templates
+function t(path, fallback = '') {
+    try {
+        const i18n = (typeof window !== 'undefined' && window.I18N) ? window.I18N : null;
+        if (!i18n || !path) return fallback;
+        const parts = path.split('.');
+        let cur = i18n;
+        for (const p of parts) {
+            if (cur && Object.prototype.hasOwnProperty.call(cur, p)) cur = cur[p];
+            else return fallback;
+        }
+        return (typeof cur === 'string') ? cur : fallback;
+    } catch (e) {
+        return fallback;
+    }
+}
+
 // Stable trips signature for cache keys
 function tripsSignature(tripsArray) {
     try {
@@ -515,7 +532,7 @@ function safeLoadTrips() {
     } catch (error) {
         console.warn('Error loading trips from localStorage:', error);
         trips = [];
-        showError('Failed to load saved trips. Starting with empty trip list.');
+        showError(t('errors.failedLoadTrips','Failed to load saved trips. Starting with empty trip list.'));
     }
 }
 
@@ -526,10 +543,10 @@ function safeSaveTrips() {
         return true;
     } catch (error) {
         if (error.name === 'QuotaExceededError') {
-            showError('Storage quota exceeded. Please export your data and clear some trips.');
+            showError(t('errors.storageQuotaExceeded','Storage quota exceeded. Please export your data and clear some trips.'));
         } else {
             console.error('Error saving trips:', error);
-            showError('Failed to save trips. Your changes may be lost.');
+            showError(t('errors.failedSaveTrips','Failed to save trips. Your changes may be lost.'));
         }
         return false;
     }
@@ -539,7 +556,7 @@ function safeSaveTrips() {
 function showError(message) {
     console.error('Schengen Calculator Error:', message);
     // Show error in browser console since status panel was removed
-    alert(`Error: ${message}`);
+    alert(`${t('errors.errorLabel','Error')}: ${message}`);
 }
 
 // Comprehensive input sanitization function
@@ -690,12 +707,12 @@ function checkBrowserSupport() {
 function showUnsupportedBrowserMessage(unsupportedFeatures) {
     const message = `
         <div style="background: var(--color-danger-bg, #f8d7da); border: 1px solid var(--color-danger, #dc3545); color: var(--text-primary, #721c24); padding: 20px; margin: 20px; border-radius: 8px; text-align: center;">
-            <h2>🚫 Unsupported Browser</h2>
-            <p>Your browser doesn't support some features required by this application:</p>
+            <h2>🚫 ${t('errors.unsupportedBrowserTitle','Unsupported Browser')}</h2>
+            <p>${t("errors.unsupportedBrowserP1","Your browser doesn't support some features required by this application:")}</p>
             <ul style="text-align: left; display: inline-block;">
-                ${unsupportedFeatures.map(feature => `<li>${feature}</li>`).join('')}
+                ${unsupportedFeatures.map(feature => `<li>${t('errors.features.' + feature, feature)}</li>`).join('')}
             </ul>
-            <p><strong>Please update your browser or use a modern browser like Chrome, Firefox, Safari, or Edge.</strong></p>
+            <p><strong>${t('errors.unsupportedBrowserP2','Please update your browser or use a modern browser like Chrome, Firefox, Safari, or Edge.')}</strong></p>
         </div>
     `;
     document.body.innerHTML = message;
@@ -930,7 +947,7 @@ function validateDateInput(e) {
     const value = input.value;
     
     if (value && !isValidDateFormat(value)) {
-        input.setCustomValidity('Please enter a valid date in dd/mm/yy format');
+        input.setCustomValidity(t('js.pleaseEnterValidDate','Please enter a valid date in dd/mm/yy format.'));
     } else {
         input.setCustomValidity('');
     }
@@ -1116,18 +1133,18 @@ function handleAddTrip(e) {
     const exitDateInput = document.getElementById('exit-date').value;
     
     if (!entryDateInput || !exitDateInput) {
-        alert('Please fill in both entry and exit dates.');
+        alert(t('ui.entryDateLabel','Entry Date') + ' / ' + t('ui.exitDateLabel','Exit Date'));
         return;
     }
     
     // Validate date formats
     if (!isValidDateFormat(entryDateInput)) {
-        alert('Please enter a valid entry date in dd/mm/yy format.');
+        alert(t('js.pleaseEnterValidDate','Please enter a valid date in dd/mm/yy format.'));
         return;
     }
     
     if (!isValidDateFormat(exitDateInput)) {
-        alert('Please enter a valid exit date in dd/mm/yy format.');
+        alert(t('js.pleaseEnterValidDate','Please enter a valid date in dd/mm/yy format.'));
         return;
     }
     
@@ -1136,14 +1153,14 @@ function handleAddTrip(e) {
     const date2 = convertToISODate(exitDateInput);
     
     if (!date1 || !date2) {
-        alert('Invalid date format. Please use dd/mm/yy format.');
+        alert(t('js.invalidDateFormat','Invalid date format. Please use dd/mm/yy format.'));
         return;
     }
     
     // Validate the converted ISO date strings
     if (!validateISODateString(date1, 'Entry Date Conversion') || 
         !validateISODateString(date2, 'Exit Date Conversion')) {
-        alert('Date conversion failed. Please check your date formats.');
+        alert(t('js.invalidDateFormat','Invalid date format. Please use dd/mm/yy format.'));
         return;
     }
     
@@ -1153,7 +1170,7 @@ function handleAddTrip(e) {
     
     if (!validateDateObject(parsedDate1, 'Parsed Entry Date') ||
         !validateDateObject(parsedDate2, 'Parsed Exit Date')) {
-        alert('Invalid dates detected. Please check your entries.');
+        alert(t('js.invalidArrival','Invalid arrival date. Please check your input.'));
         return;
     }
     
@@ -1170,7 +1187,7 @@ function handleAddTrip(e) {
     // Final validation before creating trip
     const tripDuration = calculateStayDuration(entryDate, exitDate);
     if (tripDuration <= 0 || tripDuration > 365) {
-        alert(`Invalid trip duration: ${tripDuration} days. Please check your dates.`);
+        alert(`${t('js.invalidTripDuration','Invalid trip duration:')} ${tripDuration} ${t('ui.daysUnit','days')}.`);
         return;
     }
     
@@ -1226,10 +1243,10 @@ function saveAppState() {
         return true;
     } catch (error) {
         if (error.name === 'QuotaExceededError') {
-            showError('Storage quota exceeded. Please export your data and clear some trips.');
+            showError(t('errors.storageQuotaExceeded','Storage quota exceeded. Please export your data and clear some trips.'));
         } else {
             console.error('Error saving application state:', error);
-            showError('Failed to save application state. Your changes may be lost.');
+            showError(t('errors.failedSaveAppState','Failed to save application state. Your changes may be lost.'));
         }
         return false;
     }
@@ -1365,11 +1382,14 @@ function renderCalendar() {
         monthNumberEl.className = 'month-number';
         monthNumberEl.textContent = monthNumber;
         
-        // Set month name without number
-        monthTitle.textContent = monthDate.toLocaleDateString('en-US', { 
-            month: 'long', 
-            year: 'numeric' 
-        });
+        // Set localized month name without number
+        try {
+            const lang = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang) ? document.documentElement.lang : 'en';
+            const locale = lang === 'en' ? 'en-US' : lang;
+            monthTitle.textContent = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(monthDate);
+        } catch (e) {
+            monthTitle.textContent = monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
         
         // Add the number element to the title
         monthTitle.appendChild(monthNumberEl);
@@ -1379,8 +1399,26 @@ function renderCalendar() {
         const grid = document.createElement('div');
         grid.className = 'calendar-grid';
         
-        // Add day headers (Monday first)
-        const dayHeaders = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+        // Add localized day headers (Monday first)
+        const dayHeaders = (() => {
+            try {
+                const lang = (typeof document !== 'undefined' && document.documentElement && document.documentElement.lang) ? document.documentElement.lang : 'en';
+                const locale = lang === 'en' ? 'en-US' : lang;
+                // Build labels by iterating Monday..Sunday
+                const base = new Date(2021, 10, 1); // Nov 1, 2021 is Monday
+                const arr = [];
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+                    const label = new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(d);
+                    // Trim to 1–2 letters for compact header
+                    const compact = label.replace(/\.$/, '').slice(0, Math.min(2, label.length));
+                    arr.push(compact);
+                }
+                return arr;
+            } catch (e) {
+                return ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+            }
+        })();
         dayHeaders.forEach(day => {
             const dayHeader = document.createElement('div');
             dayHeader.className = 'calendar-header';
@@ -1450,14 +1488,14 @@ function renderCalendar() {
                 dayElement.classList.add('entry-exit');
                 
                 const daysInPeriod = schengenEngine.getDaysInPeriod(date, trips);
-                const anchorType = selectedStartDate && !selectedEndDate ? 'Fixed Start' : 'Fixed End';
+                const anchorType = selectedStartDate && !selectedEndDate ? t('js.fixedStart','Fixed Start') : t('js.fixedEnd','Fixed End');
                 const tooltip = document.createElement('div');
                 tooltip.className = 'tooltip';
                 let tooltipText = createTooltipText(anchorType, daysInPeriod);
                 
                 // Special handling for today
                 if (isSameDate(date, today)) {
-                    tooltipText = `TODAY - ${tooltipText}`;
+                    tooltipText = `${t('js.today','TODAY')} - ${tooltipText}`;
                 }
                 
                 tooltip.textContent = tooltipText;
@@ -1489,9 +1527,9 @@ function renderCalendar() {
                     let tooltipText = createTooltipText(previewStatus.tooltip, daysInPeriod);
                     
                     // Special handling for today
-                    if (isSameDate(date, today)) {
-                        tooltipText = `TODAY - ${tooltipText}`;
-                    }
+    if (isSameDate(date, today)) {
+        tooltipText = `${t('js.today','TODAY')} - ${tooltipText}`;
+    }
                     
                     tooltip.textContent = tooltipText;
                     dayElement.appendChild(tooltip);
@@ -1507,7 +1545,7 @@ function renderCalendar() {
                     
                     // Add tooltip with concise information
                     const daysInPeriod = schengenEngine.getDaysInPeriod(date, trips);
-                    const baseStatus = status.tooltip || 'Outside Schengen';
+                    const baseStatus = status.tooltip || t('js.outside','Outside Schengen');
                     let tooltipText = createTooltipText(baseStatus, daysInPeriod);
                     
                     // Special handling for today - prefix with "TODAY" to make it distinctive
@@ -1515,13 +1553,13 @@ function renderCalendar() {
                     if (isToday) {
                         // For special status days, integrate "TODAY" more naturally
                         if (status.class === 'next-safe-entry') {
-                            tooltipText = `TODAY - Next Safe Entry • ${daysInPeriod}/90 days`;
+                            tooltipText = `${t('js.today','TODAY')} - ${t('js.nextSafeEntry','Next Safe Entry')} • ${daysInPeriod}/90 ${t('ui.daysUnit','days')}`;
                         } else if (status.class === 'rollover-date') {
-                            tooltipText = `TODAY - Rollover Date - Old trips stop counting`;
+                            tooltipText = `${t('js.today','TODAY')} - ${t('js.rollover','Rollover Date - Old trips stop counting')}`;
                         } else if (status.class === 'violation') {
-                            tooltipText = `TODAY: ${tooltipText}`;
+                            tooltipText = `${t('js.today','TODAY')}: ${tooltipText}`;
                         } else {
-                            tooltipText = `TODAY: ${tooltipText}`;
+                            tooltipText = `${t('js.today','TODAY')}: ${tooltipText}`;
                         }
                     }
                     
@@ -1572,8 +1610,8 @@ function updateStatus() {
     document.getElementById('days-remaining').textContent = daysRemaining;
     
     // Add concise tooltip to explain the calculation
-    document.getElementById('days-used').title = `Max days used in any 180-day period`;
-    document.getElementById('days-remaining').title = `Days remaining: ${daysRemaining}`;
+    document.getElementById('days-used').title = t('js.maxDaysUsedTooltip','Max days used in any 180-day period');
+    document.getElementById('days-remaining').title = `${t('js.daysRemainingTooltip','Days remaining:')} ${daysRemaining}`;
     
     // Update status value styling
     const daysUsedElement = document.getElementById('days-used');
@@ -1635,9 +1673,9 @@ function calculateNextSafeEntry() {
     
     // Only show "Now" if today's usage is safe AND we don't have future trips starting today or later
     if (todayDaysUsed < 90 && !hasCurrentOrFutureTrips) {
-        document.getElementById('next-safe-entry').textContent = 'Now';
+        document.getElementById('next-safe-entry').textContent = t('js.now','Now');
         document.getElementById('next-safe-entry').className = 'status-value good';
-        document.getElementById('next-safe-entry').title = `Currently using ${todayDaysUsed}/90 days`;
+        document.getElementById('next-safe-entry').title = `${t('js.currentlyUsing','Currently using')} ${todayDaysUsed}/90 ${t('ui.daysUnit','days')}`;
         nextSafeEntryDate = null; // Clear the date since we can enter now
         return;
     }
@@ -1648,12 +1686,12 @@ function calculateNextSafeEntry() {
     if (safeEntry) {
         document.getElementById('next-safe-entry').textContent = formatDate(safeEntry.date);
         document.getElementById('next-safe-entry').className = 'status-value';
-        document.getElementById('next-safe-entry').title = `Would use ${safeEntry.daysUsed}/90 days (${safeEntry.daysAvailable} available)`;
+        document.getElementById('next-safe-entry').title = `${t('js.wouldUse','Would use')} ${safeEntry.daysUsed}/90 ${t('ui.daysUnit','days')} (${safeEntry.daysAvailable} ${t('js.availableShort','available')})`;
         nextSafeEntryDate = dateToISOString(safeEntry.date); // Store the date for calendar highlighting
     } else {
-        document.getElementById('next-safe-entry').textContent = 'Unable to calculate';
+        document.getElementById('next-safe-entry').textContent = t('js.unableToCalculate','Unable to calculate');
         document.getElementById('next-safe-entry').className = 'status-value warning';
-        document.getElementById('next-safe-entry').title = 'No safe entry found within 2 years';
+        document.getElementById('next-safe-entry').title = t('js.noSafeEntryFound','No safe entry found within 2 years');
         nextSafeEntryDate = null; // Clear the date if unable to calculate
     }
 }
@@ -1731,12 +1769,12 @@ function getDateStatus(date) {
         
         if (tripForDate) {
             isEntryOrExit = dateStr === tripForDate.entryDate || dateStr === tripForDate.exitDate;
-            tooltipPrefix = dateStr === tripForDate.entryDate ? 'Entry Day' : 
-                           dateStr === tripForDate.exitDate ? 'Exit Day' : 'In Schengen Area';
+            tooltipPrefix = dateStr === tripForDate.entryDate ? t('js.entryDay','Entry Day') : 
+                           dateStr === tripForDate.exitDate ? t('js.exitDay','Exit Day') : t('js.inSchengen','In Schengen Area');
         } else if (inSelectedRange) {
             isEntryOrExit = dateStr === selectedStartDate || dateStr === selectedEndDate;
-            tooltipPrefix = dateStr === selectedStartDate ? 'Selected Entry' : 
-                           dateStr === selectedEndDate ? 'Selected Exit' : 'Selected Range';
+            tooltipPrefix = dateStr === selectedStartDate ? t('js.selectedEntry','Selected Entry') : 
+                           dateStr === selectedEndDate ? t('js.selectedExit','Selected Exit') : t('js.selectedRange','Selected Range');
         }
         
         if (isEntryOrExit) {
@@ -1759,14 +1797,14 @@ function getDateStatus(date) {
         // Check for next safe entry date first
         if (nextSafeEntryDate && dateStr === nextSafeEntryDate) {
             result.class = 'next-safe-entry';
-            result.tooltip = createTooltipText('Next Safe Entry', engineStatus.daysInPeriod);
+            result.tooltip = createTooltipText(t('js.nextSafeEntry','Next Safe Entry'), engineStatus.daysInPeriod);
         } else if (engineStatus.isRolloverDate) {
             // Check for rollover dates only if not in a trip or selected range and not the next safe entry
             result.class = 'rollover-date';
-            result.tooltip = '📅 Rollover Date - Old trips stop counting';
+            result.tooltip = `📅 ${t('js.rollover','Rollover Date - Old trips stop counting')}`;
         } else {
             result.class = 'outside';
-            result.tooltip = 'Outside Schengen';
+            result.tooltip = t('js.outside','Outside Schengen');
         }
     }
     
@@ -1955,9 +1993,9 @@ function updateSelectionInfo(startDate, endDate) {
         const isPastTrip = startDate < today;
         if (isPastTrip) {
             selectionDetails.innerHTML = `
-                <strong>Entry:</strong> ${formatDate(startDate)}<br>
-                <em>Click another date to complete trip</em><br>
-                <small style="color: var(--text-secondary);">📝 Past trip</small>
+                <strong>${t('js.entry','Entry:')}</strong> ${formatDate(startDate)}<br>
+                <em>${t('js.clickAnotherToComplete','Click another date to complete trip')}</em><br>
+                <small style="color: var(--text-secondary);">${t('js.pastTrip','📝 Past trip')}</small>
             `;
         } else {
             const maxStayDays = calculateMaxStayFromDate(startDate);
@@ -1968,20 +2006,20 @@ function updateSelectionInfo(startDate, endDate) {
             const isConsistent = actualStayDays === maxStayDays;
             
             selectionDetails.innerHTML = `
-                <strong>Entry:</strong> ${formatDate(startDate)}<br>
-                <strong>Max Stay:</strong> ${maxStayDays} days<br>
-                <strong>Suggested Exit:</strong> ${formatDate(suggestedEndDate)} <span style="color: ${isConsistent ? 'var(--color-success)' : 'var(--color-danger)'};">(${actualStayDays} days)</span><br>
-                <em>Click another date to complete trip</em><br>
-                <small style="color: var(--text-secondary);">🔮 Future trip</small>
+                <strong>${t('js.entry','Entry:')}</strong> ${formatDate(startDate)}<br>
+                <strong>${t('js.maxStay','Max Stay:')}</strong> ${maxStayDays} ${t('ui.daysUnit','days')}<br>
+                <strong>${t('js.suggestedExit','Suggested Exit:')}</strong> ${formatDate(suggestedEndDate)} <span style="color: ${isConsistent ? 'var(--color-success)' : 'var(--color-danger)'};">(${actualStayDays} ${t('ui.daysUnit','days')})</span><br>
+                <em>${t('js.clickAnotherToComplete','Click another date to complete trip')}</em><br>
+                <small style="color: var(--text-secondary);">${t('js.futureTrip','🔮 Future trip')}</small>
             `;
         }
     } else if (!startDate && endDate) {
         const isPastTrip = endDate < today;
         if (isPastTrip) {
             selectionDetails.innerHTML = `
-                <strong>Exit:</strong> ${formatDate(endDate)}<br>
-                <em>Click earlier date to complete trip</em><br>
-                <small style="color: var(--text-secondary);">📝 Past trip</small>
+                <strong>${t('js.exit','Exit:')}</strong> ${formatDate(endDate)}<br>
+                <em>${t('js.clickEarlierToComplete','Click earlier date to complete trip')}</em><br>
+                <small style="color: var(--text-secondary);">${t('js.pastTrip','📝 Past trip')}</small>
             `;
         } else {
             const maxDaysBack = calculateMaxDaysBackFromEnd(endDate);
@@ -1992,11 +2030,11 @@ function updateSelectionInfo(startDate, endDate) {
             const isConsistent = actualStayDays === maxDaysBack;
             
             selectionDetails.innerHTML = `
-                <strong>Exit:</strong> ${formatDate(endDate)}<br>
-                <strong>Max Days Back:</strong> ${maxDaysBack} days<br>
-                <strong>Suggested Entry:</strong> ${formatDate(suggestedStartDate)} <span style="color: ${isConsistent ? 'var(--color-success)' : 'var(--color-danger)'};">(${actualStayDays} days)</span><br>
-                <em>Click earlier date to complete trip</em><br>
-                <small style="color: var(--text-secondary);">🔮 Future trip</small>
+                <strong>${t('js.exit','Exit:')}</strong> ${formatDate(endDate)}<br>
+                <strong>${t('js.maxDaysBack','Max Days Back:')}</strong> ${maxDaysBack} ${t('ui.daysUnit','days')}<br>
+                <strong>${t('js.suggestedEntry','Suggested Entry:')}</strong> ${formatDate(suggestedStartDate)} <span style="color: ${isConsistent ? 'var(--color-success)' : 'var(--color-danger)'};">(${actualStayDays} ${t('ui.daysUnit','days')})</span><br>
+                <em>${t('js.clickEarlierToComplete','Click earlier date to complete trip')}</em><br>
+                <small style="color: var(--text-secondary);">${t('js.futureTrip','🔮 Future trip')}</small>
             `;
         }
     }
@@ -2077,9 +2115,9 @@ function getBidirectionalPreviewStatus(date, anchorDate) {
     
     let baseText;
     if (direction === 'forward') {
-        baseText = `Preview ${tripDuration}d ending here`;
+        baseText = `${t('js.preview','Preview')} ${tripDuration}${t('js.daysAbbrev','d')} ${t('js.endingHere','ending here')}`;
     } else {
-        baseText = `Preview ${tripDuration}d starting here`;
+        baseText = `${t('js.preview','Preview')} ${tripDuration}${t('js.daysAbbrev','d')} ${t('js.startingHere','starting here')}`;
     }
     
     if (daysInPeriod > 90) {
@@ -2163,7 +2201,7 @@ function findNextAvailableStay() {
     const resultDiv = document.getElementById('planning-result');
     
     if (desiredDays === null) {
-        resultDiv.innerHTML = '<div class="planning-error">Please enter a valid number of days (1-90).</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.pleaseEnterDays','Please enter a valid number of days (1-90).')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
@@ -2184,7 +2222,7 @@ function findNextAvailableStay() {
         const endDateStr = dateToISOString(suggestedEndDate);
         
         if (!startDateStr || !endDateStr) {
-            resultDiv.innerHTML = '<div class="planning-error">❌ Date calculation error. Please try again.</div>';
+            resultDiv.innerHTML = `<div class="planning-error">${t('js.dateCalcError','❌ Date calculation error. Please try again.')}</div>`;
             resultDiv.style.display = 'block';
             return;
         }
@@ -2199,10 +2237,10 @@ function findNextAvailableStay() {
         let additionalInfo = '';
         if (travelWindows.length > 1) {
             const nextWindow = travelWindows[1];
-            additionalInfo = `<br><small>💡 Next option: ${formatDate(nextWindow.startDate)} (${travelWindows.length} total options found)</small>`;
+            additionalInfo = `<br><small>${t('js.nextOption','💡 Next option:')} ${formatDate(nextWindow.startDate)} (${travelWindows.length} ${t('js.totalOptions','total options')})</small>`;
         }
         
-        resultDiv.innerHTML = `<strong>✅ Available:</strong> ${formatDate(firstWindow.startDate)} to ${formatDate(suggestedEndDate)} (${desiredDays} days)<br><small>Days used before trip: ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ Add Trip (${desiredDays} days)</button>`;
+        resultDiv.innerHTML = `<strong>${t('js.availableWithCheck','✅ Available:')}</strong> ${formatDate(firstWindow.startDate)} ${t('js.to','to')} ${formatDate(suggestedEndDate)} (${desiredDays} ${t('ui.daysUnit','days')})<br><small>${t('js.daysUsedBefore','Days used before trip:')} ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ ${t('js.addTrip','Add Trip')} (${desiredDays} ${t('ui.daysUnit','days')})</button>`;
         
         // Add event listener to the newly created button
         const addTripBtn = resultDiv.querySelector('.btn');
@@ -2210,7 +2248,7 @@ function findNextAvailableStay() {
             selectDatesFromPlanning(this.dataset.startDate, this.dataset.endDate);
         });
     } else {
-        resultDiv.innerHTML = '<div class="planning-error"><strong>❌ Not Available</strong><br>No availability found for requested duration in next 2 years.</div>';
+        resultDiv.innerHTML = `<div class="planning-error"><strong>${t('js.notAvailable','❌ Not Available')}</strong><br>${t('js.noAvailability','No availability found for requested duration in next 2 years.')}</div>`;
     }
     
     resultDiv.style.display = 'block';
@@ -2248,20 +2286,20 @@ function calculateStayFromDate() {
     const resultDiv = document.getElementById('arrival-planning-result');
     
     if (!arrivalDateInput) {
-        resultDiv.innerHTML = '<div class="planning-error">Please enter an arrival date.</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.pleaseEnterArrival','Please enter an arrival date.')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
     
     if (!isValidDateFormat(arrivalDateInput)) {
-        resultDiv.innerHTML = '<div class="planning-error">Please enter a valid date in dd/mm/yy format.</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.pleaseEnterValidDate','Please enter a valid date in dd/mm/yy format.')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
     
     const arrivalDateISO = convertToISODate(arrivalDateInput);
     if (!arrivalDateISO) {
-        resultDiv.innerHTML = '<div class="planning-error">Invalid date format. Please use dd/mm/yy format.</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.invalidDateFormat','Invalid date format. Please use dd/mm/yy format.')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
@@ -2269,7 +2307,7 @@ function calculateStayFromDate() {
     // Use timezone-safe date parsing and validation
     const arrivalDate = parseISODateLocal(arrivalDateISO);
     if (!validateDateObject(arrivalDate, 'Arrival Date')) {
-        resultDiv.innerHTML = '<div class="planning-error">Invalid arrival date. Please check your input.</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.invalidArrival','Invalid arrival date. Please check your input.')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
@@ -2280,7 +2318,7 @@ function calculateStayFromDate() {
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
     
     if (arrivalDate < oneDayAgo) {
-        resultDiv.innerHTML = '<div class="planning-error">❌ Cannot calculate for dates more than 1 day in the past.</div>';
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.cannotCalculatePast','❌ Cannot calculate for dates more than 1 day in the past.')}</div>`;
         resultDiv.style.display = 'block';
         return;
     }
@@ -2288,7 +2326,7 @@ function calculateStayFromDate() {
     const maxStayDays = calculateMaxStayFromDate(arrivalDate);
     
     if (maxStayDays === 0) {
-        resultDiv.innerHTML = `<div class="planning-error"><strong>❌ No availability</strong><br>${formatDate(arrivalDate)}: 0 days possible (90/180 rule violation)</div>`;
+        resultDiv.innerHTML = `<div class="planning-error"><strong>${t('js.noAvailabilityOn','❌ No availability')}</strong><br>${formatDate(arrivalDate)}: 0 ${t('js.daysPossible','days possible (90/180 rule violation)')}</div>`;
     } else {
         // Calculate end date using timezone-safe method
         const suggestedExitDate = new Date(arrivalDate.getFullYear(), arrivalDate.getMonth(), arrivalDate.getDate());
@@ -2298,8 +2336,8 @@ function calculateStayFromDate() {
         const startDateStr = dateToISOString(arrivalDate);
         const endDateStr = dateToISOString(suggestedExitDate);
         
-        if (!startDateStr || !endDateStr) {
-            resultDiv.innerHTML = '<div class="planning-error">❌ Date calculation error. Please try again.</div>';
+    if (!startDateStr || !endDateStr) {
+        resultDiv.innerHTML = `<div class="planning-error">${t('js.dateCalcError','❌ Date calculation error. Please try again.')}</div>`;
             resultDiv.style.display = 'block';
             return;
         }
@@ -2310,7 +2348,7 @@ function calculateStayFromDate() {
             console.warn(`Duration mismatch: max stay ${maxStayDays}, calculated ${actualDuration}`);
         }
         
-        resultDiv.innerHTML = `<strong>Available:</strong> ${formatDate(arrivalDate)} to ${formatDate(suggestedExitDate)} (${maxStayDays} days)<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ Add Trip (${maxStayDays} days)</button>`;
+    resultDiv.innerHTML = `<strong>${t('js.available','Available:')}</strong> ${formatDate(arrivalDate)} ${t('js.to','to')} ${formatDate(suggestedExitDate)} (${maxStayDays} ${t('ui.daysUnit','days')})<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ ${t('js.addTrip','Add Trip')} (${maxStayDays} ${t('ui.daysUnit','days')})</button>`;
         
         // Add event listener to the newly created button
         const addTripBtn = resultDiv.querySelector('.btn');
@@ -2341,7 +2379,7 @@ function showRollingCalculation() {
     const testOutput = document.getElementById('test-output');
     
     if (trips.length === 0) {
-        testOutput.innerHTML = 'No trips to analyze. Add some trips first.';
+        testOutput.innerHTML = t('dev.noTripsToAnalyze','No trips to analyze. Add some trips first.');
         testOutput.style.display = 'block';
         return;
     }
@@ -2359,9 +2397,9 @@ function showRollingCalculation() {
     const startDate = new Date(earliestDate);
     const endDate = new Date(latestDate.getTime() + (180 * 24 * 60 * 60 * 1000));
     
-    let output = `Rolling 90/180 Day Calculation\n`;
-    output += `From: ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}\n`;
-    output += `Trips: ${trips.length} | Total analysis days: ${Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000))}\n\n`;
+    let output = `${t('js.rollingCalc','Rolling 90/180 Day Calculation')}\n`;
+    output += `${t('js.from','From:')} ${startDate.toISOString().split('T')[0]} ${t('js.to','to')} ${endDate.toISOString().split('T')[0]}\n`;
+    output += `${t('js.trips','Trips:')} ${trips.length} | ${t('dev.totalAnalysisDays','Total analysis days:')} ${Math.ceil((endDate - startDate) / (24 * 60 * 60 * 1000))}\n\n`;
     
     // Show compact format - only key dates and changes
     let previousDayCount = -1;
@@ -2380,13 +2418,13 @@ function showRollingCalculation() {
         // Show if count changed or it's a trip boundary
         if (daysInPeriod !== previousDayCount || isStartOfTrip || isEndOfTrip) {
             let status = '';
-            if (isViolation) status = ' [VIOLATION]';
-            else if (daysInPeriod >= 85) status = ' [WARNING]';
+            if (isViolation) status = ` [${t('dev.violation','VIOLATION')}]`;
+            else if (daysInPeriod >= 85) status = ` [${t('dev.warning','WARNING')}]`;
             
             let tripInfo = '';
-            if (isStartOfTrip) tripInfo = ' (Entry)';
-            else if (isEndOfTrip) tripInfo = ' (Exit)';
-            else if (isInTrip) tripInfo = ' (In trip)';
+            if (isStartOfTrip) tripInfo = ` (${t('dev.entry','Entry')})`;
+            else if (isEndOfTrip) tripInfo = ` (${t('dev.exit','Exit')})`;
+            else if (isInTrip) tripInfo = ` (${t('dev.inTrip','In trip')})`;
             
             output += `${dateStr}: ${daysInPeriod.toString().padStart(2, ' ')}/90${status}${tripInfo}\n`;
             
@@ -2397,20 +2435,20 @@ function showRollingCalculation() {
         
         // Safety limit - stop if too many days to prevent browser hang
         if ((currentDate - startDate) / (24 * 60 * 60 * 1000) > 1000) {
-            output += '\n[Analysis truncated at 1000 days for performance]';
+            output += `\n[${t('dev.analysisTruncated','Analysis truncated at 1000 days for performance')}]`;
             break;
         }
     }
     
-    output += `\nSummary:\n`;
+    output += `\n${t('js.summary','Summary:')}\n`;
     const violations = schengenEngine.findViolationPeriods(trips);
     if (violations.length > 0) {
-        output += `Violations: ${violations.length}\n`;
+        output += `${t('js.violations','Violations:')} ${violations.length}\n`;
         violations.forEach((v, i) => {
-            output += `  ${i+1}: ${v.startDate.toISOString().split('T')[0]} to ${v.endDate.toISOString().split('T')[0]} (max ${v.maxDays} days)\n`;
+            output += `  ${i+1}: ${v.startDate.toISOString().split('T')[0]} ${t('js.to','to')} ${v.endDate.toISOString().split('T')[0]} (${t('js.max','max')} ${v.maxDays} ${t('ui.daysUnit','days')})\n`;
         });
     } else {
-        output += `Violations: None ✓\n`;
+        output += `${t('js.violationsNone','Violations: None ✓')}\n`;
     }
     
     testOutput.innerHTML = output;
@@ -2545,12 +2583,12 @@ function toggleFAQ(button) {
 // Helper function to create concise tooltip text
 function createTooltipText(status, daysInPeriod, isViolation = false, daysOver = 0) {
     if (isViolation) {
-        return `⚠️ VIOLATION! ${daysInPeriod}/90 days (${daysOver} over)`;
+        return `⚠️ ${t('js.violations','Violations:')} ${daysInPeriod}/90 ${t('ui.daysUnit','days')} (${daysOver} ${t('js.over','over')})`;
     }
     
     if (daysInPeriod !== undefined && daysInPeriod > 0) {
         // Only show days used if meaningful (greater than 0)
-        return `${status} • ${daysInPeriod}/90 days`;
+        return `${status} • ${daysInPeriod}/90 ${t('ui.daysUnit','days')}`;
     }
     
     return status;
