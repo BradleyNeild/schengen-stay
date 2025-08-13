@@ -11,7 +11,8 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const SUPPORTED = [
   { code: 'en', baseUrl: 'https://schengen-stay.com/', pathPrefix: '/' },
   { code: 'de', baseUrl: 'https://schengen-stay.com/de/', pathPrefix: '/de/' },
-  { code: 'fr', baseUrl: 'https://schengen-stay.com/fr/', pathPrefix: '/fr/' }
+  { code: 'fr', baseUrl: 'https://schengen-stay.com/fr/', pathPrefix: '/fr/' },
+  { code: 'zh', baseUrl: 'https://schengen-stay.com/zh/', pathPrefix: '/zh/' }
 ];
 
 function readJson(filePath) {
@@ -51,7 +52,7 @@ function buildHreflangLinks(currentCode) {
 }
 
 function buildLangSwitcher(currentCode) {
-  const nameMap = { en: 'EN', de: 'DE', fr: 'FR' };
+  const nameMap = { en: 'EN', de: 'DE', fr: 'FR', zh: '中文' };
   const links = SUPPORTED.map(l => {
     const href = l.code === 'en' ? '/' : `/${l.code}/`;
     const label = nameMap[l.code] || l.code.toUpperCase();
