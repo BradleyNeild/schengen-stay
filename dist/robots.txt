@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Disallow potential test or temporary files if ever created
+Disallow: /test/
+Disallow: /tmp/
+
+# Sitemap location
+Sitemap: https://schengen-stay.com/sitemap.xml
+

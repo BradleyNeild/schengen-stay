@@ -1,0 +1,47 @@
+{
+  "lang": "de",
+  "og.locale": "de_DE",
+  "head": {
+    "title": "Schengen Visa Rechner – 90/180‑Tage Kurzaufenthalt Planer",
+    "description": "Verfolgen Sie Ihr 90/180‑Tage‑Kontingent für den Schengenraum mit unserem interaktiven Rechner. Überziehen vermeiden und Reisen sicher planen – kostenloser Kurzaufenthalt‑Tracker.",
+    "ogTitle": "Schengen Visa Rechner – 90/180‑Tage Kurzaufenthalt Planer",
+    "ogDescription": "Verfolgen Sie Ihr 90/180‑Tage‑Kontingent mit unserem interaktiven Rechner. Überziehen vermeiden und sicher planen.",
+    "twitterTitle": "Schengen Visa Rechner – 90/180‑Tage Planer",
+    "twitterDescription": "Verfolgen Sie Ihr 90/180‑Tage‑Kontingent im Schengenraum.",
+    "canonical": "https://schengen-stay.com/de/"
+  },
+  "home": {
+    "h1": "🇪🇺 Schengen Kurzaufenthalt Planer & Rechner",
+    "tagline": "Behalten Sie Ihre 90/180‑Tage‑Regel im Schengenraum im Blick."
+  },
+  "sections": {
+    "calendar": "📆 Kalender",
+    "planner": "🎯 Planer",
+    "status": "📊 Status",
+    "trips": "✈️ Reisen"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung – Schengen Visa Rechner",
+    "canonical": "https://schengen-stay.com/de/privacy.html",
+    "description": "Datenschutzerklärung für Schengen Stay – wie wir Cookies (AdSense), lokalen Speicher und Ihre Optionen nutzen.",
+    "h1": "Datenschutzerklärung",
+    "lastUpdatedLabel": "Aktualisiert am:",
+    "overviewH2": "Überblick",
+    "overviewP": "Diese Seite bietet ein Planungswerkzeug für Kurzaufenthalte im Schengenraum. Wir respektieren Ihre Privatsphäre und erfassen nur die minimal erforderlichen Informationen.",
+    "localStorageH2": "Lokaler Speicher",
+    "localStorageP": "Ihre Reisedaten werden lokal in Ihrem Browser (localStorage) gespeichert und nicht an unsere Server gesendet. Das Löschen des Browserspeichers entfernt Ihre gespeicherten Reisen.",
+    "cookiesH2": "Cookies und Anzeigen",
+    "cookiesP1": "Wir verwenden Google AdSense zur Anzeige von Werbung. Google und Partner können Cookies und lokalen Speicher nutzen, um Anzeigen basierend auf früheren Besuchen auszuliefern.",
+    "cookiesLi1": "Drittanbieter, einschließlich Google, verwenden Cookies zur Auslieferung von Anzeigen basierend auf früheren Besuchen.",
+    "cookiesLi2": "Durch Werbe‑Cookies kann Google Anzeigen basierend auf Ihrem Besuch auf dieser und/oder anderen Websites schalten.",
+    "cookiesLi3": "Sie können personalisierte Werbung in den Google‑Anzeigeneinstellungen deaktivieren: https://adssettings.google.com/.",
+    "learnMoreP": "Mehr darüber, wie Google Informationen nutzt: https://policies.google.com/technologies/partner-sites. AdSense‑Richtlinien: https://support.google.com/adsense/answer/1348695.",
+    "consentH2": "Einwilligung",
+    "consentP": "Für EWR/VK wird die Einwilligung über eine Google‑zertifizierte CMP erhoben und via TCF und Google Consent Mode übermittelt. Sie können Ihre Auswahl im Rechner oder über die Google‑Anzeigeneinstellungen ändern.",
+    "contactH2": "Kontakt",
+    "contactP": "Bei Fragen: bradleyeneild@tfss.dev.",
+    "backToCalculator": "Zurück zum Rechner"
+  }
+}
+
+

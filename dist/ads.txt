@@ -1,0 +1,3 @@
+google.com, pub-2906753934728760, DIRECT, f08c47fec0942fa0
+# If you work with any other ad sellers/resellers in future, add their authorized lines here.
+

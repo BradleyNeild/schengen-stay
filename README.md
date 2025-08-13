@@ -29,6 +29,26 @@ The application is built with vanilla HTML, CSS, and JavaScript, with no externa
     *   Functions for managing application state (saving/loading trips to local storage).
     *   UI rendering and event handling for all user interactions.
 
+## Internationalization (i18n)
+
+This project generates SEO-friendly, static, per-locale pages from a single set of templates and JSON translations.
+
+- Templates live in `templates/` (`index.html`, `privacy.html`) with `{{placeholders}}`.
+- Translations live in `locales/<lang>.json` (e.g., `en.json`, `de.json`).
+- Build script `build-i18n.mjs` renders pages into `dist/` and copies static assets.
+- Supported locales are configured at the top of `build-i18n.mjs`.
+
+### Build
+
+1. Make sure you have Node 18+.
+2. Run:
+   ```bash
+   node build-i18n.mjs
+   ```
+3. Open `dist/`:
+   - English: `dist/index.html`
+   - German: `dist/de/index.html`
+
 ## SEO and Monetization
 
 - Google Tag Manager is integrated and Google Consent Mode defaults to denied until the user accepts via the on-site banner. When accepted, consent is updated and AdSense auto ads are loaded dynamically.

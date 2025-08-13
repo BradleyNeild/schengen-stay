@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{privacy.title}}</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="canonical" href="{{privacy.canonical}}">
+    <meta name="robots" content="noindex,follow">
+    <meta name="description" content="{{privacy.description}}">
+    {{head.hreflangLinks}}
+</head>
+<body data-theme="dark">
+    <div class="container" style="max-width: 960px; margin: 0 auto; padding: 24px;">
+        <h1>{{privacy.h1}}</h1>
+        <p>{{privacy.lastUpdatedLabel}} <span id="pp-date"></span></p>
+
+        <h2>{{privacy.overviewH2}}</h2>
+        <p>{{privacy.overviewP}}</p>
+
+        <h2>{{privacy.localStorageH2}}</h2>
+        <p>{{privacy.localStorageP}}</p>
+
+        <h2>{{privacy.cookiesH2}}</h2>
+        <p>{{privacy.cookiesP1}}</p>
+        <ul>
+            <li>{{privacy.cookiesLi1}}</li>
+            <li>{{privacy.cookiesLi2}}</li>
+            <li>{{privacy.cookiesLi3}}</li>
+        </ul>
+
+        <p>{{privacy.learnMoreP}}</p>
+
+        <h2>{{privacy.consentH2}}</h2>
+        <p>{{privacy.consentP}}</p>
+
+        <h2>{{privacy.contactH2}}</h2>
+        <p>{{privacy.contactP}}</p>
+
+        <p><a href="{{links.home}}">← {{privacy.backToCalculator}}</a></p>
+    </div>
+    <script>
+        (function(){
+            var lang = document.documentElement.lang || 'en';
+            var locale = lang === 'en' ? 'en-US' : lang;
+            var d = new Date();
+            var formatted = new Intl.DateTimeFormat(locale, {year:'numeric', month:'short', day:'numeric'}).format(d);
+            document.getElementById('pp-date').textContent = formatted;
+        })();
+    </script>
+</body>
+</html>
+
+
