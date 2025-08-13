@@ -12,8 +12,11 @@ const SUPPORTED = [
   { code: 'en', baseUrl: 'https://schengen-stay.com/', pathPrefix: '/' },
   { code: 'de', baseUrl: 'https://schengen-stay.com/de/', pathPrefix: '/de/' },
   { code: 'fr', baseUrl: 'https://schengen-stay.com/fr/', pathPrefix: '/fr/' },
+  { code: 'ru', baseUrl: 'https://schengen-stay.com/ru/', pathPrefix: '/ru/' },
   { code: 'zh', baseUrl: 'https://schengen-stay.com/zh/', pathPrefix: '/zh/' },
-  { code: 'hi', baseUrl: 'https://schengen-stay.com/hi/', pathPrefix: '/hi/' }
+  { code: 'hi', baseUrl: 'https://schengen-stay.com/hi/', pathPrefix: '/hi/' },
+  { code: 'tr', baseUrl: 'https://schengen-stay.com/tr/', pathPrefix: '/tr/' },
+  { code: 'ar', baseUrl: 'https://schengen-stay.com/ar/', pathPrefix: '/ar/' }
 ];
 
 function readJson(filePath) {
@@ -53,7 +56,7 @@ function buildHreflangLinks(currentCode) {
 }
 
 function buildLangSwitcher(currentCode) {
-  const nameMap = { en: 'EN', de: 'DE', fr: 'FR', zh: '中文', hi: 'हिंदी' };
+  const nameMap = { en: 'EN', de: 'DE', fr: 'FR', ru: 'RU', zh: '中文', hi: 'हिंदी', tr: 'TR', ar: 'العربية' };
   const links = SUPPORTED.map(l => {
     const href = l.code === 'en' ? '/' : `/${l.code}/`;
     const label = nameMap[l.code] || l.code.toUpperCase();
@@ -120,8 +123,10 @@ function build() {
     ensureDir(outDir);
 
     // common substitutions
+    const rtlLangs = new Set(['ar', 'he', 'fa', 'ur']);
     const model = {
       lang: data.lang || l.code,
+      dir: data.dir || (rtlLangs.has(l.code) ? 'rtl' : 'ltr'),
       head: data.head || {},
       home: data.home || {},
       sections: data.sections || {},

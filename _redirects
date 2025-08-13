@@ -1,5 +1,10 @@
 # Ensure directory-style URLs work
 /de  /de/  301
 /hi  /hi/  301
+/tr  /tr/  301
+
+/ar  /ar/  301
+
+/ru  /ru/  301
 
 
