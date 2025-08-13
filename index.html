@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Consent Mode (default deny) must load before GTM -->
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+    });
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -10,24 +21,55 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="google-adsense-account" content="ca-pub-2906753934728760">
+    <!-- Preconnect/DNS Prefetch for Google/Ads domains -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+    <link rel="preconnect" href="https://securepubads.g.doubleclick.net" crossorigin>
+    <link rel="preconnect" href="https://tpc.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://www.google.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net">
+    <link rel="dns-prefetch" href="https://securepubads.g.doubleclick.net">
+    <link rel="dns-prefetch" href="https://tpc.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.google.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
     <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google.com https://www.gstatic.com;
-    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://www.gstatic.com https://www.google-analytics.com;
-    img-src 'self' data: https://*.googlesyndication.com https://*.g.doubleclick.net https://*.googleusercontent.com https://www.google.com;
-    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://www.google.com https://www.googletagmanager.com;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://securepubads.g.doubleclick.net https://www.google.com https://www.gstatic.com;
+    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://securepubads.g.doubleclick.net https://adservice.google.com https://adservice.google.* https://*.doubleclick.net https://*.google.com https://www.gstatic.com https://www.google-analytics.com;
+    img-src 'self' data: https://*.googlesyndication.com https://tpc.googlesyndication.com https://*.g.doubleclick.net https://stats.g.doubleclick.net https://*.googleusercontent.com https://*.google.com;
+    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://www.googletagmanager.com;
     style-src 'self' 'unsafe-inline';
     frame-ancestors 'self';
     ">
     <title>Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner</title>
     <meta name="description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator. Avoid overstays and plan trips confidently – free Schengen short-stay tracker.">
     <meta name="keywords" content="Schengen visa calculator, 90/180 day rule, Schengen short stay, visa tracker, Europe visa planner, Schengen overstay, visa days remaining">
+    <!-- Open Graph / Twitter Meta -->
+    <meta property="og:title" content="Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner">
+    <meta property="og:description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator. Avoid overstays and plan trips confidently.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://schengen-stay.com/">
+    <meta property="og:site_name" content="Schengen Stay">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="twitter:title" content="Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner">
+    <meta name="twitter:description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator.">
+    <link rel="canonical" href="https://schengen-stay.com/">
+    <link rel="alternate" hreflang="en" href="https://schengen-stay.com/">
+    <link rel="alternate" hreflang="x-default" href="https://schengen-stay.com/">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body data-theme="dark">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4NLRS4Q"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    height="0" width="0" style="display:none;visibility:hidden" title="GTM"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <!-- Modal for 1-day trip creation -->
     <div class="modal-overlay" id="oneday-modal">
@@ -62,7 +104,8 @@
         <!-- Introductory SEO Content -->
         <div class="seo-content-section">
             <div class="intro-content">
-                <p>Visitors to the Schengen Area can stay <strong>90 days in any 180-day period</strong> without a visa. Our Schengen visa calculator helps you track your used days and remaining allowance, so you avoid overstays and penalties. Whether you're planning business trips, tourism, or extended stays across Europe, this free tool ensures you never exceed your Schengen short-stay limits.</p>
+            <p>Visitors to the Schengen Area can stay <strong>90 days in any 180-day period</strong> without a visa. Our Schengen visa calculator helps you track your used days and remaining allowance, so you avoid overstays and penalties. Whether you're planning business trips, tourism, or extended stays across Europe, this free tool ensures you never exceed your Schengen short-stay limits.</p>
+            <p style="margin-top:8px"><small>As featured in travel planning communities. No account required; data stays in your browser.</small></p>
             </div>
         </div>
 
@@ -115,7 +158,7 @@
                         </div>
 
                         <div class="info-box-resources">
-                            <strong>🔗 Resources:</strong> Official calculator: <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank">EC Visa Calculator</a> • Planning tool only, not legally binding
+                            <strong>🔗 Resources:</strong> Official calculator: <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">EC Visa Calculator</a> • Planning tool only, not legally binding
                         </div>
                     </div>
                 </div>
@@ -290,7 +333,7 @@
             <section class="content-section">
                 <h2>⚠️ Important Disclaimers</h2>
                 <div class="disclaimer-content">
-                    <p><strong>This Schengen visa calculator is for planning purposes only</strong> and is not legally binding. Always verify your calculations with the <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank">official EU Commission calculator</a> and consult immigration authorities for complex situations.</p>
+                    <p><strong>This Schengen visa calculator is for planning purposes only</strong> and is not legally binding. Always verify your calculations with the <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">official EU Commission calculator</a> and consult immigration authorities for complex situations.</p>
                     
                     <p><strong>Border control officers have final authority</strong> on entry decisions. While this tool helps you plan compliant stays, exceptional circumstances or officer discretion may affect your entry.</p>
                 </div>
@@ -316,6 +359,8 @@
             </div>
             <div class="footer-disclaimer">
                 <small>This tool is for planning purposes only and is not legally binding. Always verify with official EU sources.</small>
+                <br>
+                <small><a href="https://schengen-stay.com/sitemap.xml" class="footer-link">Sitemap</a></small>
             </div>
         </div>
     </footer>
@@ -323,7 +368,7 @@
     <!-- Simple consent banner (interim, not a certified CMP) -->
     <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="Consent for ads" aria-modal="false">
         <div class="consent-content">
-            <p>We use Google AdSense to support this free tool. Accept to allow ads to load, or continue without ads.</p>
+            <p>We use Google AdSense to support this free tool. Accept to allow ads to load, or continue without ads. Consent choices only affect advertising cookies; core functionality is unaffected.</p>
             <div class="consent-actions">
                 <button id="consent-accept" class="btn">Accept</button>
                 <button id="consent-reject" class="btn btn-secondary">Continue without ads</button>
@@ -332,6 +377,67 @@
         </div>
     </div>
 
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Schengen Visa Calculator",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "description": "Interactive calculator to plan and track compliance with the Schengen 90/180-day rule.",
+      "url": "https://schengen-stay.com/",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What counts as a day in the Schengen Area?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both your entry day and exit day count as full days, even if you arrive late or leave early. If you enter on Monday and leave on Friday, that counts as 5 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When does the 180-day clock start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no fixed start date. The 180-day period is a rolling window that moves every day. On any given day, you count back 180 days and check if you've stayed more than 90 days within that period."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I overstay my Schengen visa allowance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Overstaying can result in fines, entry bans, deportation, and difficulties obtaining future visas. Always depart by day 88-89 for safety."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reset my 90 days by leaving for a day?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You cannot reset your allowance by briefly leaving. You must wait until enough time has passed so that looking back 180 days, you have fewer than 90 days of stays recorded."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do all Schengen countries follow the same rules?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The 90/180-day rule applies to the entire Schengen Area as one zone. Some countries have bilateral agreements that may provide exceptions, but these are rare."
+          }
+        }
+      ]
+    }
+    </script>
     <script src="script.js"></script>
 </body>
 </html> 

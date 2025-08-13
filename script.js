@@ -650,6 +650,8 @@ function initializeAdSenseOnce() {
     s.crossOrigin = 'anonymous';
     document.head.appendChild(s);
     window.__adsLoaded = true;
+    // Initialize auto ads slot configuration if available
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
 }
 
 // Basic consent banner (interim; for production in EEA/UK use a certified CMP)
@@ -664,6 +666,22 @@ function setupConsentBanner() {
 
     const stored = localStorage.getItem('ads-consent');
     if (stored === 'accepted') {
+        // Update Consent Mode to granted before loading ads
+        try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'consent_update',
+                'consentAction': 'accepted'
+            });
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted'
+                });
+            }
+        } catch (e) {}
         signalContentReady(true);
         initializeAdSenseOnce();
         return;
@@ -678,6 +696,21 @@ function setupConsentBanner() {
     acceptBtn && acceptBtn.addEventListener('click', function() {
         localStorage.setItem('ads-consent', 'accepted');
         banner.classList.remove('visible');
+        try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'consent_update',
+                'consentAction': 'accepted'
+            });
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'analytics_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted'
+                });
+            }
+        } catch (e) {}
         signalContentReady(true);
         initializeAdSenseOnce();
     });
@@ -685,6 +718,21 @@ function setupConsentBanner() {
     rejectBtn && rejectBtn.addEventListener('click', function() {
         localStorage.setItem('ads-consent', 'rejected');
         banner.classList.remove('visible');
+        try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'consent_update',
+                'consentAction': 'rejected'
+            });
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'analytics_storage': 'denied',
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied'
+                });
+            }
+        } catch (e) {}
         signalContentReady(false);
     });
 }
@@ -2323,7 +2371,10 @@ function setupEventListeners() {
     document.getElementById('calculate-stay-btn').addEventListener('click', calculateStayFromDate);
     
     // Test button
-    document.getElementById('test-calculation-btn').addEventListener('click', showRollingCalculation);
+    var testBtn = document.getElementById('test-calculation-btn');
+    if (testBtn) {
+        testBtn.addEventListener('click', showRollingCalculation);
+    }
     
     // Modal buttons
     document.getElementById('cancel-btn').addEventListener('click', function() {

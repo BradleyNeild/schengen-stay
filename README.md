@@ -29,6 +29,14 @@ The application is built with vanilla HTML, CSS, and JavaScript, with no externa
     *   Functions for managing application state (saving/loading trips to local storage).
     *   UI rendering and event handling for all user interactions.
 
+## SEO and Monetization
+
+- Google Tag Manager is integrated and Google Consent Mode defaults to denied until the user accepts via the on-site banner. When accepted, consent is updated and AdSense auto ads are loaded dynamically.
+- `ads.txt` is present with the correct publisher ID.
+- `robots.txt` allows crawling and points to `https://schengen-stay.com/sitemap.xml`.
+- Open Graph/Twitter meta tags and JSON-LD structured data are included.
+- CSP allows the required Google/DoubleClick hosts for GTM and AdSense.
+
 ## Usage
 
 To use the calculator, simply open the `index.html` file in a web browser.

@@ -1,0 +1,10 @@
+{
+  "name": "Schengen Visa Calculator",
+  "short_name": "SchengenStay",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
+  "icons": []
+}
+
