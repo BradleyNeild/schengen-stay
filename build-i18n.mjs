@@ -10,7 +10,8 @@ const DIST_DIR = path.join(__dirname, 'dist');
 // Configure supported locales and their base paths
 const SUPPORTED = [
   { code: 'en', baseUrl: 'https://schengen-stay.com/', pathPrefix: '/' },
-  { code: 'de', baseUrl: 'https://schengen-stay.com/de/', pathPrefix: '/de/' }
+  { code: 'de', baseUrl: 'https://schengen-stay.com/de/', pathPrefix: '/de/' },
+  { code: 'fr', baseUrl: 'https://schengen-stay.com/fr/', pathPrefix: '/fr/' }
 ];
 
 function readJson(filePath) {
@@ -50,7 +51,7 @@ function buildHreflangLinks(currentCode) {
 }
 
 function buildLangSwitcher(currentCode) {
-  const nameMap = { en: 'EN', de: 'DE' };
+  const nameMap = { en: 'EN', de: 'DE', fr: 'FR' };
   const links = SUPPORTED.map(l => {
     const href = l.code === 'en' ? '/' : `/${l.code}/`;
     const label = nameMap[l.code] || l.code.toUpperCase();
@@ -123,6 +124,8 @@ function build() {
       home: data.home || {},
       sections: data.sections || {},
       privacy: data.privacy || {},
+      ui: data.ui || {},
+      content: data.content || {},
       og: { locale: data['og.locale'] || 'en_US' },
       'head.hreflangLinks': buildHreflangLinks(l.code),
       links: {

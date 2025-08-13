@@ -589,10 +589,10 @@ function updateThemeToggle(theme) {
     
     if (theme === 'dark') {
         themeIcon.textContent = '🌙';
-        themeText.textContent = 'Light Mode';
+        themeText.textContent = translate('ui.themeLight', 'Light Mode');
     } else {
         themeIcon.textContent = '☀️';
-        themeText.textContent = 'Dark Mode';
+        themeText.textContent = translate('ui.themeDark', 'Dark Mode');
     }
 }
 
@@ -650,6 +650,23 @@ document.addEventListener('DOMContentLoaded', function() {
         signalContentReady(false);
     }
 });
+
+// Simple runtime i18n helper leveraging window.I18N injected at build
+function translate(key, fallback = '') {
+    try {
+        const data = (typeof window !== 'undefined' && window.I18N) ? window.I18N : {};
+        const parts = key.split('.');
+        let cur = data;
+        for (const p of parts) {
+            if (cur && Object.prototype.hasOwnProperty.call(cur, p)) cur = cur[p];
+            else return fallback;
+        }
+        if (typeof cur === 'string' && cur) return cur;
+        return fallback;
+    } catch (e) {
+        return fallback;
+    }
+}
 
 // Browser support detection
 function checkBrowserSupport() {
@@ -1288,7 +1305,7 @@ function renderTrips() {
         container.innerHTML = `
             <div class="empty-state">
                 <div style="font-size: 3em; margin-bottom: 10px;">✈️</div>
-                <p>No trips added yet.<br>Add your first trip above!</p>
+                <p>${translate('ui.noTripsYet','No trips added yet.')}<br>${translate('ui.addFirstTrip','Add your first trip above!')}</p>
             </div>
         `;
         return;
@@ -1307,10 +1324,10 @@ function renderTrips() {
                     <div class="trip-dates">
                         ${formatDate(entryDate)} → ${formatDate(exitDate)}
                     </div>
-                    <div class="trip-duration">${duration} days</div>
+                    <div class="trip-duration">${duration} ${translate('ui.daysUnit','days')}</div>
                 </div>
                 <button class="btn btn-danger" onclick="removeTrip(${trip.id})" style="padding: 6px 12px; font-size: 14px;">
-                    🗑️ Remove
+                    🗑️ ${translate('ui.remove','Remove')}
                 </button>
             </div>
         `;

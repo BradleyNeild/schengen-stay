@@ -110,18 +110,14 @@
     <div class="modal-overlay" id="oneday-modal">
         <div class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-content">
             <div class="modal-title" id="modal-title">
-                📅 Create 1-Day Trip?
+                📅 {{ui.modalTitle}}
             </div>
             <div class="modal-content" id="modal-content">
-                You clicked on <span class="modal-date" id="modal-date"></span> twice. Would you like to:
+                {{ui.modalPrompt}} <span class="modal-date" id="modal-date"></span>
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn modal-btn-secondary" id="cancel-btn">
-                    ❌ Remove
-                </button>
-                <button class="modal-btn modal-btn-primary" id="confirm-btn">
-                    ✅ Add Trip
-                </button>
+                <button class="modal-btn modal-btn-secondary" id="cancel-btn">❌ {{ui.modalRemove}}</button>
+                <button class="modal-btn modal-btn-primary" id="confirm-btn">✅ {{ui.modalAddTrip}}</button>
             </div>
         </div>
     </div>
@@ -130,7 +126,7 @@
     <header class="header">
             <button class="header-theme-toggle" id="theme-toggle">
                 <span id="theme-icon">🌙</span>
-                <span id="theme-text">Light Mode</span>
+                <span id="theme-text">{{ui.themeLight}}</span>
             </button>
             <nav class="lang-switcher" aria-label="Language">
                 {{langSwitcher}}
@@ -142,8 +138,8 @@
         <!-- Introductory SEO Content -->
         <div class="seo-content-section">
             <div class="intro-content">
-            <p>Visitors to the Schengen Area can stay <strong>90 days in any 180-day period</strong> without a visa. Our Schengen visa calculator helps you track your used days and remaining allowance, so you avoid overstays and penalties. Whether you're planning business trips, tourism, or extended stays across Europe, this free tool ensures you never exceed your Schengen short-stay limits.</p>
-            <p style="margin-top:8px"><small>As featured in travel planning communities. No account required; data stays in your browser.</small></p>
+            <p>{{content.introP}}</p>
+            <p style="margin-top:8px"><small>{{content.introSmall}}</small></p>
             </div>
         </div>
 
@@ -160,16 +156,16 @@
                             <!-- Compact Add Trip Form -->
                             <form id="trip-form" class="compact-form">
                                 <div class="form-group form-group-compact">
-                                    <label for="entry-date" class="form-label-compact">Entry Date</label>
+                                    <label for="entry-date" class="form-label-compact">{{ui.entryDateLabel}}</label>
                                     <input type="text" id="entry-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
                                 </div>
                                 
                                 <div class="form-group form-group-compact">
-                                    <label for="exit-date" class="form-label-compact">Exit Date</label>
+                                    <label for="exit-date" class="form-label-compact">{{ui.exitDateLabel}}</label>
                                     <input type="text" id="exit-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
                                 </div>
                                 
-                                <button type="submit" class="btn btn-compact">Add Trip</button>
+                                <button type="submit" class="btn btn-compact">{{ui.addTrip}}</button>
                             </form>
                         </div>
 
@@ -192,11 +188,11 @@
                     <!-- Info Sections - Under Calendar -->
                     <div class="info-sections-grid">
                         <div class="info-box-warning">
-                            <strong>⚠️ Warnings:</strong> Entry/exit days count • Depart by day 88-89 for safety • Penalties: fines/bans possible • Verify with EU calculator
+                            <strong>⚠️ {{content.warningsTitle}}</strong> {{content.warningsBody}}
                         </div>
 
                         <div class="info-box-resources">
-                            <strong>🔗 Resources:</strong> Official calculator: <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">EC Visa Calculator</a> • Planning tool only, not legally binding
+                            <strong>🔗 {{content.resourcesTitle}}</strong> {{content.resourcesBody}}
                         </div>
                     </div>
                 </div>
@@ -206,11 +202,11 @@
                     <div class="control-panel">
                         <div class="section-title">{{sections.planner}}</div>
                         <div class="form-group">
-                            <label for="stay-duration">How many days do you want to stay?</label>
+                            <label for="stay-duration">{{ui.stayDurationLabel}}</label>
                             <input type="number" id="stay-duration" min="1" max="90" value="30" class="input-spacing" aria-describedby="stay-duration-hint">
-                            <div class="date-input-hint hint-spacing" id="stay-duration-hint">1-90 days</div>
+                            <div class="date-input-hint hint-spacing" id="stay-duration-hint">{{ui.stayDurationHint}}</div>
                             <button class="btn btn-full-width" id="find-stay-btn">
-                                🔍 When can I stay for this long?
+                                🔍 {{ui.findStayCta}}
                             </button>
                             <div id="planning-result" class="planning-result-box">
                                 <!-- Planning results will appear here -->
@@ -218,11 +214,11 @@
                         </div>
                         
                         <div class="form-group form-group-separated">
-                            <label for="arrival-date">When do you intend to arrive?</label>
+                            <label for="arrival-date">{{ui.arrivalLabel}}</label>
                             <input type="text" id="arrival-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" class="input-spacing" aria-describedby="arrival-date-hint">
-                            <div class="date-input-hint hint-spacing" id="arrival-date-hint">dd/mm/yy</div>
+                            <div class="date-input-hint hint-spacing" id="arrival-date-hint">{{ui.arrivalHint}}</div>
                             <button class="btn btn-full-width" id="calculate-stay-btn">
-                                📅 How long can I stay from this date?
+                                📅 {{ui.howLongFromDateCta}}
                             </button>
                             <div id="arrival-planning-result" class="planning-result-box">
                                 <!-- Arrival planning results will appear here -->
@@ -233,27 +229,27 @@
                     <div class="control-panel">
                         <div class="section-title">{{sections.status}}</div>
                         <div class="status-item">
-                            <span>Days used:</span>
+                            <span>{{ui.daysUsed}}</span>
                             <span class="status-value" id="days-used">0</span>
                         </div>
                         <div class="status-item">
-                            <span>Days Remaining:</span>
+                            <span>{{ui.daysRemaining}}</span>
                             <span class="status-value" id="days-remaining">90</span>
                         </div>
                         <div class="status-item">
-                            <span>Next Safe Entry:</span>
+                            <span>{{ui.nextSafeEntry}}</span>
                             <span class="status-value" id="next-safe-entry">-</span>
                         </div>
                         <div class="status-item">
-                            <span>Violations:</span>
+                            <span>{{ui.violations}}</span>
                             <span class="status-value" id="violations">0</span>
                         </div>
                     </div>
 
                     <div class="control-panel control-panel-hidden" id="selection-info">
-                        <div class="section-title">🎯 Selection</div>
+                        <div class="section-title">🎯 {{ui.selectionHeading}}</div>
                         <div id="selection-details">
-                            Click on a date to start planning your trip!
+                            {{ui.selectionHint}}
                         </div>
                     </div>
 
@@ -262,7 +258,7 @@
                         <div id="trips-container">
                             <div class="empty-state">
                                 <div class="empty-state-icon">✈️</div>
-                                <p>No trips added yet.<br>Add your first trip above!</p>
+                                <p>{{ui.noTripsYet}}<br>{{ui.addFirstTrip}}</p>
                             </div>
                         </div>
                     </div>
@@ -273,36 +269,36 @@
         <!-- Additional SEO Content Sections -->
         <div class="seo-content-sections">
             <section class="content-section">
-                <h2>📊 Calculate Your Schengen 90/180-Day Allowance</h2>
-                <p>The Schengen Area operates under a strict <strong>90/180-day rule</strong> for short-stay visitors. This means you can stay up to 90 days within any rolling 180-day period. Our calculator automatically tracks your visa days remaining and alerts you to potential violations before they occur.</p>
+                <h2>📊 {{content.calcH2}}</h2>
+                <p>{{content.calcP}}</p>
             </section>
 
             <section class="content-section">
-                <h2>🎯 How to Use the Schengen Stay Calculator</h2>
+                <h2>🎯 {{content.howToH2}}</h2>
                 <div class="how-to-use">
                     <div class="step-list">
                         <div class="step-item">
-                            <strong>1. Select your entry and exit dates</strong> - Click on the calendar to add your travel dates, or use the quick form to enter dates manually.
+                            <strong>{{content.step1Title}}</strong> {{content.step1Body}}
                         </div>
                         <div class="step-item">
-                            <strong>2. Add multiple trips</strong> - Include all past visits and planned future trips to get accurate calculations for your Schengen visa allowance.
+                            <strong>{{content.step2Title}}</strong> {{content.step2Body}}
                         </div>
                         <div class="step-item">
-                            <strong>3. Monitor your status</strong> - The planner displays days used, days remaining, and your next safe entry date automatically.
+                            <strong>{{content.step3Title}}</strong> {{content.step3Body}}
                         </div>
                         <div class="step-item">
-                            <strong>4. Plan future stays</strong> - Use the planning tools to find the best dates for your upcoming European travels while staying compliant.
+                            <strong>{{content.step4Title}}</strong> {{content.step4Body}}
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="content-section">
-                <h2>📚 Understanding the Schengen 90/180-Day Rule</h2>
-                <p>The <strong>90/180-day rule</strong> is often misunderstood. The 180-day period "looks backward" from any given day to count your past stays in the Schengen Area. This rolling calculation means that every day, a new 180-day window begins, and you must ensure you haven't exceeded 90 days within that period.</p>
+                <h2>📚 {{content.ruleH2}}</h2>
+                <p>{{content.ruleP}}</p>
                 
                 <div class="rule-explanation">
-                    <h3>Key Points About the Schengen Short-Stay Rules:</h3>
+                    <h3>{{content.ruleKeyPointsH3}}</h3>
                     <ul>
                         <li><strong>Entry and exit days both count</strong> toward your 90-day allowance</li>
                         <li><strong>The 180-day period is rolling</strong>, not fixed calendar periods</li>
@@ -314,66 +310,66 @@
             </section>
 
             <section class="content-section">
-                <h2>❓ Frequently Asked Questions</h2>
+                <h2>❓ {{content.faqH2}}</h2>
                 <div class="faq-section">
                     <div class="faq-item">
                         <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span>What counts as a day in the Schengen Area?</span>
+                            <span>{{content.faq1Q}}</span>
                             <span class="faq-toggle">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Both your entry day and exit day count as full days, even if you arrive late or leave early. If you enter on Monday and leave on Friday, that counts as 5 days (Monday, Tuesday, Wednesday, Thursday, Friday).</p>
+                            <p>{{content.faq1A}}</p>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span>When does the 180-day clock start?</span>
+                            <span>{{content.faq2Q}}</span>
                             <span class="faq-toggle">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>There's no fixed start date. The 180-day period is a rolling window that moves every day. On any given day, you count back 180 days and check if you've stayed more than 90 days within that period.</p>
+                            <p>{{content.faq2A}}</p>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span>What happens if I overstay my Schengen visa allowance?</span>
+                            <span>{{content.faq3Q}}</span>
                             <span class="faq-toggle">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Overstaying can result in serious consequences including fines (up to €500+ in some countries), entry bans (1-10 years), deportation, and difficulties obtaining future visas. Always depart by day 88-89 for safety.</p>
+                            <p>{{content.faq3A}}</p>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span>Can I reset my 90 days by leaving for a day?</span>
+                            <span>{{content.faq4Q}}</span>
                             <span class="faq-toggle">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>No, you cannot reset your allowance by briefly leaving. You must wait until enough time has passed so that looking back 180 days, you have fewer than 90 days of stays recorded.</p>
+                            <p>{{content.faq4A}}</p>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <button class="faq-question" onclick="toggleFAQ(this)">
-                            <span>Do all Schengen countries follow the same rules?</span>
+                            <span>{{content.faq5Q}}</span>
                             <span class="faq-toggle">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Yes, the 90/180-day rule applies to the entire Schengen Area as one zone. This includes 27 countries sharing the same visa-free short-stay allowance. Some countries have bilateral agreements that may provide exceptions, but these are rare.</p>
+                            <p>{{content.faq5A}}</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="content-section">
-                <h2>⚠️ Important Disclaimers</h2>
+                <h2>⚠️ {{content.disclaimerH2}}</h2>
                 <div class="disclaimer-content">
-                    <p><strong>This Schengen visa calculator is for planning purposes only</strong> and is not legally binding. Always verify your calculations with the <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">official EU Commission calculator</a> and consult immigration authorities for complex situations.</p>
+                    <p>{{content.disclaimerP1}}</p>
                     
-                    <p><strong>Border control officers have final authority</strong> on entry decisions. While this tool helps you plan compliant stays, exceptional circumstances or officer discretion may affect your entry.</p>
+                    <p>{{content.disclaimerP2}}</p>
                 </div>
             </section>
         </div>
@@ -392,7 +388,7 @@
                 </span>
                 <span class="footer-divider">•</span>
                 <span class="footer-text">
-                    🔒 <a href="{{links.privacy}}" class="footer-link">Privacy Policy</a>
+                    🔒 <a href="{{links.privacy}}" class="footer-link">{{ui.privacyLink}}</a>
                 </span>
             </div>
             <div class="footer-disclaimer">
@@ -405,12 +401,12 @@
     <!-- Simple consent banner (interim, not a certified CMP) -->
     <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="Consent for ads" aria-modal="false">
         <div class="consent-content">
-            <p>We use Google AdSense to support this free tool. Accept to allow ads to load, or continue without ads. Consent choices only affect advertising cookies; core functionality is unaffected.</p>
+            <p>{{ui.consentBannerP}}</p>
             <div class="consent-actions">
-                <button id="consent-accept" class="btn">Accept</button>
-                <button id="consent-reject" class="btn btn-secondary">Continue without ads</button>
+                <button id="consent-accept" class="btn">{{ui.consentAccept}}</button>
+                <button id="consent-reject" class="btn btn-secondary">{{ui.consentReject}}</button>
             </div>
-            <small>See our <a href="{{links.privacy}}">Privacy Policy</a>.</small>
+            <small>{{ui.seeOur}} <a href="{{links.privacy}}">{{ui.privacyLink}}</a>.</small>
         </div>
     </div>
 
