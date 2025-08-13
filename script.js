@@ -86,20 +86,70 @@ let selectedEndDate = null;
 let selectionMode = false;
 let nextSafeEntryDate = null;
 
+// Stable trips signature for cache keys
+function tripsSignature(tripsArray) {
+    try {
+        return (tripsArray || [])
+            .map(t => `${t.entryDate}-${t.exitDate}`)
+            .sort()
+            .join('|');
+    } catch (e) {
+        return '';
+    }
+}
+
+// Merge overlapping and adjacent trips (date-based, inclusive)
+function mergeTripsByDay(tripsArray) {
+    const normalized = (tripsArray || [])
+        .map(t => ({ entry: parseISODateLocal(t.entryDate), exit: parseISODateLocal(t.exitDate) }))
+        .filter(x => x.entry && x.exit)
+        .sort((a, b) => a.entry - b.entry);
+
+    const merged = [];
+    for (const t of normalized) {
+        if (!merged.length) {
+            merged.push({ start: t.entry, end: t.exit });
+            continue;
+        }
+        const last = merged[merged.length - 1];
+        const lastEndPlusOne = new Date(last.end.getFullYear(), last.end.getMonth(), last.end.getDate() + 1);
+        if (t.entry <= lastEndPlusOne) {
+            // overlap or contiguous → merge
+            if (t.exit > last.end) last.end = t.exit;
+        } else {
+            merged.push({ start: t.entry, end: t.exit });
+        }
+    }
+    return merged;
+}
+
+// Two-digit year policy (configurable)
+let TWO_DIGIT_YEAR_WINDOW = 20;
+function setTwoDigitYearWindow(windowSize) {
+    const bounded = Math.max(0, Math.min(50, Number(windowSize)));
+    if (!Number.isNaN(bounded)) {
+        TWO_DIGIT_YEAR_WINDOW = bounded;
+    }
+}
+
 // Modern Schengen Calculation Engine - Extracted and modernized from reference
 class SchengenCalculationEngine {
-    constructor() {
+    constructor(options = {}) {
         this.SCHENGEN_START_DATE = new Date(2013, 3, 22); // April 22, 2013
         this.MAX_DAYS_IN_PERIOD = 90;
         this.PERIOD_LENGTH_DAYS = 180;
         this.cache = new Map();
         this.historyArrays = null; // Will contain daily history data
+        this.todayProvider = options.todayProvider || (() => getTodayLocal());
+    }
+    today() {
+        return this.todayProvider();
     }
 
     // Core function: Build daily history arrays for comprehensive calculation
     buildDailyHistory(trips, startDate = null, endDate = null) {
         if (!trips || trips.length === 0) {
-            const today = getTodayLocal();
+            const today = this.today();
             return { 
                 dailyPresence: [], 
                 cumulativeDays: [], 
@@ -116,7 +166,7 @@ class SchengenCalculationEngine {
         }).filter(date => date !== null);
         
         if (tripDates.length === 0) {
-            const today = getTodayLocal();
+            const today = this.today();
             return { 
                 dailyPresence: [], 
                 cumulativeDays: [], 
@@ -130,7 +180,7 @@ class SchengenCalculationEngine {
         
         // Extend range to include 180 days before and after for complete analysis
         const analysisStart = startDate || new Date(earliestTrip.getTime() - (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
-        const analysisEnd = endDate || new Date(Math.max(latestTrip.getTime(), getTodayLocal().getTime()) + (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
+        const analysisEnd = endDate || new Date(Math.max(latestTrip.getTime(), this.today().getTime()) + (this.PERIOD_LENGTH_DAYS * 24 * 60 * 60 * 1000));
         
         // Normalize start and end dates to midnight local time
         analysisStart.setHours(0, 0, 0, 0);
@@ -141,39 +191,30 @@ class SchengenCalculationEngine {
         // Initialize arrays
         const dailyPresence = new Array(totalDays).fill(0); // hist[] equivalent
         const cumulativeDays = new Array(totalDays).fill(0); // histdager[] equivalent
-        
-        // Fill daily presence array
-        trips.forEach(trip => {
-            const tripStart = this.parseDate(trip.entryDate);
-            const tripEnd = this.parseDate(trip.exitDate);
-            
-            if (!tripStart || !tripEnd) {
-                console.warn('Invalid trip dates:', trip);
-                return;
-            }
-            
-            // Create date iterator that doesn't depend on timezone
-            const currentDate = new Date(tripStart.getFullYear(), tripStart.getMonth(), tripStart.getDate());
-            const endDate = new Date(tripEnd.getFullYear(), tripEnd.getMonth(), tripEnd.getDate());
-            
-            while (currentDate <= endDate) {
-                const dayIndex = Math.floor((currentDate.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000));
+
+        // Merge trips to avoid redundant marking and large overlaps
+        const mergedTrips = mergeTripsByDay(trips);
+        mergedTrips.forEach(({ start, end }) => {
+            const currentDateIter = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+            const endDateIter = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+            while (currentDateIter <= endDateIter) {
+                const dayIndex = Math.floor((currentDateIter.getTime() - analysisStart.getTime()) / (24 * 60 * 60 * 1000));
                 if (dayIndex >= 0 && dayIndex < totalDays) {
                     dailyPresence[dayIndex] = 1;
                 }
-                // Move to next day safely
-                currentDate.setDate(currentDate.getDate() + 1);
+                currentDateIter.setDate(currentDateIter.getDate() + 1);
             }
         });
-        
-        // Calculate cumulative days in rolling 180-day window
+
+        // Calculate cumulative days in rolling 180-day window using a sliding window
+        let windowSum = 0;
+        let left = 0;
         for (let i = 0; i < totalDays; i++) {
-            let sum = 0;
-            const startOfWindow = Math.max(0, i - this.PERIOD_LENGTH_DAYS + 1);
-            for (let j = startOfWindow; j <= i; j++) {
-                sum += dailyPresence[j];
+            windowSum += dailyPresence[i];
+            if (i - left + 1 > this.PERIOD_LENGTH_DAYS) {
+                windowSum -= dailyPresence[left++];
             }
-            cumulativeDays[i] = sum;
+            cumulativeDays[i] = windowSum;
         }
         
         return {
@@ -188,7 +229,7 @@ class SchengenCalculationEngine {
     getDaysInPeriod(checkDate, trips = null) {
         const tripsToUse = trips || window.trips || [];
         const dateKey = this.dateToString(checkDate);
-        const cacheKey = `${dateKey}:${JSON.stringify(tripsToUse.map(t => `${t.entryDate}-${t.exitDate}`))}`;
+        const cacheKey = `${dateKey}:${tripsSignature(tripsToUse)}`;
         
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
@@ -279,7 +320,7 @@ class SchengenCalculationEngine {
         const tripsToUse = trips || window.trips || [];
         
         // Use timezone-safe starting date
-        const startFromDate = fromDate || getTodayLocal();
+        const startFromDate = fromDate || this.today();
         const checkDate = new Date(startFromDate.getFullYear(), startFromDate.getMonth(), startFromDate.getDate());
         checkDate.setDate(checkDate.getDate() + 1); // Start from next day
 
@@ -335,7 +376,7 @@ class SchengenCalculationEngine {
         const windows = [];
         
         // Use timezone-safe starting date
-        const startFromDate = fromDate || getTodayLocal();
+        const startFromDate = fromDate || this.today();
         const checkDate = new Date(startFromDate.getFullYear(), startFromDate.getMonth(), startFromDate.getDate());
         const maxCheckDate = new Date(checkDate.getTime() + (365 * 2 * 24 * 60 * 60 * 1000)); // 2 years ahead
 
@@ -904,20 +945,21 @@ function convertTwoDigitYear(twoDigitYear) {
     const currentYear = getTodayLocal().getFullYear();
     const currentCentury = Math.floor(currentYear / 100) * 100;
     const currentTwoDigit = currentYear % 100;
+    const windowSize = TWO_DIGIT_YEAR_WINDOW; // configurable window
     
-    // If the two-digit year is within 20 years of the current year (forward or backward),
+    // If the two-digit year is within window years of the current year (forward or backward),
     // assume it's in the current century
-    if (Math.abs(twoDigitYear - currentTwoDigit) <= 20) {
+    if (Math.abs(twoDigitYear - currentTwoDigit) <= windowSize) {
         return currentCentury + twoDigitYear;
     }
     
     // If the two-digit year is much larger than current, it's probably in the past century
-    if (twoDigitYear > currentTwoDigit + 20) {
+    if (twoDigitYear > currentTwoDigit + windowSize) {
         return currentCentury - 100 + twoDigitYear;
     }
     
     // If the two-digit year is much smaller than current, it's probably in the next century
-    if (twoDigitYear < currentTwoDigit - 20) {
+    if (twoDigitYear < currentTwoDigit - windowSize) {
         return currentCentury + 100 + twoDigitYear;
     }
     
