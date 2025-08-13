@@ -63,10 +63,10 @@
     <link rel="dns-prefetch" href="https://www.gstatic.com">
     <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://securepubads.g.doubleclick.net https://www.google.com https://www.gstatic.com;
-    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://securepubads.g.doubleclick.net https://adservice.google.com https://adservice.google.* https://*.doubleclick.net https://*.google.com https://www.gstatic.com https://www.google-analytics.com;
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://securepubads.g.doubleclick.net https://www.google.com https://www.gstatic.com https://fundingchoicesmessages.google.com;
+    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://securepubads.g.doubleclick.net https://adservice.google.com https://adservice.google.* https://*.doubleclick.net https://*.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googleadservices.com https://gadsapi.google.com;
     img-src 'self' data: https://*.googlesyndication.com https://tpc.googlesyndication.com https://*.g.doubleclick.net https://stats.g.doubleclick.net https://*.googleusercontent.com https://*.google.com;
-    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://www.googletagmanager.com;
+    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://www.googletagmanager.com https://fundingchoicesmessages.google.com;
     style-src 'self' 'unsafe-inline';
     frame-ancestors 'self';
     ">
@@ -97,6 +97,10 @@
     <link rel="alternate" hreflang="x-default" href="https://schengen-stay.com/">
     <link rel="preload" href="styles.css" as="style">
     <link rel="stylesheet" href="styles.css">
+    <!-- Funding Choices (Google-certified CMP) -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-2906753934728760?ers=1"></script>
+    <!-- AdSense (Auto ads). Safe to load with Consent Mode default-denied; CMP will update consent. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2906753934728760" crossorigin="anonymous"></script>
 </head>
 <body data-theme="dark">
     <!-- Google Tag Manager (noscript) -->

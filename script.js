@@ -642,8 +642,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up keyboard navigation
     setupKeyboardNavigation();
 
-    // Consent handling: show banner if no preference stored
-    setupConsentBanner();
+    // Consent handling: if Funding Choices (CMP) is present, do not show custom banner.
+    if (!window.FundingChoices) {
+        setupConsentBanner();
+    } else {
+        // If CMP exists, signal content readiness; CMP+Consent Mode will manage ads.
+        signalContentReady(false);
+    }
 });
 
 // Browser support detection
