@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – Schengen Visa Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+    <div class="container" style="max-width: 960px; margin: 0 auto; padding: 24px;">
+        <h1>Privacy Policy</h1>
+        <p>Last updated: <span id="pp-date"></span></p>
+
+        <h2>Overview</h2>
+        <p>This site provides a Schengen short-stay planning tool. We respect your privacy and aim to collect and store the minimum information necessary to operate the service.</p>
+
+        <h2>Local Storage</h2>
+        <p>Your trip data is stored locally in your browser using <code>localStorage</code> and is not sent to our servers. Clearing your browser storage will remove your saved trips.</p>
+
+        <h2>Cookies and Ads</h2>
+        <p>We use Google AdSense to display ads. Google and its partners may use cookies to serve ads based on your prior visits to this and/or other websites.</p>
+        <ul>
+            <li>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website.</li>
+            <li>Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site and/or other sites on the Internet.</li>
+            <li>Users may opt out of personalized advertising by visiting Google's Ads Settings: <a href="https://adssettings.google.com/" target="_blank" rel="noopener">https://adssettings.google.com/</a>.</li>
+        </ul>
+
+        <h2>Consent</h2>
+        <p>If you are located in the EEA/UK, a consent mechanism may be required before loading personalized ads. By using this site, you consent to the use of cookies as described above, or you can opt out via the Ads Settings link.</p>
+
+        <h2>Contact</h2>
+        <p>If you have any questions, contact: <a href="mailto:bradleyeneild@tfss.dev">bradleyeneild@tfss.dev</a>.</p>
+
+        <p><a href="index.html">← Back to Calculator</a></p>
+    </div>
+    <script>
+        document.getElementById('pp-date').textContent = new Date().toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'});
+    </script>
+</body>
+</html>
+
+

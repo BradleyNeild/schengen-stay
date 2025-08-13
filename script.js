@@ -600,6 +600,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up keyboard navigation
     setupKeyboardNavigation();
+
+    // Consent handling: show banner if no preference stored
+    setupConsentBanner();
 });
 
 // Browser support detection
@@ -633,6 +636,64 @@ function showUnsupportedBrowserMessage(unsupportedFeatures) {
         </div>
     `;
     document.body.innerHTML = message;
+}
+
+// Load AdSense script once, gated behind content readiness
+function initializeAdSenseOnce() {
+    if (window.__adsLoaded) return;
+    // Prevent loading in non-browser contexts or if GTM blocked
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+    // Dynamically inject AdSense (auto ads) after content is rendered
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2906753934728760';
+    s.crossOrigin = 'anonymous';
+    document.head.appendChild(s);
+    window.__adsLoaded = true;
+}
+
+// Basic consent banner (interim; for production in EEA/UK use a certified CMP)
+function setupConsentBanner() {
+    const banner = document.getElementById('consent-banner');
+    if (!banner) {
+        signalContentReady(false);
+        return;
+    }
+    const acceptBtn = document.getElementById('consent-accept');
+    const rejectBtn = document.getElementById('consent-reject');
+
+    const stored = localStorage.getItem('ads-consent');
+    if (stored === 'accepted') {
+        signalContentReady(true);
+        initializeAdSenseOnce();
+        return;
+    }
+    if (stored === 'rejected') {
+        signalContentReady(false);
+        return;
+    }
+    // Show banner for choice
+    banner.classList.add('visible');
+
+    acceptBtn && acceptBtn.addEventListener('click', function() {
+        localStorage.setItem('ads-consent', 'accepted');
+        banner.classList.remove('visible');
+        signalContentReady(true);
+        initializeAdSenseOnce();
+    });
+
+    rejectBtn && rejectBtn.addEventListener('click', function() {
+        localStorage.setItem('ads-consent', 'rejected');
+        banner.classList.remove('visible');
+        signalContentReady(false);
+    });
+}
+
+function signalContentReady(adsEnabled) {
+    try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'content_ready', adsEnabled: !!adsEnabled });
+    } catch (e) { /* no-op */ }
 }
 
 // Setup date input formatting and validation

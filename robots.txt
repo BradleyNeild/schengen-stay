@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow potential test or temporary files if ever created
+Disallow: /test/
+Disallow: /tmp/
+
+Sitemap: https://example.com/sitemap.xml
+

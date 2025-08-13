@@ -8,11 +8,17 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-T4NLRS4Q');</script>
     <!-- End Google Tag Manager -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2906753934728760"
-         crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google.com https://www.gstatic.com;
+    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://www.gstatic.com https://www.google-analytics.com;
+    img-src 'self' data: https://*.googlesyndication.com https://*.g.doubleclick.net https://*.googleusercontent.com https://www.google.com;
+    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://www.google.com https://www.googletagmanager.com;
+    style-src 'self' 'unsafe-inline';
+    frame-ancestors 'self';
+    ">
     <title>Schengen Visa Calculator – 90/180 Day Short-Stay Tracker & Planner</title>
     <meta name="description" content="Track your Schengen 90/180-day visa allowance with our interactive calculator. Avoid overstays and plan trips confidently – free Schengen short-stay tracker.">
     <meta name="keywords" content="Schengen visa calculator, 90/180 day rule, Schengen short stay, visa tracker, Europe visa planner, Schengen overstay, visa days remaining">
@@ -303,12 +309,28 @@
                 <span class="footer-text">
                     🌐 <a href="https://tfss.dev" target="_blank" rel="noopener noreferrer" class="footer-link">tfss.dev</a>
                 </span>
+                <span class="footer-divider">•</span>
+                <span class="footer-text">
+                    🔒 <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                </span>
             </div>
             <div class="footer-disclaimer">
                 <small>This tool is for planning purposes only and is not legally binding. Always verify with official EU sources.</small>
             </div>
         </div>
     </footer>
+
+    <!-- Simple consent banner (interim, not a certified CMP) -->
+    <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="Consent for ads" aria-modal="false">
+        <div class="consent-content">
+            <p>We use Google AdSense to support this free tool. Accept to allow ads to load, or continue without ads.</p>
+            <div class="consent-actions">
+                <button id="consent-accept" class="btn">Accept</button>
+                <button id="consent-reject" class="btn btn-secondary">Continue without ads</button>
+            </div>
+            <small>See our <a href="privacy.html">Privacy Policy</a>.</small>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
