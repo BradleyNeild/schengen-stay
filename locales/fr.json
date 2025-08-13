@@ -110,7 +110,15 @@
     "clickAnotherToComplete": "Cliquez sur une autre date pour terminer le voyage",
     "clickEarlierToComplete": "Cliquez sur une date antérieure pour terminer le voyage",
     "pastTrip": "📝 Voyage passé",
-    "futureTrip": "🔮 Voyage à venir"
+    "futureTrip": "🔮 Voyage à venir",
+    "over": "au‑delà",
+    "maxDaysUsedTooltip": "Jours max utilisés sur toute période de 180 jours",
+    "daysRemainingTooltip": "Jours restants :",
+    "preview": "Aperçu",
+    "daysAbbrev": "j",
+    "endingHere": "se terminant ici",
+    "startingHere": "commençant ici",
+    "max": "max"
   },
   "errors": {
     "errorLabel": "Erreur",
@@ -120,7 +128,13 @@
     "failedSaveAppState": "Échec de l’enregistrement de l’état de l’application. Vos modifications peuvent être perdues.",
     "unsupportedBrowserTitle": "Navigateur non pris en charge",
     "unsupportedBrowserP1": "Votre navigateur ne prend pas en charge certaines fonctions nécessaires à cette application :",
-    "unsupportedBrowserP2": "Veuillez mettre à jour votre navigateur ou utiliser Chrome, Firefox, Safari ou Edge."
+    "unsupportedBrowserP2": "Veuillez mettre à jour votre navigateur ou utiliser Chrome, Firefox, Safari ou Edge.",
+    "features": {
+      "localStorage": "Stockage local",
+      "cssGrid": "CSS Grid",
+      "customProperties": "Variables CSS",
+      "es6Features": "Fonctionnalités JavaScript modernes"
+    }
   },
   "dev": {
     "noTripsToAnalyze": "Aucun voyage à analyser. Ajoutez des voyages d’abord.",

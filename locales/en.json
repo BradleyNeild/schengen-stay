@@ -110,7 +110,15 @@
     "clickAnotherToComplete": "Click another date to complete trip",
     "clickEarlierToComplete": "Click earlier date to complete trip",
     "pastTrip": "📝 Past trip",
-    "futureTrip": "🔮 Future trip"
+    "futureTrip": "🔮 Future trip",
+    "over": "over",
+    "maxDaysUsedTooltip": "Max days used in any 180-day period",
+    "daysRemainingTooltip": "Days remaining:",
+    "preview": "Preview",
+    "daysAbbrev": "d",
+    "endingHere": "ending here",
+    "startingHere": "starting here",
+    "max": "max"
   },
   "errors": {
     "errorLabel": "Error",
@@ -120,7 +128,13 @@
     "failedSaveAppState": "Failed to save application state. Your changes may be lost.",
     "unsupportedBrowserTitle": "Unsupported Browser",
     "unsupportedBrowserP1": "Your browser doesn't support some features required by this application:",
-    "unsupportedBrowserP2": "Please update your browser or use a modern browser like Chrome, Firefox, Safari, or Edge."
+    "unsupportedBrowserP2": "Please update your browser or use a modern browser like Chrome, Firefox, Safari, or Edge.",
+    "features": {
+      "localStorage": "Local storage",
+      "cssGrid": "CSS Grid",
+      "customProperties": "CSS custom properties",
+      "es6Features": "Modern JavaScript features"
+    }
   },
   "dev": {
     "noTripsToAnalyze": "No trips to analyze. Add some trips first.",

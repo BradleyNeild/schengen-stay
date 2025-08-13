@@ -110,7 +110,15 @@
     "clickAnotherToComplete": "Klicken Sie auf ein weiteres Datum, um die Reise abzuschließen",
     "clickEarlierToComplete": "Klicken Sie auf ein früheres Datum, um die Reise abzuschließen",
     "pastTrip": "📝 Vergangene Reise",
-    "futureTrip": "🔮 Zukünftige Reise"
+    "futureTrip": "🔮 Zukünftige Reise",
+    "over": "über",
+    "maxDaysUsedTooltip": "Max. genutzte Tage in beliebigen 180 Tagen",
+    "daysRemainingTooltip": "Verbleibende Tage:",
+    "preview": "Vorschau",
+    "daysAbbrev": "T",
+    "endingHere": "endet hier",
+    "startingHere": "beginnt hier",
+    "max": "max"
   },
   "errors": {
     "errorLabel": "Fehler",
@@ -120,7 +128,13 @@
     "failedSaveAppState": "Speichern des Anwendungszustands fehlgeschlagen. Ihre Änderungen könnten verloren gehen.",
     "unsupportedBrowserTitle": "Nicht unterstützter Browser",
     "unsupportedBrowserP1": "Ihr Browser unterstützt einige für diese Anwendung erforderliche Funktionen nicht:",
-    "unsupportedBrowserP2": "Bitte aktualisieren Sie Ihren Browser oder verwenden Sie Chrome, Firefox, Safari oder Edge."
+    "unsupportedBrowserP2": "Bitte aktualisieren Sie Ihren Browser oder verwenden Sie Chrome, Firefox, Safari oder Edge.",
+    "features": {
+      "localStorage": "Lokaler Speicher",
+      "cssGrid": "CSS Grid",
+      "customProperties": "CSS-Custom-Properties",
+      "es6Features": "Moderne JavaScript-Funktionen"
+    }
   },
   "dev": {
     "noTripsToAnalyze": "Keine Reisen zum Analysieren. Fügen Sie zuerst Reisen hinzu.",

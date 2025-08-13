@@ -710,7 +710,7 @@ function showUnsupportedBrowserMessage(unsupportedFeatures) {
             <h2>🚫 ${t('errors.unsupportedBrowserTitle','Unsupported Browser')}</h2>
             <p>${t("errors.unsupportedBrowserP1","Your browser doesn't support some features required by this application:")}</p>
             <ul style="text-align: left; display: inline-block;">
-                ${unsupportedFeatures.map(feature => `<li>${feature}</li>`).join('')}
+                ${unsupportedFeatures.map(feature => `<li>${t('errors.features.' + feature, feature)}</li>`).join('')}
             </ul>
             <p><strong>${t('errors.unsupportedBrowserP2','Please update your browser or use a modern browser like Chrome, Firefox, Safari, or Edge.')}</strong></p>
         </div>
@@ -1610,8 +1610,8 @@ function updateStatus() {
     document.getElementById('days-remaining').textContent = daysRemaining;
     
     // Add concise tooltip to explain the calculation
-    document.getElementById('days-used').title = `Max days used in any 180-day period`;
-    document.getElementById('days-remaining').title = `Days remaining: ${daysRemaining}`;
+    document.getElementById('days-used').title = t('js.maxDaysUsedTooltip','Max days used in any 180-day period');
+    document.getElementById('days-remaining').title = `${t('js.daysRemainingTooltip','Days remaining:')} ${daysRemaining}`;
     
     // Update status value styling
     const daysUsedElement = document.getElementById('days-used');
@@ -2115,9 +2115,9 @@ function getBidirectionalPreviewStatus(date, anchorDate) {
     
     let baseText;
     if (direction === 'forward') {
-        baseText = `Preview ${tripDuration}d ending here`;
+        baseText = `${t('js.preview','Preview')} ${tripDuration}${t('js.daysAbbrev','d')} ${t('js.endingHere','ending here')}`;
     } else {
-        baseText = `Preview ${tripDuration}d starting here`;
+        baseText = `${t('js.preview','Preview')} ${tripDuration}${t('js.daysAbbrev','d')} ${t('js.startingHere','starting here')}`;
     }
     
     if (daysInPeriod > 90) {
@@ -2240,7 +2240,7 @@ function findNextAvailableStay() {
             additionalInfo = `<br><small>${t('js.nextOption','💡 Next option:')} ${formatDate(nextWindow.startDate)} (${travelWindows.length} ${t('js.totalOptions','total options')})</small>`;
         }
         
-        resultDiv.innerHTML = `<strong>${t('js.availableWithCheck','✅ Available:')}</strong> ${formatDate(firstWindow.startDate)} to ${formatDate(suggestedEndDate)} (${desiredDays} ${t('ui.daysUnit','days')})<br><small>${t('js.daysUsedBefore','Days used before trip:')} ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ ${t('js.addTrip','Add Trip')} (${desiredDays} ${t('ui.daysUnit','days')})</button>`;
+        resultDiv.innerHTML = `<strong>${t('js.availableWithCheck','✅ Available:')}</strong> ${formatDate(firstWindow.startDate)} ${t('js.to','to')} ${formatDate(suggestedEndDate)} (${desiredDays} ${t('ui.daysUnit','days')})<br><small>${t('js.daysUsedBefore','Days used before trip:')} ${firstWindow.daysUsedBefore}/90</small>${additionalInfo}<br><button class="btn planning-btn" data-start-date="${startDateStr}" data-end-date="${endDateStr}">✅ ${t('js.addTrip','Add Trip')} (${desiredDays} ${t('ui.daysUnit','days')})</button>`;
         
         // Add event listener to the newly created button
         const addTripBtn = resultDiv.querySelector('.btn');
@@ -2445,7 +2445,7 @@ function showRollingCalculation() {
     if (violations.length > 0) {
         output += `${t('js.violations','Violations:')} ${violations.length}\n`;
         violations.forEach((v, i) => {
-            output += `  ${i+1}: ${v.startDate.toISOString().split('T')[0]} to ${v.endDate.toISOString().split('T')[0]} (max ${v.maxDays} days)\n`;
+            output += `  ${i+1}: ${v.startDate.toISOString().split('T')[0]} ${t('js.to','to')} ${v.endDate.toISOString().split('T')[0]} (${t('js.max','max')} ${v.maxDays} ${t('ui.daysUnit','days')})\n`;
         });
     } else {
         output += `${t('js.violationsNone','Violations: None ✓')}\n`;
@@ -2583,7 +2583,7 @@ function toggleFAQ(button) {
 // Helper function to create concise tooltip text
 function createTooltipText(status, daysInPeriod, isViolation = false, daysOver = 0) {
     if (isViolation) {
-        return `⚠️ ${t('js.violations','Violations:')} ${daysInPeriod}/90 ${t('ui.daysUnit','days')} (${daysOver} over)`;
+        return `⚠️ ${t('js.violations','Violations:')} ${daysInPeriod}/90 ${t('ui.daysUnit','days')} (${daysOver} ${t('js.over','over')})`;
     }
     
     if (daysInPeriod !== undefined && daysInPeriod > 0) {
