@@ -270,13 +270,15 @@ body {
 }
 
 .lang-select {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border: var(--border-width) solid rgba(255, 255, 255, 0.3);
+    background: #ffffff;
+    color: #000000;
+    border: var(--border-width) solid rgba(0, 0, 0, 0.2);
     border-radius: var(--radius-md);
     padding: 6px 10px;
     font-size: 14px;
     cursor: pointer;
+    /* Prefer emoji-capable fonts for flag rendering */
+    font-family: system-ui, -apple-system, Segoe UI, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .lang-select:focus {
@@ -285,7 +287,15 @@ body {
 }
 
 [data-theme="dark"] .lang-select {
-    background: rgba(255, 255, 255, 0.15);
+    background: #ffffff;
+    color: #000000;
+    border: var(--border-width) solid rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure options also prefer emoji-capable fonts */
+.lang-select option {
+    font-family: system-ui, -apple-system, Segoe UI, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+    color: #000000;
 }
 
 @media (max-width: 768px) {
