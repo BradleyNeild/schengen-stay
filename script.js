@@ -659,6 +659,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up keyboard navigation
     setupKeyboardNavigation();
 
+    // Language switcher
+    const langSelect = document.getElementById('lang-select');
+    if (langSelect) {
+        langSelect.addEventListener('change', function() {
+            const target = this.value;
+            if (target && typeof target === 'string') {
+                window.location.href = target;
+            }
+        });
+    }
+
     // Consent handling: if Funding Choices (CMP) is present, do not show custom banner.
     if (!window.FundingChoices) {
         setupConsentBanner();

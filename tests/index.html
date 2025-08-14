@@ -1,0 +1,245 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Schengen Engine Tests</title>
+<pre id="out"></pre>
+<script src="../engine.js"></script>
+<script>
+const out = document.getElementById('out');
+const log = (m) => out.textContent += m + '\n';
+const { SchengenCalculationEngine, parseISODateLocal, dateToISOString, calculateStayDuration } = SchengenEngine;
+
+// Helpers
+const d = (s) => { const [y,m,dd]=s.split('-').map(Number); return new Date(y,m-1,dd); };
+function eq(name, a, b) { if (a !== b) throw new Error(`${name}: expected ${b}, got ${a}`); }
+function ok(name, cond) { if (!cond) throw new Error(`${name}: condition failed`); }
+
+let passed = 0, failed = 0;
+async function test(name, fn) {
+  try { await fn(); passed++; log(`✓ ${name}`); }
+  catch (e) { failed++; console.error(e); log(`✗ ${name} -> ${e.message}`); }
+}
+
+// Fixed today for determinism
+const engine = new SchengenCalculationEngine({ todayProvider: () => new Date(2024,0,1,12) });
+
+(async () => {
+  // No trips
+  await test('No trips returns 0', () => {
+    eq('no trips', engine.getDaysInPeriod(d('2024-05-01'), []), 0);
+  });
+
+  // Inclusive single-day
+  await test('Same-day trip counts as 1 day', () => {
+    const trips = [{ entryDate:'2024-03-10', exitDate:'2024-03-10' }];
+    eq('same-day', engine.getDaysInPeriod(d('2024-03-10'), trips), 1);
+  });
+
+  // Simple multi-day trip
+  await test('5-day trip counts correctly across entry..exit', () => {
+    const trips = [{ entryDate:'2024-04-01', exitDate:'2024-04-05' }];
+    eq('entry', engine.getDaysInPeriod(d('2024-04-01'), trips), 1);
+    eq('mid', engine.getDaysInPeriod(d('2024-04-03'), trips), 3);
+    eq('exit', engine.getDaysInPeriod(d('2024-04-05'), trips), 5);
+  });
+
+  // Back-to-back trips
+  await test('Back-to-back trips de-duplicate gap', () => {
+    const trips = [
+      { entryDate:'2024-03-01', exitDate:'2024-03-10' },
+      { entryDate:'2024-03-11', exitDate:'2024-03-20' }
+    ];
+    eq('end total', engine.getDaysInPeriod(d('2024-03-20'), trips), 20);
+  });
+
+  // Overlapping trips
+  await test('Overlapping trips do not double-count days', () => {
+    const trips = [
+      { entryDate:'2024-04-01', exitDate:'2024-04-10' },
+      { entryDate:'2024-04-05', exitDate:'2024-04-15' }
+    ];
+    eq('on 10th', engine.getDaysInPeriod(d('2024-04-10'), trips), 10);
+    eq('on 15th', engine.getDaysInPeriod(d('2024-04-15'), trips), 15);
+  });
+
+  // Contiguous trips should merge as continuous
+  await test('Contiguous (exit D, entry D+1) merges to continuous', () => {
+    const trips = [
+      { entryDate:'2024-05-01', exitDate:'2024-05-10' },
+      { entryDate:'2024-05-11', exitDate:'2024-05-20' }
+    ];
+    eq('on 20th', engine.getDaysInPeriod(d('2024-05-20'), trips), 20);
+  });
+
+  // Duplicate identical trips
+  await test('Duplicate identical trips still count each day once', () => {
+    const trips = [
+      { entryDate:'2024-06-01', exitDate:'2024-06-05' },
+      { entryDate:'2024-06-01', exitDate:'2024-06-05' }
+    ];
+    eq('on 5th', engine.getDaysInPeriod(d('2024-06-05'), trips), 5);
+  });
+
+  // Invalid reversed trip ignored
+  await test('Reversed trip (exit<entry) is ignored', () => {
+    const trips = [ { entryDate:'2024-07-10', exitDate:'2024-07-05' } ];
+    eq('ignored', engine.getDaysInPeriod(d('2024-07-08'), trips), 0);
+  });
+
+  // 91-day continuous stay triggers violation on day 91
+  await test('91-day continuous stay -> 91 on last day', () => {
+    const trips = [{ entryDate:'2024-01-01', exitDate:'2024-03-31' }];
+    eq('day 90', engine.getDaysInPeriod(d('2024-03-30'), trips), 90);
+    eq('day 91', engine.getDaysInPeriod(d('2024-03-31'), trips), 91);
+  });
+
+  // Very long stay (>180) saturates rolling window at 180
+  await test('Long stay saturates at 180 in the 180-day window', () => {
+    const trips = [{ entryDate:'2024-01-01', exitDate:'2024-08-01' }]; // > 180 days
+    ok('saturates', engine.getDaysInPeriod(d('2024-07-01'), trips) <= 180);
+  });
+
+  // Leap year coverage
+  await test('Leap year span across Feb 29 counts correctly', () => {
+    const trips = [{ entryDate:'2024-02-28', exitDate:'2024-03-01' }];
+    eq('leap span', engine.getDaysInPeriod(d('2024-03-01'), trips), 3);
+  });
+
+  // Non-leap year Feb edge
+  await test('Non-leap year Feb span counts correctly', () => {
+    const trips = [{ entryDate:'2023-02-27', exitDate:'2023-03-01' }];
+    eq('non-leap', engine.getDaysInPeriod(d('2023-03-01'), trips), 3);
+  });
+
+  // DST boundary single-day (robustness)
+  await test('DST boundary single-day remains 1 day', () => {
+    const trips = [{ entryDate:'2024-03-10', exitDate:'2024-03-10' }]; // US DST change
+    eq('dst single', engine.getDaysInPeriod(d('2024-03-10'), trips), 1);
+  });
+
+  // Rollover: after exit+180, usage drops to 0
+  await test('Rollover after exit+180 -> usage 0', () => {
+    const trips = [{ entryDate:'2024-01-01', exitDate:'2024-03-31' }];
+    const exit = d('2024-03-31');
+    const before = new Date(exit.getFullYear(), exit.getMonth(), exit.getDate() + 179);
+    const after = new Date(exit.getFullYear(), exit.getMonth(), exit.getDate() + 180);
+    ok('before>0', engine.getDaysInPeriod(before, trips) > 0);
+    eq('after=0', engine.getDaysInPeriod(after, trips), 0);
+  });
+
+  // Multiple blocks summing to >90 within 180 days
+  await test('Multiple trips sum to >90 within 180 days', () => {
+    const trips = [
+      { entryDate:'2024-01-01', exitDate:'2024-01-31' }, // 31
+      { entryDate:'2024-03-01', exitDate:'2024-03-31' }, // 31 -> 62
+      { entryDate:'2024-05-01', exitDate:'2024-06-01' }  // 32 -> 94
+    ];
+    ok('over 90 on June 1', engine.getDaysInPeriod(d('2024-06-01'), trips) > 90);
+  });
+
+  // Gapped trips maintain correct count
+  await test('Gapped trips maintain correct rolling counts', () => {
+    const trips = [
+      { entryDate:'2024-01-10', exitDate:'2024-01-20' }, // 11
+      { entryDate:'2024-03-10', exitDate:'2024-03-20' }  // 11 -> 22 by Mar 20
+    ];
+    eq('Mar 20 total 22', engine.getDaysInPeriod(d('2024-03-20'), trips), 22);
+  });
+
+  // Random small edges: first/last day of months
+  await test('Month boundaries are handled (inclusive)', () => {
+    const trips = [{ entryDate:'2024-04-30', exitDate:'2024-05-02' }]; // 3 days
+    eq('Apr 30', engine.getDaysInPeriod(d('2024-04-30'), trips), 1);
+    eq('May 01', engine.getDaysInPeriod(d('2024-05-01'), trips), 2);
+    eq('May 02', engine.getDaysInPeriod(d('2024-05-02'), trips), 3);
+  });
+
+  // calculateStayDuration sanity
+  await test('calculateStayDuration is inclusive and robust', () => {
+    eq('1 day', calculateStayDuration('2024-08-10', '2024-08-10'), 1);
+    eq('3 days', calculateStayDuration('2024-08-10', '2024-08-12'), 3);
+    eq('zero for reversed', calculateStayDuration('2024-08-12', '2024-08-10'), 0);
+  });
+
+  // Large combined scenario: rolling decrease post-180 (not zero until exit+180)
+  await test('Rolling window decreases over time before hitting zero at exit+180', () => {
+    const trips = [ { entryDate:'2024-01-01', exitDate:'2024-02-29' } ]; // 60 days (2024 leap Jan+Feb)
+    const checkStart = d('2024-03-30'); // includes all 60
+    const checkMid = d('2024-07-01');  // part of the trip still within 180-day window
+    const vStart = engine.getDaysInPeriod(checkStart, trips);
+    const vMid = engine.getDaysInPeriod(checkMid, trips);
+    eq('vStart=60', vStart, 60);
+    ok('vMid between 1 and 59', vMid > 0 && vMid < 60);
+  });
+
+  // Dense overlapping trips (stress merge)
+  await test('Dense overlaps still count each day once', () => {
+    const trips = [
+      { entryDate:'2024-09-01', exitDate:'2024-09-10' },
+      { entryDate:'2024-09-05', exitDate:'2024-09-15' },
+      { entryDate:'2024-09-08', exitDate:'2024-09-20' }
+    ];
+    eq('on Sep 20', engine.getDaysInPeriod(d('2024-09-20'), trips), 20);
+  });
+
+  // Many small trips spread out
+  await test('Many small trips within 180 accumulate correctly', () => {
+    const trips = [];
+    for (let i = 1; i <= 10; i++) { // 10 single-day trips
+      const day = String(i).padStart(2,'0');
+      trips.push({ entryDate:`2024-10-${day}`, exitDate:`2024-10-${day}` });
+    }
+    eq('by Oct 10 -> 10', engine.getDaysInPeriod(d('2024-10-10'), trips), 10);
+  });
+
+  // Trip that pushes exactly to 90
+  await test('Exactly 90 days is allowed (no violation)', () => {
+    const trips = [{ entryDate:'2024-01-01', exitDate:'2024-03-30' }]; // 90 days in 2024 (leap)
+    eq('exactly 90', engine.getDaysInPeriod(d('2024-03-30'), trips), 90);
+  });
+
+  // Trip spanning year boundary
+  await test('Year boundary inclusiveness', () => {
+    const trips = [{ entryDate:'2023-12-30', exitDate:'2024-01-02' }]; // 4 days
+    eq('Dec 31', engine.getDaysInPeriod(d('2023-12-31'), trips), 2);
+    eq('Jan 02', engine.getDaysInPeriod(d('2024-01-02'), trips), 4);
+  });
+
+  // Invalid dates in trips are skipped (parse returns null)
+  await test('Invalid trip dates are skipped safely', () => {
+    const trips = [ { entryDate:'2024-02-30', exitDate:'2024-03-02' } ]; // invalid Feb 30
+    eq('skip invalid', engine.getDaysInPeriod(d('2024-03-01'), trips), 0);
+  });
+
+  // Exact 180-day continuous stay caps at 180 on the last day
+  await test('180-day continuous stay caps at exactly 180', () => {
+    const trips = [{ entryDate:'2024-01-01', exitDate:'2024-06-28' }]; // 180 days in leap year 2024
+    eq('day 180', engine.getDaysInPeriod(d('2024-06-28'), trips), 180);
+  });
+
+  // parseISODateLocal invalid date returns null
+  await test('parseISODateLocal returns null on invalid date', () => {
+    const invalid = parseISODateLocal('2024-02-30');
+    eq('invalid parse', invalid, null);
+  });
+
+  // dateToISOString returns null for invalid Date
+  await test('dateToISOString returns null for invalid Date', () => {
+    const invalidDate = new Date('invalid');
+    eq('invalid toISO', dateToISOString(invalidDate), null);
+  });
+
+  // getDaysInPeriod outside analysis window (far before earliest trip) returns 0
+  await test('Dates far before earliest trip yield 0 usage', () => {
+    const trips = [{ entryDate:'2024-05-10', exitDate:'2024-05-20' }];
+    const farBefore = new Date(2023, 9, 1); // Oct 1, 2023 (< earliest - 180)
+    eq('far before', engine.getDaysInPeriod(farBefore, trips), 0);
+  });
+
+  // Summary
+  log('');
+  log(`All tests finished: ${passed} passed, ${failed} failed`);
+  if (failed === 0) log('All tests passed');
+})();
+</script>
+
+

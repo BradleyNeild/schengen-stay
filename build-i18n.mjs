@@ -7,17 +7,35 @@ const LOCALES_DIR = path.join(__dirname, 'locales');
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 const DIST_DIR = path.join(__dirname, 'dist');
 
-// Configure supported locales and their base paths
-const SUPPORTED = [
-  { code: 'en', baseUrl: 'https://schengen-stay.com/', pathPrefix: '/' },
-  { code: 'de', baseUrl: 'https://schengen-stay.com/de/', pathPrefix: '/de/' },
-  { code: 'fr', baseUrl: 'https://schengen-stay.com/fr/', pathPrefix: '/fr/' },
-  { code: 'ru', baseUrl: 'https://schengen-stay.com/ru/', pathPrefix: '/ru/' },
-  { code: 'zh', baseUrl: 'https://schengen-stay.com/zh/', pathPrefix: '/zh/' },
-  { code: 'hi', baseUrl: 'https://schengen-stay.com/hi/', pathPrefix: '/hi/' },
-  { code: 'tr', baseUrl: 'https://schengen-stay.com/tr/', pathPrefix: '/tr/' },
-  { code: 'ar', baseUrl: 'https://schengen-stay.com/ar/', pathPrefix: '/ar/' }
-];
+// Auto-discover supported locales from the locales directory
+function discoverLocales() {
+  const localeFiles = fs.existsSync(LOCALES_DIR)
+    ? fs.readdirSync(LOCALES_DIR).filter(f => f.endsWith('.json'))
+    : [];
+
+  const discovered = [];
+  for (const file of localeFiles) {
+    try {
+      const raw = readJson(path.join(LOCALES_DIR, file));
+      const fileBase = path.basename(file, '.json');
+      const code = (raw.lang || fileBase).replace('_', '-');
+      const canonical = raw?.head?.canonical
+        || (code === 'en' ? 'https://schengen-stay.com/' : `https://schengen-stay.com/${code}/`);
+      const pathPrefix = code === 'en' ? '/' : `/${code}/`;
+      discovered.push({ code, file, baseUrl: canonical, pathPrefix });
+    } catch (e) {
+      console.warn(`Failed to parse locale file ${file}:`, e?.message || e);
+    }
+  }
+
+  // Ensure 'en' is first, then sort remaining by code for stable output
+  discovered.sort((a, b) => {
+    if (a.code === 'en') return -1;
+    if (b.code === 'en') return 1;
+    return a.code.localeCompare(b.code);
+  });
+  return discovered;
+}
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -44,26 +62,39 @@ function render(template, data) {
   });
 }
 
-function buildHreflangLinks(currentCode) {
+function buildHreflangLinks(currentCode, supported) {
   const links = [];
   // x-default → root
   links.push(`<link rel="alternate" hreflang="x-default" href="https://schengen-stay.com/">`);
-  for (const l of SUPPORTED) {
+  for (const l of supported) {
     const href = l.baseUrl;
     links.push(`<link rel="alternate" hreflang="${l.code}" href="${href}">`);
   }
   return links.join('\n    ');
 }
 
-function buildLangSwitcher(currentCode) {
-  const nameMap = { en: 'EN', de: 'DE', fr: 'FR', ru: 'RU', zh: '中文', hi: 'हिंदी', tr: 'TR', ar: 'العربية' };
-  const links = SUPPORTED.map(l => {
+function buildLangSwitcher(currentCode, supported) {
+  const nameMap = {
+    en: 'English', de: 'Deutsch', fr: 'Français', es: 'Español', it: 'Italiano', nl: 'Nederlands', sv: 'Svenska', pl: 'Polski', fi: 'Suomi', bg: 'Български',
+    ru: 'Русский', uk: 'Українська', tr: 'Türkçe', ar: 'العربية', he: 'עברית', fa: 'فارسی', ur: 'اردو',
+    hi: 'हिन्दी', bn: 'বাংলা', th: 'ไทย', vi: 'Tiếng Việt', id: 'Bahasa Indonesia', ms: 'Bahasa Melayu', ja: '日本語', ko: '한국어',
+    zh: '中文(简体)', 'zh-TW': '中文(繁體)', pt: 'Português', 'pt-BR': 'Português (Brasil)', cs: 'Čeština', da: 'Dansk', el: 'Ελληνικά', et: 'Eesti',
+    hu: 'Magyar', is: 'Íslenska', lt: 'Lietuvių', lv: 'Latviešu', no: 'Norsk', ro: 'Română', sk: 'Slovenčina', sl: 'Slovenščina', sr: 'Српски', fil: 'Filipino'
+  };
+  const flagMap = {
+    en: '🇬🇧', de: '🇩🇪', fr: '🇫🇷', es: '🇪🇸', it: '🇮🇹', nl: '🇳🇱', sv: '🇸🇪', pl: '🇵🇱', fi: '🇫🇮', bg: '🇧🇬',
+    ru: '🇷🇺', uk: '🇺🇦', tr: '🇹🇷', ar: '🇸🇦', he: '🇮🇱', fa: '🇮🇷', ur: '🇵🇰',
+    hi: '🇮🇳', bn: '🇧🇩', th: '🇹🇭', vi: '🇻🇳', id: '🇮🇩', ms: '🇲🇾', ja: '🇯🇵', ko: '🇰🇷',
+    zh: '🇨🇳', 'zh-TW': '🇹🇼', pt: '🇵🇹', 'pt-BR': '🇧🇷', cs: '🇨🇿', da: '🇩🇰', el: '🇬🇷', et: '🇪🇪',
+    hu: '🇭🇺', is: '🇮🇸', lt: '🇱🇹', lv: '🇱🇻', no: '🇳🇴', ro: '🇷🇴', sk: '🇸🇰', sl: '🇸🇮', sr: '🇷🇸', fil: '🇵🇭'
+  };
+  const options = supported.map(l => {
     const href = l.code === 'en' ? '/' : `/${l.code}/`;
-    const label = nameMap[l.code] || l.code.toUpperCase();
-    const current = l.code === currentCode;
-    return `<a href="${href}"${current ? ' aria-current="true" class="active"' : ''}>${label}</a>`;
+    const label = `${flagMap[l.code] || '🌐'} ${nameMap[l.code] || l.code.toUpperCase()}`;
+    const selected = l.code === currentCode ? ' selected' : '';
+    return `<option value="${href}" data-lang="${l.code}"${selected}>${label}</option>`;
   });
-  return links.join(' <span class="lang-sep">·</span> ');
+  return `<label for="lang-select" class="sr-only">Language</label><select id="lang-select" class="lang-select">${options.join('')}</select>`;
 }
 
 function copyStatic() {
@@ -89,15 +120,38 @@ function copyStatic() {
   }
 }
 
-function writeSitemap() {
+function writeSitemap(supported) {
   const urls = [];
   const now = new Date().toISOString().slice(0,10);
-  for (const l of SUPPORTED) {
+  for (const l of supported) {
     urls.push({ loc: l.baseUrl, changefreq: 'weekly', priority: '1.0' });
     urls.push({ loc: new URL('privacy.html', l.baseUrl).toString(), changefreq: 'yearly', priority: '0.3' });
   }
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}\n</urlset>\n`;
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), xml, 'utf8');
+}
+
+// Append directory-style redirects for each locale to dist/_redirects
+function writeRedirects(supported) {
+  const redirectsPath = path.join(DIST_DIR, '_redirects');
+  try {
+    let existing = '';
+    if (fs.existsSync(redirectsPath)) {
+      existing = fs.readFileSync(redirectsPath, 'utf8');
+    }
+    const lines = [];
+    for (const l of supported) {
+      if (l.code === 'en') continue;
+      const line = `/${l.code}  /${l.code}/  301`;
+      if (!existing.includes(line)) lines.push(line);
+    }
+    if (lines.length > 0) {
+      const out = existing.trimEnd() + (existing ? '\n\n' : '') + '# Locale directory redirects (auto-generated)\n' + lines.join('\n') + '\n';
+      fs.writeFileSync(redirectsPath, out, 'utf8');
+    }
+  } catch (e) {
+    console.warn('Failed to write locale redirects:', e?.message || e);
+  }
 }
 
 function injectRuntimeI18n(html, localeData) {
@@ -108,11 +162,19 @@ function injectRuntimeI18n(html, localeData) {
 
 function build() {
   copyStatic();
+  const SUPPORTED = discoverLocales();
   const indexTemplate = readTemplate('index.html');
   const privacyTemplate = readTemplate('privacy.html');
 
+  // Ensure redirects include discovered locales
+  writeRedirects(SUPPORTED);
+
   for (const l of SUPPORTED) {
-    const localePath = path.join(LOCALES_DIR, `${l.code}.json`);
+    // Handle locale files where filename may differ from lang code (e.g., pt_BR.json → pt-BR)
+    const fileCandidate = fs.existsSync(path.join(LOCALES_DIR, `${l.code}.json`))
+      ? `${l.code}.json`
+      : fs.readdirSync(LOCALES_DIR).find(f => f.endsWith('.json') && (readJson(path.join(LOCALES_DIR, f)).lang || path.basename(f, '.json')).replace('_', '-') === l.code);
+    const localePath = path.join(LOCALES_DIR, fileCandidate || `${l.code}.json`);
     if (!fs.existsSync(localePath)) {
       console.warn(`Missing locale file: ${localePath}`);
       continue;
@@ -134,12 +196,12 @@ function build() {
       ui: data.ui || {},
       content: data.content || {},
       og: { locale: data['og.locale'] || 'en_US' },
-      'head.hreflangLinks': buildHreflangLinks(l.code),
+      'head.hreflangLinks': buildHreflangLinks(l.code, SUPPORTED),
       links: {
         home: l.code === 'en' ? '/' : `/${l.code}/`,
         privacy: l.code === 'en' ? '/privacy.html' : `/${l.code}/privacy.html`
       },
-      langSwitcher: buildLangSwitcher(l.code)
+      langSwitcher: buildLangSwitcher(l.code, SUPPORTED)
     };
 
     // Render index
@@ -153,7 +215,7 @@ function build() {
     fs.writeFileSync(path.join(outDir, 'privacy.html'), privacyHtml, 'utf8');
   }
 
-  writeSitemap();
+  writeSitemap(SUPPORTED);
 }
 
 build();

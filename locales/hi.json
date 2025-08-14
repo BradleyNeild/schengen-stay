@@ -106,7 +106,7 @@
     "now": "अब",
     "currentlyUsing": "वर्तमान उपयोग",
     "invalidTripDuration": "अमान्य यात्रा अवधि:",
-    "to": "से",
+      "to": "तक",
     "clickAnotherToComplete": "यात्रा पूर्ण करने के लिए दूसरी तिथि पर क्लिक करें",
     "clickEarlierToComplete": "यात्रा पूर्ण करने के लिए पहले की तिथि पर क्लिक करें",
     "pastTrip": "📝 पिछली यात्रा",
@@ -211,6 +211,7 @@
     "backToCalculator": "कैलकुलेटर पर वापस"
   }
 }
+
 
 
 

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+<head>
+    <!-- Google Consent Mode (default deny) must load before GTM -->
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+    });
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Schengen Stay",
+      "url": "https://schengen-stay.com/",
+      "logo": "https://schengen-stay.com/icons/icon-512.svg",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "bradleyeneild@tfss.dev"
+      }]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Schengen Stay",
+      "url": "https://schengen-stay.com/"
+    }
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T4NLRS4Q');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+    <meta name="google-adsense-account" content="ca-pub-2906753934728760">
+    <!-- Preconnect/DNS Prefetch for Google/Ads domains -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+    <link rel="preconnect" href="https://securepubads.g.doubleclick.net" crossorigin>
+    <link rel="preconnect" href="https://tpc.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://www.google.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net">
+    <link rel="dns-prefetch" href="https://securepubads.g.doubleclick.net">
+    <link rel="dns-prefetch" href="https://tpc.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.google.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://securepubads.g.doubleclick.net https://www.google.com https://www.gstatic.com https://fundingchoicesmessages.google.com;
+    connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://securepubads.g.doubleclick.net https://adservice.google.com https://adservice.google.* https://*.doubleclick.net https://*.google.com https://www.gstatic.com https://www.google-analytics.com https://www.googleadservices.com https://gadsapi.google.com;
+    img-src 'self' data: https://*.googlesyndication.com https://tpc.googlesyndication.com https://*.g.doubleclick.net https://stats.g.doubleclick.net https://*.googleusercontent.com https://*.google.com;
+    frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://www.googletagmanager.com https://fundingchoicesmessages.google.com;
+    style-src 'self' 'unsafe-inline';
+    frame-ancestors 'self';
+    ">
+    <title>셍겐 비자 계산기 – 90/180일 단기 체류 추적기 & 플래너</title>
+    <meta name="description" content="대화형 계산기로 셍겐 90/180일 허용 일수를 추적하세요. 오버스테이를 피하고 자신 있게 여행을 계획할 수 있는 무료 단기 체류 추적기.">
+    <meta name="keywords" content="셍겐 비자 계산기, 90/180일 규정, 셍겐 단기 체류, 비자 추적기, 유럽 여행 플래너, 셍겐 오버스테이, 남은 비자 일수">
+    <!-- Open Graph / Twitter Meta -->
+    <meta property="og:title" content="셍겐 비자 계산기 – 90/180일 플래너">
+    <meta property="og:description" content="90/180일 허용 일수를 추적하고 여행을 자신 있게 계획하세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://schengen-stay.com/ko/">
+    <meta property="og:site_name" content="Schengen Stay">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://schengen-stay.com/icons/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="https://schengen-stay.com/icons/og-image.svg">
+    <meta property="og:image:alt" content="셍겐 비자 계산기 – 90/180일 허용 일수 추적">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#1e3c72">
+    <link rel="apple-touch-icon" href="/icons/icon-192.svg">
+    <meta name="twitter:title" content="셍겐 비자 계산기 – 90/180일">
+    <meta name="twitter:description" content="셍겐 지역의 90/180일 허용 일수를 추적하세요.">
+    <link rel="canonical" href="https://schengen-stay.com/ko/">
+    
+    <link rel="preload" href="/styles.css" as="style">
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Funding Choices (Google-certified CMP) -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-2906753934728760?ers=1"></script>
+    <!-- AdSense (Auto ads). Safe to load with Consent Mode default-denied; CMP will update consent. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2906753934728760" crossorigin="anonymous"></script>
+  <script>window.LOCALE="ko";window.I18N={"lang":"ko","og.locale":"ko_KR","head":{"title":"셍겐 비자 계산기 – 90/180일 단기 체류 추적기 & 플래너","description":"대화형 계산기로 셍겐 90/180일 허용 일수를 추적하세요. 오버스테이를 피하고 자신 있게 여행을 계획할 수 있는 무료 단기 체류 추적기.","ogTitle":"셍겐 비자 계산기 – 90/180일 플래너","ogDescription":"90/180일 허용 일수를 추적하고 여행을 자신 있게 계획하세요.","twitterTitle":"셍겐 비자 계산기 – 90/180일","twitterDescription":"셍겐 지역의 90/180일 허용 일수를 추적하세요.","canonical":"https://schengen-stay.com/ko/","keywords":"셍겐 비자 계산기, 90/180일 규정, 셍겐 단기 체류, 비자 추적기, 유럽 여행 플래너, 셍겐 오버스테이, 남은 비자 일수","ogImageAlt":"셍겐 비자 계산기 – 90/180일 허용 일수 추적"},"home":{"h1":"🇪🇺 셍겐 단기 체류 플래너 & 계산기","tagline":"셍겐 국가 전반의 90/180일 준수 여부를 추적하세요."},"sections":{"calendar":"📆 달력","planner":"🎯 플래너","status":"📊 상태","trips":"✈️ 여행"},"ui":{"entryDateLabel":"입국일","exitDateLabel":"출국일","addTrip":"여행 추가","stayDurationLabel":"몇 일 동안 머물고 싶으신가요?","stayDurationHint":"1–90일","findStayCta":"그 기간 동안 언제 머물 수 있나요?","arrivalLabel":"도착 예정일은 언제인가요?","arrivalHint":"dd/mm/yy","howLongFromDateCta":"이 날짜부터 얼마나 머물 수 있나요?","daysUsed":"사용한 일수:","daysRemaining":"남은 일수:","nextSafeEntry":"다음 안전한 입국일:","violations":"위반:","noTripsYet":"아직 추가된 여행이 없습니다.","addFirstTrip":"위에서 첫 여행을 추가하세요!","themeLight":"라이트 모드","themeDark":"다크 모드","privacyLink":"개인정보 처리방침","developedBy":"제작","consentAriaLabel":"광고 동의","consentBannerP":"이 무료 도구를 지원하기 위해 Google AdSense를 사용합니다. 동의하면 광고가 로드되며, 광고 없이 계속할 수도 있습니다. 선택은 광고 쿠키에만 영향을 주며 핵심 기능에는 영향을 주지 않습니다.","consentAccept":"동의","consentReject":"광고 없이 계속","seeOur":"자세히 보기","modalTitle":"1일 여행을 생성할까요?","modalPrompt":"클릭함","modalRemove":"삭제","modalAddTrip":"여행 추가","selectionHeading":"선택","selectionHint":"날짜를 클릭해 여행 계획을 시작하세요!","daysUnit":"일","remove":"삭제","languageAriaLabel":"언어"},"js":{"available":"이용 가능:","availableWithCheck":"✅ 이용 가능:","notAvailable":"❌ 이용 불가","noAvailability":"향후 2년 내 요청하신 기간에 맞는 가용 기간을 찾지 못했습니다.","dateCalcError":"❌ 날짜 계산 오류입니다. 다시 시도하세요.","nextOption":"💡 다음 옵션:","daysUsedBefore":"여행 전 사용 일수:","addTrip":"여행 추가","pleaseEnterDays":"유효한 일수를 입력하세요 (1–90).","pleaseEnterArrival":"도착일을 입력하세요.","pleaseEnterValidDate":"dd/mm/yy 형식의 유효한 날짜를 입력하세요.","invalidDateFormat":"날짜 형식이 올바르지 않습니다. dd/mm/yy를 사용하세요.","invalidArrival":"도착일이 올바르지 않습니다. 입력값을 확인하세요.","cannotCalculatePast":"❌ 과거 1일을 초과하는 날짜에 대해서는 계산할 수 없습니다.","noAvailabilityOn":"❌ 가용 없음","daysPossible":"일 가능 (90/180 규정 위반)","today":"오늘","nextSafeEntry":"다음 안전한 입국일","rollover":"전환일 – 이전 여행은 계산에서 제외","outside":"셍겐 외부","entryDay":"입국일","exitDay":"출국일","selectedEntry":"선택한 입국일","selectedExit":"선택한 출국일","fixedStart":"시작 고정","fixedEnd":"종료 고정","entry":"입국:","exit":"출국:","maxStay":"최대 체류:","suggestedExit":"권장 출국일:","maxDaysBack":"최대 소급 일수:","suggestedEntry":"권장 입국일:","rollingCalc":"롤링 90/180일 계산","from":"시작:","trips":"여행:","summary":"요약:","violations":"위반:","violationsNone":"위반: 없음 ✓","unableToCalculate":"계산할 수 없음","noSafeEntryFound":"2년 이내에 안전한 입국일을 찾지 못했습니다","inSchengen":"셍겐 지역 내","selectedRange":"선택 범위","wouldUse":"사용 예정","availableShort":"가용","totalOptions":"총 옵션","now":"현재","currentlyUsing":"현재 사용 중","invalidTripDuration":"유효하지 않은 여행 기간:","to":"~","clickAnotherToComplete":"다른 날짜를 클릭해 여행을 완료하세요","clickEarlierToComplete":"더 이른 날짜를 클릭해 여행을 완료하세요","pastTrip":"📝 과거 여행","futureTrip":"🔮 예정된 여행","over":"초과","maxDaysUsedTooltip":"임의의 180일 기간 중 최대 사용 일수","daysRemainingTooltip":"남은 일수:","preview":"미리보기","daysAbbrev":"일","endingHere":"여기서 종료","startingHere":"여기서 시작","max":"최대"},"errors":{"errorLabel":"오류","failedLoadTrips":"저장된 여행을 불러오지 못했습니다. 빈 목록으로 시작합니다.","storageQuotaExceeded":"저장 한도를 초과했습니다. 데이터를 내보내고 일부 여행을 삭제하세요.","failedSaveTrips":"여행 저장에 실패했습니다. 변경 사항이 손실될 수 있습니다.","failedSaveAppState":"앱 상태 저장에 실패했습니다. 변경 사항이 손실될 수 있습니다.","unsupportedBrowserTitle":"지원되지 않는 브라우저","unsupportedBrowserP1":"이 애플리케이션에 필요한 일부 기능을 브라우저가 지원하지 않습니다:","unsupportedBrowserP2":"브라우저를 업데이트하거나 Chrome, Firefox, Safari 또는 Edge를 사용하세요.","features":{"localStorage":"로컬 스토리지","cssGrid":"CSS Grid","customProperties":"CSS 사용자 정의 속성","es6Features":"최신 JavaScript 기능"}},"dev":{"noTripsToAnalyze":"분석할 여행이 없습니다. 먼저 몇 개 추가하세요.","totalAnalysisDays":"총 분석 일수:","violation":"위반","warning":"경고","entry":"입국","exit":"출국","inTrip":"여행 중","analysisTruncated":"성능을 위해 분석은 1000일에서 잘립니다"},"content":{"warningsTitle":"경고:","warningsBody":"입국일/출국일 모두 계산됨 • 안전을 위해 88–89일에 출국 • 벌금/입국 금지 가능 • EU 계산기로 확인","resourcesTitle":"자료:","resourcesBody":"공식 계산기: <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EC 계산기</a> • 계획용 도구이며 법적 효력 없음","calcH2":"셍겐 90/180일 허용 일수 계산","calcP":"셍겐 지역은 단기 방문자에게 <strong>90/180일 규정</strong>을 적용합니다. 어떤 180일 기간에서도 최대 90일까지 체류할 수 있습니다. 우리 계산기는 남은 일수를 자동으로 추적하고, 위반 가능성을 미리 알려줍니다.","howToH2":"Schengen Stay 사용 방법","step1Title":"1. 입국일과 출국일 선택","step1Body":"- 달력을 클릭해 여행 날짜를 추가하거나, 양식에 직접 입력하세요.","step2Title":"2. 여러 여행 추가","step2Body":"- 과거 방문과 예정된 여행을 모두 포함해야 정확한 계산이 가능합니다.","step3Title":"3. 상태 모니터링","step3Body":"- 사용/잔여 일수와 다음 안전한 입국일이 자동 표시됩니다.","step4Title":"4. 향후 체류 계획","step4Body":"- 도구를 사용해 규정을 준수하면서 유럽 여행에 최적의 날짜를 찾으세요.","ruleH2":"90/180일 규정 이해하기","ruleP":"<strong>90/180일 규정</strong>은 종종 오해됩니다. 180일 기간은 임의의 날짜에서 과거를 ‘되돌아보며’ 이전 체류를 계산합니다. 매일 새로운 180일 창이 시작되며, 해당 창에서 90일을 넘지 않도록 해야 합니다.","ruleKeyPointsH3":"셍겐 단기 체류 규정의 핵심 사항:","ruleLi1":"<strong>입국일과 출국일 모두</strong> 90일 한도에 포함","ruleLi2":"<strong>180일 기간은 롤링</strong>이며, 고정된 달력 기간이 아님","ruleLi3":"<strong>모든 셍겐 국가가 동일한 한도</strong>를 공유 – 국가별 한도 아님","ruleLi4":"<strong>국제구역에서 벗어나지 않는 환승은</strong> 계산되지 않음","ruleLi5":"<strong>초과 체류는 벌금, 입국 금지, 추방</strong> 등의 결과를 초래할 수 있음","faq1Q":"셍겐 지역에서 하루는 어떻게 계산되나요?","faq1A":"입국일과 출국일은 둘 다 하루로 계산됩니다. 월요일 입국, 금요일 출국은 5일입니다.","faq2Q":"180일 카운트는 언제 시작되나요?","faq2A":"고정 시작일은 없습니다. 180일 창은 매일 이동합니다.","faq3Q":"체류 한도를 초과하면 어떻게 되나요?","faq3A":"일부 국가에서는 €500+의 벌금, 1–10년 입국 금지, 추방, 향후 비자 발급 문제 등 심각한 결과가 있을 수 있습니다. 안전을 위해 88–89일에 출국하세요.","faq4Q":"하루만 나갔다 오면 90일이 리셋되나요?","faq4A":"아니요. 짧게 나갔다 와도 리셋되지 않습니다. 과거 180일을 기준으로 90일 미만이 될 때까지 기다려야 합니다.","faq5Q":"모든 셍겐 국가가 같은 규정을 따르나요?","faq5A":"네. 90/180일 규정은 셍겐 전역에 적용됩니다. 드물게 양자협정 예외가 있을 수 있습니다.","faqH2":"자주 묻는 질문","disclaimerH2":"중요 고지","disclaimerP1":"<strong>이 셍겐 계산기는 계획 목적 전용</strong>이며 법적 효력이 아닙니다. 반드시 <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EU 집행위원회 공식 계산기</a>로 확인하고, 복잡한 상황은 출입국 당국에 문의하세요.","disclaimerP2":"<strong>입국 최종 결정 권한은</strong> 국경 관리관에게 있습니다. 본 도구는 준수 계획을 돕지만, 예외적 상황이나 재량에 따라 결과가 달라질 수 있습니다.","footerDisclaimer":"본 도구는 계획 목적이며 법적 효력이 없습니다. 항상 EU 공식 정보를 확인하세요.","introP":"셍겐 지역 방문자는 <strong>임의의 180일 기간 중 최대 90일</strong>까지 비자 없이 체류할 수 있습니다. 이 계산기는 사용/잔여 일수를 추적해 초과 체류와 제재를 피하도록 돕습니다.","introSmall":"여행 계획 커뮤니티에서 소개된 도구. 계정 불필요, 데이터는 브라우저에만 저장됩니다."},"privacy":{"title":"개인정보 처리방침 – 셍겐 비자 계산기","canonical":"https://schengen-stay.com/ko/privacy.html","description":"Schengen Stay 개인정보 처리방침 – 쿠키(AdSense), 로컬 저장소 사용 및 선택 사항.","h1":"개인정보 처리방침","lastUpdatedLabel":"마지막 업데이트:","overviewH2":"개요","overviewP":"본 사이트는 셍겐 단기 체류 계획 도구를 제공합니다. 우리는 이용자의 프라이버시를 존중하며 서비스 운영에 필요한 최소한의 정보만 수집하고자 합니다.","localStorageH2":"로컬 저장소","localStorageP":"여행 데이터는 브라우저의 localStorage에 저장되며 당사 서버로 전송되지 않습니다. 브라우저 저장소를 비우면 저장된 여행이 삭제됩니다.","cookiesH2":"쿠키와 광고","cookiesP1":"우리는 광고 표시를 위해 Google AdSense를 사용합니다. Google 및 파트너는 이 사이트 및/또는 다른 사이트 방문 기록에 기반한 광고 제공을 위해 쿠키와 로컬 저장소를 사용할 수 있습니다.","cookiesLi1":"Google을 포함한 제3자 공급자는 사용자의 이전 방문에 기반해 광고를 표시하기 위해 쿠키를 사용합니다.","cookiesLi2":"광고 쿠키 사용으로 Google과 파트너는 본 사이트 및/또는 다른 사이트 방문에 기반해 광고를 제공합니다.","cookiesLi3":"맞춤형 광고는 Google 광고 설정(https://adssettings.google.com/)에서 해제할 수 있습니다.","learnMoreP":"Google 서비스가 사용되는 사이트/앱의 정보 활용 방식: https://policies.google.com/technologies/partner-sites. Google 광고 정책: https://support.google.com/adsense/answer/1348695.","consentH2":"동의","consentP":"EEA/영국 거주자의 경우, Google 인증 CMP를 통해 동의를 수집하며, IAB Europe TCF 및 Google Consent Mode로 Google에 전달됩니다. 계산기 페이지의 동의 프롬프트나 위의 Google 광고 설정 링크에서 변경할 수 있습니다.","contactH2":"문의","contactP":"문의: bradleyeneild@tfss.dev","backToCalculator":"계산기로 돌아가기"}};</script>
+</head>
+  <body data-theme="dark">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4NLRS4Q"
+    height="0" width="0" style="display:none;visibility:hidden" title="GTM"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Modal for 1-day trip creation -->
+    <div class="modal-overlay" id="oneday-modal">
+        <div class="modal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-content">
+            <div class="modal-title" id="modal-title">
+                📅 1일 여행을 생성할까요?
+            </div>
+            <div class="modal-content" id="modal-content">
+                클릭함 <span class="modal-date" id="modal-date"></span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" id="cancel-btn">❌ 삭제</button>
+                <button class="modal-btn modal-btn-primary" id="confirm-btn">✅ 여행 추가</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+    <header class="header">
+            <button class="header-theme-toggle" id="theme-toggle">
+                <span id="theme-icon">🌙</span>
+                <span id="theme-text">라이트 모드</span>
+            </button>
+            <nav class="lang-switcher" aria-label="언어">
+                <label for="lang-select" class="sr-only">Language</label><select id="lang-select" class="lang-select"><option value="/" data-lang="en">🇬🇧 English</option><option value="/ar/" data-lang="ar">🇸🇦 العربية</option><option value="/bg/" data-lang="bg">🇧🇬 Български</option><option value="/bn/" data-lang="bn">🇧🇩 বাংলা</option><option value="/cs/" data-lang="cs">🇨🇿 Čeština</option><option value="/da/" data-lang="da">🇩🇰 Dansk</option><option value="/de/" data-lang="de">🇩🇪 Deutsch</option><option value="/el/" data-lang="el">🇬🇷 Ελληνικά</option><option value="/es/" data-lang="es">🇪🇸 Español</option><option value="/et/" data-lang="et">🇪🇪 Eesti</option><option value="/fa/" data-lang="fa">🇮🇷 فارسی</option><option value="/fi/" data-lang="fi">🇫🇮 Suomi</option><option value="/fil/" data-lang="fil">🇵🇭 Filipino</option><option value="/fr/" data-lang="fr">🇫🇷 Français</option><option value="/he/" data-lang="he">🇮🇱 עברית</option><option value="/hi/" data-lang="hi">🇮🇳 हिन्दी</option><option value="/hu/" data-lang="hu">🇭🇺 Magyar</option><option value="/id/" data-lang="id">🇮🇩 Bahasa Indonesia</option><option value="/is/" data-lang="is">🇮🇸 Íslenska</option><option value="/it/" data-lang="it">🇮🇹 Italiano</option><option value="/ja/" data-lang="ja">🇯🇵 日本語</option><option value="/ko/" data-lang="ko" selected>🇰🇷 한국어</option><option value="/lt/" data-lang="lt">🇱🇹 Lietuvių</option><option value="/lv/" data-lang="lv">🇱🇻 Latviešu</option><option value="/ms/" data-lang="ms">🇲🇾 Bahasa Melayu</option><option value="/nl/" data-lang="nl">🇳🇱 Nederlands</option><option value="/no/" data-lang="no">🇳🇴 Norsk</option><option value="/pl/" data-lang="pl">🇵🇱 Polski</option><option value="/pt/" data-lang="pt">🇵🇹 Português</option><option value="/pt-BR/" data-lang="pt-BR">🇧🇷 Português (Brasil)</option><option value="/ro/" data-lang="ro">🇷🇴 Română</option><option value="/ru/" data-lang="ru">🇷🇺 Русский</option><option value="/sk/" data-lang="sk">🇸🇰 Slovenčina</option><option value="/sl/" data-lang="sl">🇸🇮 Slovenščina</option><option value="/sr/" data-lang="sr">🇷🇸 Српски</option><option value="/sv/" data-lang="sv">🇸🇪 Svenska</option><option value="/th/" data-lang="th">🇹🇭 ไทย</option><option value="/tr/" data-lang="tr">🇹🇷 Türkçe</option><option value="/uk/" data-lang="uk">🇺🇦 Українська</option><option value="/ur/" data-lang="ur">🇵🇰 اردو</option><option value="/vi/" data-lang="vi">🇻🇳 Tiếng Việt</option><option value="/zh/" data-lang="zh">🇨🇳 中文(简体)</option><option value="/zh-TW/" data-lang="zh-TW">🇹🇼 中文(繁體)</option></select>
+            </nav>
+            <h1>🇪🇺 셍겐 단기 체류 플래너 & 계산기</h1>
+            <p>셍겐 국가 전반의 90/180일 준수 여부를 추적하세요.</p>
+        </header>
+
+        <!-- Introductory SEO Content -->
+        <div class="seo-content-section">
+            <div class="intro-content">
+            <p>셍겐 지역 방문자는 <strong>임의의 180일 기간 중 최대 90일</strong>까지 비자 없이 체류할 수 있습니다. 이 계산기는 사용/잔여 일수를 추적해 초과 체류와 제재를 피하도록 돕습니다.</p>
+            <p style="margin-top:8px"><small>여행 계획 커뮤니티에서 소개된 도구. 계정 불필요, 데이터는 브라우저에만 저장됩니다.</small></p>
+            </div>
+        </div>
+
+        <main id="main" class="main-content" role="main">
+            <!-- Main Layout Container -->
+            <div class="main-layout">
+                <!-- Calendar Section -->
+                <div class="calendar-section">
+                    <div class="calendar-container">
+                        <!-- Calendar Header with Add Trip Form -->
+                        <div class="calendar-header-container flex-between">
+                            <div class="section-title">📆 달력</div>
+                            
+                            <!-- Compact Add Trip Form -->
+                            <form id="trip-form" class="compact-form">
+                                <div class="form-group form-group-compact">
+                                    <label for="entry-date" class="form-label-compact">입국일</label>
+                                    <input type="text" id="entry-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                </div>
+                                
+                                <div class="form-group form-group-compact">
+                                    <label for="exit-date" class="form-label-compact">출국일</label>
+                                    <input type="text" id="exit-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" required class="form-input-compact">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-compact">여행 추가</button>
+                            </form>
+                        </div>
+
+                        <!-- Calendar with Side Navigation -->
+                        <div class="calendar-with-nav">
+                            <button class="nav-btn-side nav-btn-left" id="prev-btn">
+                                <span class="nav-btn-arrow">‹</span>
+                            </button>
+                            
+                            <div class="six-month-container six-month-spacing" id="six-month-container">
+                                <!-- Six months will be generated here -->
+                            </div>
+                            
+                            <button class="nav-btn-side nav-btn-right" id="next-btn">
+                                <span class="nav-btn-arrow">›</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Info Sections - Under Calendar -->
+                    <div class="info-sections-grid">
+                        <div class="info-box-warning">
+                            <strong>⚠️ 경고:</strong> 입국일/출국일 모두 계산됨 • 안전을 위해 88–89일에 출국 • 벌금/입국 금지 가능 • EU 계산기로 확인
+                        </div>
+
+                        <div class="info-box-resources">
+                            <strong>🔗 자료:</strong> 공식 계산기: <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">EC 계산기</a> • 계획용 도구이며 법적 효력 없음
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Controls -->
+                <div class="sidebar-controls">
+                    <div class="control-panel">
+                        <div class="section-title">🎯 플래너</div>
+                        <div class="form-group">
+                            <label for="stay-duration">몇 일 동안 머물고 싶으신가요?</label>
+                            <input type="number" id="stay-duration" min="1" max="90" value="30" class="input-spacing" aria-describedby="stay-duration-hint">
+                            <div class="date-input-hint hint-spacing" id="stay-duration-hint">1–90일</div>
+                            <button class="btn btn-full-width" id="find-stay-btn">
+                                🔍 그 기간 동안 언제 머물 수 있나요?
+                            </button>
+                            <div id="planning-result" class="planning-result-box">
+                                <!-- Planning results will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-group form-group-separated">
+                            <label for="arrival-date">도착 예정일은 언제인가요?</label>
+                            <input type="text" id="arrival-date" placeholder="dd/mm/yy" pattern="\d{2}/\d{2}/\d{2}" maxlength="8" class="input-spacing" aria-describedby="arrival-date-hint">
+                            <div class="date-input-hint hint-spacing" id="arrival-date-hint">dd/mm/yy</div>
+                            <button class="btn btn-full-width" id="calculate-stay-btn">
+                                📅 이 날짜부터 얼마나 머물 수 있나요?
+                            </button>
+                            <div id="arrival-planning-result" class="planning-result-box">
+                                <!-- Arrival planning results will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div class="section-title">📊 상태</div>
+                        <div class="status-item">
+                            <span>사용한 일수:</span>
+                            <span class="status-value" id="days-used">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span>남은 일수:</span>
+                            <span class="status-value" id="days-remaining">90</span>
+                        </div>
+                        <div class="status-item">
+                            <span>다음 안전한 입국일:</span>
+                            <span class="status-value" id="next-safe-entry">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span>위반:</span>
+                            <span class="status-value" id="violations">0</span>
+                        </div>
+                    </div>
+
+                    <div class="control-panel control-panel-hidden" id="selection-info">
+                        <div class="section-title">🎯 선택</div>
+                        <div id="selection-details">
+                            날짜를 클릭해 여행 계획을 시작하세요!
+                        </div>
+                    </div>
+
+                    <div class="control-panel">
+                        <div class="section-title">✈️ 여행</div>
+                        <div id="trips-container">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">✈️</div>
+                                <p>아직 추가된 여행이 없습니다.<br>위에서 첫 여행을 추가하세요!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Additional SEO Content Sections -->
+        <div class="seo-content-sections">
+            <section class="content-section">
+                <h2>📊 셍겐 90/180일 허용 일수 계산</h2>
+                <p>셍겐 지역은 단기 방문자에게 <strong>90/180일 규정</strong>을 적용합니다. 어떤 180일 기간에서도 최대 90일까지 체류할 수 있습니다. 우리 계산기는 남은 일수를 자동으로 추적하고, 위반 가능성을 미리 알려줍니다.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>🎯 Schengen Stay 사용 방법</h2>
+                <div class="how-to-use">
+                    <div class="step-list">
+                        <div class="step-item">
+                            <strong>1. 입국일과 출국일 선택</strong> - 달력을 클릭해 여행 날짜를 추가하거나, 양식에 직접 입력하세요.
+                        </div>
+                        <div class="step-item">
+                            <strong>2. 여러 여행 추가</strong> - 과거 방문과 예정된 여행을 모두 포함해야 정확한 계산이 가능합니다.
+                        </div>
+                        <div class="step-item">
+                            <strong>3. 상태 모니터링</strong> - 사용/잔여 일수와 다음 안전한 입국일이 자동 표시됩니다.
+                        </div>
+                        <div class="step-item">
+                            <strong>4. 향후 체류 계획</strong> - 도구를 사용해 규정을 준수하면서 유럽 여행에 최적의 날짜를 찾으세요.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>📚 90/180일 규정 이해하기</h2>
+                <p><strong>90/180일 규정</strong>은 종종 오해됩니다. 180일 기간은 임의의 날짜에서 과거를 ‘되돌아보며’ 이전 체류를 계산합니다. 매일 새로운 180일 창이 시작되며, 해당 창에서 90일을 넘지 않도록 해야 합니다.</p>
+                
+                <div class="rule-explanation">
+                    <h3>셍겐 단기 체류 규정의 핵심 사항:</h3>
+                    <ul>
+                        <li><strong>입국일과 출국일 모두</strong> 90일 한도에 포함</li>
+                        <li><strong>180일 기간은 롤링</strong>이며, 고정된 달력 기간이 아님</li>
+                        <li><strong>모든 셍겐 국가가 동일한 한도</strong>를 공유 – 국가별 한도 아님</li>
+                        <li><strong>국제구역에서 벗어나지 않는 환승은</strong> 계산되지 않음</li>
+                        <li><strong>초과 체류는 벌금, 입국 금지, 추방</strong> 등의 결과를 초래할 수 있음</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>❓ 자주 묻는 질문</h2>
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>셍겐 지역에서 하루는 어떻게 계산되나요?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>입국일과 출국일은 둘 다 하루로 계산됩니다. 월요일 입국, 금요일 출국은 5일입니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>180일 카운트는 언제 시작되나요?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>고정 시작일은 없습니다. 180일 창은 매일 이동합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>체류 한도를 초과하면 어떻게 되나요?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>일부 국가에서는 €500+의 벌금, 1–10년 입국 금지, 추방, 향후 비자 발급 문제 등 심각한 결과가 있을 수 있습니다. 안전을 위해 88–89일에 출국하세요.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>하루만 나갔다 오면 90일이 리셋되나요?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>아니요. 짧게 나갔다 와도 리셋되지 않습니다. 과거 180일을 기준으로 90일 미만이 될 때까지 기다려야 합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>모든 셍겐 국가가 같은 규정을 따르나요?</span>
+                            <span class="faq-toggle">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>네. 90/180일 규정은 셍겐 전역에 적용됩니다. 드물게 양자협정 예외가 있을 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>⚠️ 중요 고지</h2>
+                <div class="disclaimer-content">
+                    <p><strong>이 셍겐 계산기는 계획 목적 전용</strong>이며 법적 효력이 아닙니다. 반드시 <a href="https://ec.europa.eu/assets/home/visa-calculator/calculator.htm" target="_blank" rel="noopener noreferrer">EU 집행위원회 공식 계산기</a>로 확인하고, 복잡한 상황은 출입국 당국에 문의하세요.</p>
+                    
+                    <p><strong>입국 최종 결정 권한은</strong> 국경 관리관에게 있습니다. 본 도구는 준수 계획을 돕지만, 예외적 상황이나 재량에 따라 결과가 달라질 수 있습니다.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-contact">
+                <span class="footer-text">
+                    💻 제작 <a href="mailto:bradleyeneild@tfss.dev" class="footer-link">bradleyeneild@tfss.dev</a>
+                </span>
+                <span class="footer-divider">•</span>
+                <span class="footer-text">
+                    🌐 <a href="https://tfss.dev" target="_blank" rel="noopener noreferrer" class="footer-link">tfss.dev</a>
+                </span>
+                <span class="footer-divider">•</span>
+                <span class="footer-text">
+                    🔒 <a href="/ko/privacy.html" class="footer-link">개인정보 처리방침</a>
+                </span>
+            </div>
+            <div class="footer-disclaimer">
+                <small>본 도구는 계획 목적이며 법적 효력이 없습니다. 항상 EU 공식 정보를 확인하세요.</small>
+                <br>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple consent banner (interim, not a certified CMP) -->
+    <div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite" aria-label="광고 동의" aria-modal="false">
+        <div class="consent-content">
+            <p>이 무료 도구를 지원하기 위해 Google AdSense를 사용합니다. 동의하면 광고가 로드되며, 광고 없이 계속할 수도 있습니다. 선택은 광고 쿠키에만 영향을 주며 핵심 기능에는 영향을 주지 않습니다.</p>
+            <div class="consent-actions">
+                <button id="consent-accept" class="btn">동의</button>
+                <button id="consent-reject" class="btn btn-secondary">광고 없이 계속</button>
+            </div>
+            <small>자세히 보기 <a href="/ko/privacy.html">개인정보 처리방침</a>.</small>
+        </div>
+    </div>
+
+    <!-- Structured Data (left mostly static; can be localized in a later phase) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "🇪🇺 셍겐 단기 체류 플래너 & 계산기",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "description": "대화형 계산기로 셍겐 90/180일 허용 일수를 추적하세요. 오버스테이를 피하고 자신 있게 여행을 계획할 수 있는 무료 단기 체류 추적기.",
+      "url": "https://schengen-stay.com/ko/",
+      "softwareVersion": "1.0.0",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Schengen Stay",
+        "url": "https://schengen-stay.com/",
+        "logo": "https://schengen-stay.com/icons/icon-512.svg"
+      },
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "셍겐 지역에서 하루는 어떻게 계산되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "입국일과 출국일은 둘 다 하루로 계산됩니다. 월요일 입국, 금요일 출국은 5일입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "180일 카운트는 언제 시작되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "고정 시작일은 없습니다. 180일 창은 매일 이동합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "체류 한도를 초과하면 어떻게 되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "일부 국가에서는 €500+의 벌금, 1–10년 입국 금지, 추방, 향후 비자 발급 문제 등 심각한 결과가 있을 수 있습니다. 안전을 위해 88–89일에 출국하세요."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "하루만 나갔다 오면 90일이 리셋되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "아니요. 짧게 나갔다 와도 리셋되지 않습니다. 과거 180일을 기준으로 90일 미만이 될 때까지 기다려야 합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "모든 셍겐 국가가 같은 규정을 따르나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네. 90/180일 규정은 셍겐 전역에 적용됩니다. 드물게 양자협정 예외가 있을 수 있습니다."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Schengen Stay 사용 방법",
+      "description": "셍겐 지역은 단기 방문자에게 <strong>90/180일 규정</strong>을 적용합니다. 어떤 180일 기간에서도 최대 90일까지 체류할 수 있습니다. 우리 계산기는 남은 일수를 자동으로 추적하고, 위반 가능성을 미리 알려줍니다.",
+      "totalTime": "PT2M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "1. 입국일과 출국일 선택",
+          "text": "- 달력을 클릭해 여행 날짜를 추가하거나, 양식에 직접 입력하세요."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "2. 여러 여행 추가",
+          "text": "- 과거 방문과 예정된 여행을 모두 포함해야 정확한 계산이 가능합니다."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "3. 상태 모니터링",
+          "text": "- 사용/잔여 일수와 다음 안전한 입국일이 자동 표시됩니다."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "4. 향후 체류 계획",
+          "text": "- 도구를 사용해 규정을 준수하면서 유럽 여행에 최적의 날짜를 찾으세요."
+        }
+      ]
+    }
+    </script>
+    <script src="/script.js"></script>
+  </body>
+  </html>
+
+

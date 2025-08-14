@@ -1,5 +1,48 @@
 # Ensure directory-style URLs work
 /de  /de/  301
 /hi  /hi/  301
+/tr  /tr/  301
 
+/ar  /ar/  301
 
+/ru  /ru/  301
+
+/ur  /ur/  301
+
+# Locale directory redirects (auto-generated)
+/bg  /bg/  301
+/bn  /bn/  301
+/cs  /cs/  301
+/da  /da/  301
+/el  /el/  301
+/es  /es/  301
+/et  /et/  301
+/fa  /fa/  301
+/fi  /fi/  301
+/fil  /fil/  301
+/fr  /fr/  301
+/he  /he/  301
+/hu  /hu/  301
+/id  /id/  301
+/is  /is/  301
+/it  /it/  301
+/ja  /ja/  301
+/ko  /ko/  301
+/lt  /lt/  301
+/lv  /lv/  301
+/ms  /ms/  301
+/nl  /nl/  301
+/no  /no/  301
+/pl  /pl/  301
+/pt  /pt/  301
+/pt-BR  /pt-BR/  301
+/ro  /ro/  301
+/sk  /sk/  301
+/sl  /sl/  301
+/sr  /sr/  301
+/sv  /sv/  301
+/th  /th/  301
+/uk  /uk/  301
+/vi  /vi/  301
+/zh  /zh/  301
+/zh-TW  /zh-TW/  301

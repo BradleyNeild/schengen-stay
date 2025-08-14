@@ -118,7 +118,7 @@
     "daysAbbrev": "T",
     "endingHere": "endet hier",
     "startingHere": "beginnt hier",
-    "max": "max"
+    "max": "max."
   },
   "errors": {
     "errorLabel": "Fehler",
@@ -211,5 +211,3 @@
     "backToCalculator": "Zurück zum Rechner"
   }
 }
-
-
