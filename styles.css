@@ -236,6 +236,8 @@ body {
 .header h1 {
     font-size: 2.5em;
     margin-bottom: var(--space-md);
+    /* Prefer emoji-capable fonts for flags while leaving normal text unaffected */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Symbol';
 }
 
 .header p {
@@ -277,8 +279,8 @@ body {
     padding: 6px 10px;
     font-size: 14px;
     cursor: pointer;
-    /* Prefer emoji-capable fonts for flag rendering */
-    font-family: system-ui, -apple-system, Segoe UI, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+    /* Prefer emoji-capable fonts for flag rendering, without changing general text fonts */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Symbol';
 }
 
 .lang-select:focus {
@@ -294,7 +296,7 @@ body {
 
 /* Ensure options also prefer emoji-capable fonts */
 .lang-select option {
-    font-family: system-ui, -apple-system, Segoe UI, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Symbol';
     color: #000000;
 }
 
