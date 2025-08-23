@@ -152,24 +152,24 @@ All calendar states are now distinguishable through multiple visual cues beyond 
     --color-info: #17a2b8;           /* Bright cyan-blue */
     --color-info-bg: #055160;
     
-    /* Calendar day colors for dark mode - Colorblind accessible */
-    --cal-today: #9966cc;           /* Light purple */
-    --cal-today-bg: #3d2b4d;        /* Dark purple background */
-    --cal-in-schengen: #28a745;     /* Bright green */
-    --cal-entry-exit: #17a2b8;      /* Cyan-blue */
-    --cal-violation: #dc3545;       /* Bright red */
-    --cal-warning: #fd7e14;         /* Bright orange */
-    --cal-warning-text: #000000;    /* Black text */
-    --cal-outside: #adb5bd;         /* Light gray */
-    --cal-selected-range: #2a5298;  /* Dark blue */
+    /* Calendar day colors for dark mode - Darker tones for squares */
+    --cal-today: #7e4bb8;           /* Darker purple */
+    --cal-today-bg: #2f213c;        /* Darker purple bg */
+    --cal-in-schengen: #1f7a33;     /* Darker green */
+    --cal-entry-exit: #117787;      /* Darker cyan-blue */
+    --cal-violation: #b02a37;       /* Darker red */
+    --cal-warning: #c8640f;         /* Darker orange */
+    --cal-warning-text: #000000;    /* Keep black for contrast cues */
+    --cal-outside: #6c757d;         /* Darker gray */
+    --cal-selected-range: #1e3f7a;  /* Darker blue */
     --cal-selected-text: #ffffff;   /* White text */
-    --cal-preview-available: #1b5e20;
-    --cal-preview-available-past: #2e7d32;
-    --cal-preview-warning: #663c00;
-    --cal-rollover: #bb86fc;        /* Light purple for rollover dates */
-    --cal-rollover-bg: #4a2c6b;     /* Dark purple background */
-    --cal-next-safe-entry: #20c997; /* Bright green for next safe entry */
-    --cal-next-safe-entry-bg: #0d5c3c; /* Dark green background */
+    --cal-preview-available: #14481a;         /* Darker available */
+    --cal-preview-available-past: #245f29;    /* Darker available past */
+    --cal-preview-warning: #4d2600;           /* Darker warning bg */
+    --cal-rollover: #8a63d2;        /* Darker purple for rollover dates */
+    --cal-rollover-bg: #3a2354;     /* Darker purple background */
+    --cal-next-safe-entry: #199b78; /* Darker green for next safe entry */
+    --cal-next-safe-entry-bg: #0a4630; /* Darker green background */
     
     /* Link colors for dark mode */
     --color-link: #66b3ff;

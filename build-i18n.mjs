@@ -7,6 +7,54 @@ const LOCALES_DIR = path.join(__dirname, 'locales');
 const TEMPLATES_DIR = path.join(__dirname, 'templates');
 const DIST_DIR = path.join(__dirname, 'dist');
 
+// Simple, localized titles for each supported language
+// Ensures consistent, concise titles across all locales
+const SIMPLE_TITLES = {
+  'en': 'Schengen Stay - Simple Visa Planner',
+  'ar': 'Schengen Stay - مخطط تأشيرة بسيط',
+  'bg': 'Schengen Stay - Опростен планер за визи',
+  'bn': 'Schengen Stay - সহজ ভিসা পরিকল্পক',
+  'cs': 'Schengen Stay - Jednoduchý plánovač víz',
+  'da': 'Schengen Stay - Simpel visumplanlægger',
+  'de': 'Schengen Stay - Einfacher Visa-Planer',
+  'el': 'Schengen Stay - Απλό εργαλείο βίζας',
+  'es': 'Schengen Stay - Planificador de visado simple',
+  'et': 'Schengen Stay - Lihtne viisumiplaneerija',
+  'fa': 'Schengen Stay - برنامه‌ریز ساده ویزا',
+  'fi': 'Schengen Stay - Yksinkertainen viisumisuunnittelija',
+  'fil': 'Schengen Stay - Simpleng visa planner',
+  'fr': 'Schengen Stay - Planificateur de visa simple',
+  'he': 'Schengen Stay - מתכנן ויזה פשוט',
+  'hi': 'Schengen Stay - सरल वीज़ा प्लानर',
+  'hu': 'Schengen Stay - Egyszerű vízumtervező',
+  'id': 'Schengen Stay - Perencana visa sederhana',
+  'is': 'Schengen Stay - Einfalt áritunaráætlun',
+  'it': 'Schengen Stay - Pianificatore di visto semplice',
+  'ja': 'Schengen Stay - かんたんビザプランナー',
+  'ko': 'Schengen Stay - 간단한 비자 플래너',
+  'lt': 'Schengen Stay - Paprastas vizų planuoklis',
+  'lv': 'Schengen Stay - Vienkāršs vīzas plānotājs',
+  'ms': 'Schengen Stay - Perancang visa ringkas',
+  'nl': 'Schengen Stay - Eenvoudige visumplanner',
+  'no': 'Schengen Stay - Enkel visumplanlegger',
+  'pl': 'Schengen Stay - Prosty planer wizowy',
+  'pt': 'Schengen Stay - Planeador de visto simples',
+  'pt-BR': 'Schengen Stay - Planejador de visto simples',
+  'ro': 'Schengen Stay - Planificator de viză simplu',
+  'ru': 'Schengen Stay - Простой планировщик виз',
+  'sk': 'Schengen Stay - Jednoduchý plánovač víz',
+  'sl': 'Schengen Stay - Preprost načrtovalnik vizumov',
+  'sr': 'Schengen Stay - Jednostavan planer viza',
+  'sv': 'Schengen Stay - Enkel visumplanerare',
+  'th': 'Schengen Stay - ตัววางแผนวีซ่าแบบง่าย',
+  'tr': 'Schengen Stay - Basit vize planlayıcı',
+  'uk': 'Schengen Stay - Простий планувальник віз',
+  'ur': 'Schengen Stay - سادہ ویزا پلانر',
+  'vi': 'Schengen Stay - Trình lập kế hoạch visa đơn giản',
+  'zh': 'Schengen Stay - 简单的签证规划器',
+  'zh-TW': 'Schengen Stay - 簡單的簽證規劃器'
+};
+
 // Auto-discover supported locales from the locales directory
 function discoverLocales() {
   const localeFiles = fs.existsSync(LOCALES_DIR)
@@ -181,6 +229,12 @@ function build() {
     }
     const data = readJson(localePath);
 
+    // Compute simple, localized title for this locale
+    const codeKey = l.code;
+    const langKey = (data.lang || '').replace('_', '-');
+    const simpleTitle = SIMPLE_TITLES[codeKey] || SIMPLE_TITLES[langKey] || SIMPLE_TITLES.en;
+    const head = { ...(data.head || {}), title: simpleTitle, ogTitle: simpleTitle, twitterTitle: simpleTitle };
+
     const outDir = path.join(DIST_DIR, l.code === 'en' ? '.' : l.code);
     ensureDir(outDir);
 
@@ -189,7 +243,7 @@ function build() {
     const model = {
       lang: data.lang || l.code,
       dir: data.dir || (rtlLangs.has(l.code) ? 'rtl' : 'ltr'),
-      head: data.head || {},
+      head,
       home: data.home || {},
       sections: data.sections || {},
       privacy: data.privacy || {},
