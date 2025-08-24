@@ -55,7 +55,9 @@
     "selectionHint": "Click on a date to start planning your trip!",
     "daysUnit": "days",
     "remove": "Remove",
-    "languageAriaLabel": "Language"
+    "languageAriaLabel": "Language",
+    "kofiCta": "Buy me a coffee",
+    "kofiAriaLabel": "Buy me a coffee on Ko‑fi"
   },
   "js": {
     "available": "Available:",
@@ -179,7 +181,7 @@
     "faq4Q": "Can I reset my 90 days by leaving for a day?",
     "faq4A": "No, you cannot reset your allowance by briefly leaving. You must wait until enough time has passed so that looking back 180 days, you have fewer than 90 days of stays recorded.",
     "faq5Q": "Do all Schengen countries follow the same rules?",
-    "faq5A": "Yes, the 90/180-day rule applies to the entire Schengen Area as one zone. This includes 27 countries sharing the same visa-free short-stay allowance. Some countries have bilateral agreements that may provide exceptions, but these are rare.",
+    "faq5A": "Yes, the 90/180-day rule applies to the entire Schengen Area as one zone.",
     "faqH2": "Frequently Asked Questions",
     "disclaimerH2": "Important Disclaimers",
     "disclaimerP1": "<strong>This Schengen visa calculator is for planning purposes only</strong> and is not legally binding. Always verify your calculations with the <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">official EU Commission calculator</a> and consult immigration authorities for complex situations.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Back to Calculator"
   }
 }
-
-

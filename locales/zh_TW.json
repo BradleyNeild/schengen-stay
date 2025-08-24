@@ -55,7 +55,9 @@
     "selectionHint": "點擊日期開始規劃您的旅程！",
     "daysUnit": "天",
     "remove": "移除",
-    "languageAriaLabel": "語言"
+    "languageAriaLabel": "語言",
+    "kofiCta": "請我喝杯咖啡",
+    "kofiAriaLabel": "在 Ko‑fi 上支持我"
   },
   "js": {
     "available": "可用：",
@@ -179,7 +181,7 @@
     "faq4Q": "短暫離境能重置 90 天嗎？",
     "faq4A": "不能。短暫離境不會重置額度。需等待足夠時間，使 180 天回看時累計低於 90 天。",
     "faq5Q": "申根各國是否遵循相同規則？",
-    "faq5A": "是的，90/180 規則適用於整個申根區。亦有少數雙邊協議例外。",
+    "faq5A": "是的，90/180 規則適用於整個申根區。",
     "faqH2": "常見問題",
     "disclaimerH2": "重要聲明",
     "disclaimerP1": "<strong>本計算器僅供規劃用途</strong>，不具法律效力。請使用<a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">歐盟委員會官方計算器</a>核對，並於複雜情況下諮詢移民機關。",
@@ -211,5 +213,3 @@
     "backToCalculator": "返回計算器"
   }
 }
-
-

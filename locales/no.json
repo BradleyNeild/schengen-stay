@@ -55,7 +55,9 @@
     "selectionHint": "Klikk en dato for å begynne å planlegge reisen!",
     "daysUnit": "dager",
     "remove": "Fjern",
-    "languageAriaLabel": "Språk"
+    "languageAriaLabel": "Språk",
+    "kofiCta": "Sprett en kopp kaffe til meg",
+    "kofiAriaLabel": "Støtt meg på Ko‑fi"
   },
   "js": {
     "available": "Tilgjengelig:",
@@ -179,7 +181,7 @@
     "faq4Q": "Kan jeg ‘nullstille’ 90 dager ved å reise ut én dag?",
     "faq4A": "Nei. Et kort opphold utenfor nullstiller ikke kvoten. Du må vente til du, ved å se 180 dager tilbake, har under 90 oppholdsdager registrert.",
     "faq5Q": "Følger alle Schengen‑land de samme reglene?",
-    "faq5A": "Ja, 90/180‑regelen gjelder hele Schengen‑området. Det finnes sjeldne bilaterale unntak.",
+    "faq5A": "Ja, 90/180‑regelen gjelder hele Schengen‑området.",
     "faqH2": "Ofte stilte spørsmål",
     "disclaimerH2": "Viktige forbehold",
     "disclaimerP1": "<strong>Denne kalkulatoren er kun for planlegging</strong> og er ikke juridisk bindende. Bekreft alltid med <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EUs offisielle kalkulator</a> og rådfør deg med utlendingsmyndigheter ved komplekse tilfeller.",

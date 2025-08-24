@@ -55,7 +55,9 @@
     "selectionHint": "Seyahatinizi planlamak için bir tarihe tıklayın!",
     "daysUnit": "gün",
     "remove": "Kaldır",
-    "languageAriaLabel": "Dil"
+    "languageAriaLabel": "Dil",
+    "kofiCta": "Bana bir kahve ısmarla",
+    "kofiAriaLabel": "Ko‑fi üzerinden destekle"
   },
   "js": {
     "available": "Uygun:",
@@ -179,7 +181,7 @@
     "faq4Q": "Bir günlüğüne çıkmak 90 günü sıfırlar mı?",
     "faq4A": "Hayır. Kısa süreli çıkış hakkı sıfırlamaz. 180 güne geriye bakıldığında toplamın 90 günden az olması için yeterince gün geçmesini beklemelisiniz.",
     "faq5Q": "Tüm Schengen ülkeleri aynı kuralları mı uygular?",
-    "faq5A": "Evet, 90/180 kuralı tüm Schengen bölgesi için geçerlidir. İstisnai ikili anlaşmalar nadirdir.",
+    "faq5A": "Evet, 90/180 kuralı tüm Schengen bölgesi için geçerlidir.",
     "faqH2": "Sık Sorulan Sorular",
     "disclaimerH2": "Önemli Uyarılar",
     "disclaimerP1": "<strong>Bu Schengen vize hesaplayıcı yalnızca planlama içindir</strong> ve yasal bağlayıcılığı yoktur. Hesaplarınızı <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">resmi AB Komisyonu hesaplayıcısı</a> ile doğrulayın ve karmaşık durumlarda yetkililere danışın.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Hesaplayıcıya geri dön"
   }
 }
-
-

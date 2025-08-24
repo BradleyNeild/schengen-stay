@@ -55,7 +55,9 @@
     "selectionHint": "Kattintson egy dátumra az utazás tervezésének megkezdéséhez!",
     "daysUnit": "nap",
     "remove": "Eltávolítás",
-    "languageAriaLabel": "Nyelv"
+    "languageAriaLabel": "Nyelv",
+    "kofiCta": "Hívj meg egy kávéra",
+    "kofiAriaLabel": "Támogass a Ko‑fi‑n"
   },
   "js": {
     "available": "Elérhető:",
@@ -179,7 +181,7 @@
     "faq4Q": "‘Visszaállíthatom’ a 90 napot, ha kimegyek egy napra?",
     "faq4A": "Nem. A rövid kilépés nem állítja vissza a limitet. Várjon, amíg 180 napra visszatekintve 90 napnál kevesebb tartózkodás látszik.",
     "faq5Q": "Minden schengeni ország ugyanazokat a szabályokat követi?",
-    "faq5A": "Igen, a 90/180 szabály az egész Schengen‑övezetre érvényes. Vannak ritka kétoldalú kivételek.",
+    "faq5A": "Igen, a 90/180 szabály az egész Schengen‑övezetre érvényes.",
     "faqH2": "Gyakori kérdések",
     "disclaimerH2": "Fontos nyilatkozatok",
     "disclaimerP1": "<strong>Ez a kalkulátor csak tervezési célokat szolgál</strong>, jogilag nem kötelező érvényű. Mindig ellenőrizze a <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">Európai Bizottság hivatalos kalkulátorával</a>, és kérdezze meg a bevándorlási hatóságokat összetett esetekben.",

@@ -55,7 +55,9 @@
     "selectionHint": "আপনার ভ্রমণ পরিকল্পনা শুরু করতে একটি তারিখে ক্লিক করুন!",
     "daysUnit": "দিন",
     "remove": "মুছুন",
-    "languageAriaLabel": "ভাষা"
+    "languageAriaLabel": "ভাষা",
+    "kofiCta": "আমাকে কফি খাওয়ান",
+    "kofiAriaLabel": "Ko‑fi এ সমর্থন করুন"
   },
   "js": {
     "available": "উপলব্ধ:",
@@ -106,7 +108,7 @@
     "now": "এখন",
     "currentlyUsing": "বর্তমানে ব্যবহার করছে",
     "invalidTripDuration": "অবৈধ ভ্রমণ সময়কাল:",
-      "to": "পর্যন্ত",
+    "to": "পর্যন্ত",
     "clickAnotherToComplete": "ভ্রমণ সম্পূর্ণ করতে আরেকটি তারিখে ক্লিক করুন",
     "clickEarlierToComplete": "সম্পূর্ণ করতে আগের একটি তারিখে ক্লিক করুন",
     "pastTrip": "📝 অতীতের ভ্রমণ",
@@ -211,5 +213,3 @@
     "backToCalculator": "ক্যালকুলেটরে ফিরে যান"
   }
 }
-
-

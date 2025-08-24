@@ -55,7 +55,9 @@
     "selectionHint": "Mag‑click sa isang petsa upang simulan ang pagpaplano ng biyahe!",
     "daysUnit": "araw",
     "remove": "Alisin",
-    "languageAriaLabel": "Wika"
+    "languageAriaLabel": "Wika",
+    "kofiCta": "Bili mo ako ng kape",
+    "kofiAriaLabel": "Suportahan ako sa Ko‑fi"
   },
   "js": {
     "available": "Magagamit:",
@@ -118,7 +120,7 @@
     "daysAbbrev": "a",
     "endingHere": "magtatapos dito",
     "startingHere": "magsisimula dito",
-      "max": "max."
+    "max": "max."
   },
   "errors": {
     "errorLabel": "Error",
@@ -179,7 +181,7 @@
     "faq4Q": "Mare‑reset ko ba ang 90 araw kung lalabas ako nang isang araw?",
     "faq4A": "Hindi. Hindi nare‑reset ng panandaliang paglabas ang limit. Dapat maghintay hanggang, kapag tumingin pabalik ng 180 araw, mas mababa sa 90 ang naitalang pananatili.",
     "faq5Q": "Pare‑pareho ba ang mga patakaran sa lahat ng bansang Schengen?",
-    "faq5A": "Oo, ang 90/180 na patakaran ay para sa buong Schengen Area. May ilang bihirang bilateral na eksepsiyon.",
+    "faq5A": "Oo, ang 90/180 na patakaran ay para sa buong Schengen Area.",
     "faqH2": "Mga Madalas Itanong",
     "disclaimerH2": "Mahalagang Paalala",
     "disclaimerP1": "<strong>Para sa pagplano lamang ang kalkulador na ito</strong> at walang legal na bisa. Laging i‑verify gamit ang <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">opisyal na kalkulador ng EU Commission</a> at kumunsulta sa mga awtoridad sa imigrasyon para sa masalimuot na kaso.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Bumalik sa Kalkulador"
   }
 }
-
-

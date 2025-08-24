@@ -55,7 +55,9 @@
     "selectionHint": "Clicca una data per iniziare a pianificare il viaggio!",
     "daysUnit": "giorni",
     "remove": "Rimuovi",
-    "languageAriaLabel": "Lingua"
+    "languageAriaLabel": "Lingua",
+    "kofiCta": "Offrimi un caffè",
+    "kofiAriaLabel": "Sostienimi su Ko‑fi"
   },
   "js": {
     "available": "Disponibile:",
@@ -179,7 +181,7 @@
     "faq4Q": "Posso ‘azzerare’ i 90 giorni uscendo per un giorno?",
     "faq4A": "No. Una breve uscita non azzera il limite. Devi attendere finché, guardando ai 180 giorni precedenti, non avrai meno di 90 giorni di soggiorni registrati.",
     "faq5Q": "Tutti i paesi Schengen seguono le stesse regole?",
-    "faq5A": "Sì, la regola 90/180 si applica all'intera Area Schengen. Esistono rare eccezioni bilaterali.",
+    "faq5A": "Sì, la regola 90/180 si applica all'intera Area Schengen.",
     "faqH2": "Domande frequenti",
     "disclaimerH2": "Avvertenze importanti",
     "disclaimerP1": "<strong>Questo calcolatore è solo per la pianificazione</strong> e non è giuridicamente vincolante. Verifica sempre con il <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calcolatore ufficiale della Commissione UE</a> e consulta le autorità di immigrazione per casi complessi.",

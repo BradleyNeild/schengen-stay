@@ -55,7 +55,9 @@
     "selectionHint": "अपनी यात्रा प्लान करने के लिए किसी तिथि पर क्लिक करें!",
     "daysUnit": "दिन",
     "remove": "हटाएँ",
-    "languageAriaLabel": "भाषा"
+    "languageAriaLabel": "भाषा",
+    "kofiCta": "मुझे कॉफ़ी पिलाएँ",
+    "kofiAriaLabel": "Ko‑fi पर समर्थन करें"
   },
   "js": {
     "available": "उपलब्ध:",
@@ -106,7 +108,7 @@
     "now": "अब",
     "currentlyUsing": "वर्तमान उपयोग",
     "invalidTripDuration": "अमान्य यात्रा अवधि:",
-      "to": "तक",
+    "to": "तक",
     "clickAnotherToComplete": "यात्रा पूर्ण करने के लिए दूसरी तिथि पर क्लिक करें",
     "clickEarlierToComplete": "यात्रा पूर्ण करने के लिए पहले की तिथि पर क्लिक करें",
     "pastTrip": "📝 पिछली यात्रा",
@@ -211,7 +213,3 @@
     "backToCalculator": "कैलकुलेटर पर वापस"
   }
 }
-
-
-
-

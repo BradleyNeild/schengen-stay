@@ -55,7 +55,9 @@
     "selectionHint": "Klicken Sie auf ein Datum, um Ihre Reise zu planen.",
     "daysUnit": "Tage",
     "remove": "Entfernen",
-    "languageAriaLabel": "Sprache"
+    "languageAriaLabel": "Sprache",
+    "kofiCta": "Spendier mir einen Kaffee",
+    "kofiAriaLabel": "Unterstütze mich auf Ko‑fi"
   },
   "js": {
     "available": "Verfügbar:",
@@ -179,7 +181,7 @@
     "faq4Q": "Kann ich durch kurzes Ausreisen resetten?",
     "faq4A": "Nein. Ein kurzer Ausflug setzt das Kontingent nicht zurück. Es müssen genug Tage vergehen, bis im Rückblick weniger als 90 Tage liegen.",
     "faq5Q": "Gelten überall die gleichen Regeln?",
-    "faq5A": "Ja, die 90/180‑Regel gilt für den gesamten Schengenraum. Ausnahmen durch bilaterale Abkommen sind selten.",
+    "faq5A": "Ja, die 90/180‑Regel gilt für den gesamten Schengenraum.",
     "faqH2": "Häufige Fragen",
     "disclaimerH2": "Wichtige Hinweise",
     "disclaimerP1": "<strong>Dieser Rechner dient nur der Planung</strong> und ist nicht rechtsverbindlich. Prüfen Sie Ihre Berechnungen im <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">offiziellen EU‑Rechner</a> und fragen Sie im Zweifel Behörden.",

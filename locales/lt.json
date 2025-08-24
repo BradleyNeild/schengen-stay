@@ -55,7 +55,9 @@
     "selectionHint": "Spustelėkite datą ir pradėkite planuoti kelionę!",
     "daysUnit": "dienos",
     "remove": "Pašalinti",
-    "languageAriaLabel": "Kalba"
+    "languageAriaLabel": "Kalba",
+    "kofiCta": "Pavaišink mane kava",
+    "kofiAriaLabel": "Paremk mane per Ko‑fi"
   },
   "js": {
     "available": "Prieinama:",
@@ -179,7 +181,7 @@
     "faq4Q": "Ar galiu ‘nulinauti’ 90 dienų išvykdamas vienai dienai?",
     "faq4A": "Ne. Trumpa išvyka limito nenulina. Turite palaukti, kol žvelgiant 180 dienų atgal jūsų registruotų buvimo dienų bus mažiau nei 90.",
     "faq5Q": "Ar visos Šengeno šalys taiko tas pačias taisykles?",
-    "faq5A": "Taip, 90/180 taisyklė taikoma visai Šengeno erdvei. Yra retų dvišalių išimčių. ",
+    "faq5A": "Taip, 90/180 taisyklė taikoma visai Šengeno erdvei.",
     "faqH2": "Dažniausiai užduodami klausimai",
     "disclaimerH2": "Svarbūs atsakomybės apribojimai",
     "disclaimerP1": "<strong>Ši Šengeno skaičiuoklė skirta tik planavimui</strong> ir nėra teisiškai įpareigojanti. Visada pasitikrinkite su <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">oficialia EK skaičiuokle</a> ir sudėtingais atvejais konsultuokitės su migracijos institucijomis.",

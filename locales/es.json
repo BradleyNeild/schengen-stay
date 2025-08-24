@@ -55,7 +55,9 @@
     "selectionHint": "Haz clic en una fecha para empezar a planear tu viaje.",
     "daysUnit": "días",
     "remove": "Eliminar",
-    "languageAriaLabel": "Idioma"
+    "languageAriaLabel": "Idioma",
+    "kofiCta": "Invítame a un café",
+    "kofiAriaLabel": "Apóyame en Ko‑fi"
   },
   "js": {
     "available": "Disponible:",
@@ -179,7 +181,7 @@
     "faq4Q": "¿Puedo ‘reiniciar’ mis 90 días saliendo un día?",
     "faq4A": "No. Una breve salida no reinicia el límite. Debes esperar hasta que, al mirar 180 días atrás, tengas menos de 90 días de estancias registradas.",
     "faq5Q": "¿Todos los países Schengen siguen las mismas reglas?",
-    "faq5A": "Sí, la regla 90/180 se aplica a toda el área Schengen. Existen acuerdos bilaterales con excepciones, pero son raros.",
+    "faq5A": "Sí, la regla 90/180 se aplica a toda el área Schengen.",
     "faqH2": "Preguntas frecuentes",
     "disclaimerH2": "Avisos importantes",
     "disclaimerP1": "<strong>Esta calculadora es solo para planificación</strong> y no tiene valor legal. Verifica siempre con la <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calculadora oficial de la Comisión Europea</a> y consulta a las autoridades de inmigración para casos complejos.",

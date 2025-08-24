@@ -55,7 +55,9 @@
     "selectionHint": "Nhấp vào một ngày để bắt đầu lập kế hoạch chuyến đi!",
     "daysUnit": "ngày",
     "remove": "Xóa",
-    "languageAriaLabel": "Ngôn ngữ"
+    "languageAriaLabel": "Ngôn ngữ",
+    "kofiCta": "Mời tôi một ly cà phê",
+    "kofiAriaLabel": "Ủng hộ tôi trên Ko‑fi"
   },
   "js": {
     "available": "Có sẵn:",
@@ -179,7 +181,7 @@
     "faq4Q": "Tôi có thể ‘đặt lại’ 90 ngày bằng cách ra vào một ngày không?",
     "faq4A": "Không. Việc ra ngoài ngắn không đặt lại hạn mức. Bạn phải đợi đến khi đủ ngày cũ rơi ra khỏi cửa sổ 180 ngày.",
     "faq5Q": "Tất cả các nước Schengen có áp dụng cùng quy tắc không?",
-    "faq5A": "Có, quy tắc 90/180 áp dụng cho toàn bộ khu vực Schengen. Một số thỏa thuận song phương hiếm gặp có ngoại lệ.",
+    "faq5A": "Có, quy tắc 90/180 áp dụng cho toàn bộ khu vực Schengen.",
     "faqH2": "Câu hỏi thường gặp",
     "disclaimerH2": "Lưu ý quan trọng",
     "disclaimerP1": "<strong>Trình tính Schengen này chỉ dùng để lập kế hoạch</strong> và không có giá trị pháp lý. Luôn xác minh với <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">trình tính chính thức của Ủy ban EU</a> và hỏi cơ quan xuất nhập cảnh nếu trường hợp phức tạp.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Quay lại Trình tính"
   }
 }
-
-

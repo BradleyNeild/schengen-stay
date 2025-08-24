@@ -55,7 +55,9 @@
     "selectionHint": "날짜를 클릭해 여행 계획을 시작하세요!",
     "daysUnit": "일",
     "remove": "삭제",
-    "languageAriaLabel": "언어"
+    "languageAriaLabel": "언어",
+    "kofiCta": "커피 한 잔 사줘요",
+    "kofiAriaLabel": "Ko‑fi에서 후원하기"
   },
   "js": {
     "available": "이용 가능:",
@@ -179,7 +181,7 @@
     "faq4Q": "하루만 나갔다 오면 90일이 리셋되나요?",
     "faq4A": "아니요. 짧게 나갔다 와도 리셋되지 않습니다. 과거 180일을 기준으로 90일 미만이 될 때까지 기다려야 합니다.",
     "faq5Q": "모든 셍겐 국가가 같은 규정을 따르나요?",
-    "faq5A": "네. 90/180일 규정은 셍겐 전역에 적용됩니다. 드물게 양자협정 예외가 있을 수 있습니다.",
+    "faq5A": "네.",
     "faqH2": "자주 묻는 질문",
     "disclaimerH2": "중요 고지",
     "disclaimerP1": "<strong>이 셍겐 계산기는 계획 목적 전용</strong>이며 법적 효력이 아닙니다. 반드시 <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EU 집행위원회 공식 계산기</a>로 확인하고, 복잡한 상황은 출입국 당국에 문의하세요.",
@@ -211,5 +213,3 @@
     "backToCalculator": "계산기로 돌아가기"
   }
 }
-
-

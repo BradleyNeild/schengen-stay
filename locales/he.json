@@ -55,7 +55,9 @@
     "selectionHint": "לחצו על תאריך כדי להתחיל לתכנן!",
     "daysUnit": "ימים",
     "remove": "הסר",
-    "languageAriaLabel": "שפה"
+    "languageAriaLabel": "שפה",
+    "kofiCta": "תקנו לי קפה",
+    "kofiAriaLabel": "תמכו בי ב‑Ko‑fi"
   },
   "js": {
     "available": "זמין:",
@@ -102,7 +104,7 @@
     "selectedRange": "טווח נבחר",
     "wouldUse": "היה משתמש",
     "availableShort": "זמין",
-      "totalOptions": "אפשרויות בסה\"כ",
+    "totalOptions": "אפשרויות בסה\"כ",
     "now": "עכשיו",
     "currentlyUsing": "משתמש כעת",
     "invalidTripDuration": "משך נסיעה לא תקין:",
@@ -179,7 +181,7 @@
     "faq4Q": "האם ניתן ‘לאפס’ את 90 הימים ביציאה ליום?",
     "faq4A": "לא. יציאה קצרה לא מאפסת את המכסה. צריך להמתין עד שבמבט 180 יום לאחור רשומים פחות מ‑90 ימי שהייה.",
     "faq5Q": "האם כל מדינות שנגן פועלות לפי אותם כללים?",
-    "faq5A": "כן, כלל 90/180 חל על כל אזור שנגן. יש חריגים דו‑צדדיים נדירים.",
+    "faq5A": "כן, כלל 90/180 חל על כל אזור שנגן.",
     "faqH2": "שאלות נפוצות",
     "disclaimerH2": "הבהרות חשובות",
     "disclaimerP1": "<strong>המחשבון נועד לתכנון בלבד</strong> ואינו מחייב משפטית. אימתו תמיד עם <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">המחשבון הרשמי של נציבות האיחוד האירופי</a> והתייעצו עם רשויות ההגירה במקרים מורכבים.",
@@ -211,5 +213,3 @@
     "backToCalculator": "חזרה למחשבון"
   }
 }
-
-

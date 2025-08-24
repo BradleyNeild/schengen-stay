@@ -55,7 +55,9 @@
     "selectionHint": "Kliknite na datum da započnete planiranje putovanja!",
     "daysUnit": "dana",
     "remove": "Ukloni",
-    "languageAriaLabel": "Jezik"
+    "languageAriaLabel": "Jezik",
+    "kofiCta": "Častite me kafom",
+    "kofiAriaLabel": "Podržite me na Ko‑fi"
   },
   "js": {
     "available": "Dostupno:",
@@ -179,7 +181,7 @@
     "faq4Q": "Mogu li ‘resetovati’ 90 dana ako izađem na jedan dan?",
     "faq4A": "Ne. Kratak izlazak ne resetuje limit. Morate sačekati dok, gledano 180 dana unazad, ne budete imali manje od 90 evidentiranih dana boravka.",
     "faq5Q": "Da li sve šengenske zemlje prate ista pravila?",
-    "faq5A": "Da, pravilo 90/180 važi za celu šengensku zonu. Postoje retki bilateralni izuzeci.",
+    "faq5A": "Da, pravilo 90/180 važi za celu šengensku zonu.",
     "faqH2": "Česta pitanja",
     "disclaimerH2": "Važne napomene",
     "disclaimerP1": "<strong>Ovaj kalkulator je samo za planiranje</strong> i nije pravno obavezujući. Uvek proverite sa <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">zvaničnim kalkulatorom Evropske komisije</a> i konsultujte imigracione vlasti za složene slučajeve.",

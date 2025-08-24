@@ -55,7 +55,9 @@
     "selectionHint": "Klik op een datum om je reis te plannen!",
     "daysUnit": "dagen",
     "remove": "Verwijderen",
-    "languageAriaLabel": "Taal"
+    "languageAriaLabel": "Taal",
+    "kofiCta": "Trakteer me op koffie",
+    "kofiAriaLabel": "Steun me op Ko‑fi"
   },
   "js": {
     "available": "Beschikbaar:",
@@ -179,7 +181,7 @@
     "faq4Q": "Kan ik mijn 90 dagen resetten door een dag te vertrekken?",
     "faq4A": "Nee. Kort vertrek reset de limiet niet. Wacht tot je, terugkijkend 180 dagen, minder dan 90 verblijfsdagen hebt.",
     "faq5Q": "Volgen alle Schengenlanden dezelfde regels?",
-    "faq5A": "Ja, de 90/180‑regel geldt voor het gehele Schengengebied. Bilaterale uitzonderingen bestaan, maar zijn zeldzaam.",
+    "faq5A": "Ja, de 90/180‑regel geldt voor het gehele Schengengebied.",
     "faqH2": "Veelgestelde vragen",
     "disclaimerH2": "Belangrijke disclaimers",
     "disclaimerP1": "<strong>Deze Schengen‑calculator is enkel voor planningsdoeleinden</strong> en is niet juridisch bindend. Verifieer je berekeningen met de <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">officiële EU‑calculator</a> en raadpleeg de immigratie­autoriteiten voor complexe situaties.",

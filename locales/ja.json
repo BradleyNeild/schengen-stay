@@ -55,7 +55,9 @@
     "selectionHint": "日付をクリックして旅行計画を開始！",
     "daysUnit": "日",
     "remove": "削除",
-    "languageAriaLabel": "言語"
+    "languageAriaLabel": "言語",
+    "kofiCta": "コーヒーをおごる",
+    "kofiAriaLabel": "Ko‑fi で支援する"
   },
   "js": {
     "available": "利用可能:",
@@ -179,7 +181,7 @@
     "faq4Q": "1 日だけ出国すれば 90 日をリセットできますか？",
     "faq4A": "いいえ。短時間の出国ではリセットされません。過去 180 日間を見て 90 日未満になるまで待つ必要があります。",
     "faq5Q": "すべてのシェンゲン加盟国で同じ規則ですか？",
-    "faq5A": "はい。90/180 日ルールはシェンゲン全域に適用されます。二国間協定による例外がある場合もありますが稀です。",
+    "faq5A": "はい。",
     "faqH2": "よくある質問",
     "disclaimerH2": "重要な注意事項",
     "disclaimerP1": "<strong>このシェンゲン計算機は計画目的のみ</strong>であり法的効力はありません。<a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">欧州委員会の公式計算機</a>で必ず確認し、複雑なケースは入国管理当局に相談してください。",
@@ -211,5 +213,3 @@
     "backToCalculator": "計算機に戻る"
   }
 }
-
-

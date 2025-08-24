@@ -55,7 +55,9 @@
     "selectionHint": "Kliknutím na datum začněte plánovat svou cestu!",
     "daysUnit": "dní",
     "remove": "Odstranit",
-    "languageAriaLabel": "Jazyk"
+    "languageAriaLabel": "Jazyk",
+    "kofiCta": "Pozvěte mě na kávu",
+    "kofiAriaLabel": "Podpořte mě na Ko‑fi"
   },
   "js": {
     "available": "Dostupné:",
@@ -179,7 +181,7 @@
     "faq4Q": "Mohu ‘resetovat’ 90 dní tím, že na den odcestuji?",
     "faq4A": "Ne. Krátký výjezd limit neresetuje. Musíte počkat, až při pohledu 180 dní zpět budete mít zaznamenáno méně než 90 pobytových dnů.",
     "faq5Q": "Dodržují všechny země Schengenu stejná pravidla?",
-    "faq5A": "Ano, pravidlo 90/180 platí pro celý schengenský prostor. Existují vzácné bilaterální výjimky.",
+    "faq5A": "Ano, pravidlo 90/180 platí pro celý schengenský prostor.",
     "faqH2": "Časté dotazy",
     "disclaimerH2": "Důležitá upozornění",
     "disclaimerP1": "<strong>Tato schengenská kalkulačka slouží pouze k plánování</strong> a není právně závazná. Vždy ověřte pomocí <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">oficiální kalkulačky Evropské komise</a> a v komplikovaných případech se poraďte s imigračními úřady.",

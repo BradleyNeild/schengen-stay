@@ -55,7 +55,9 @@
     "selectionHint": "Napsauta päivää aloittaaksesi matkasuunnittelun!",
     "daysUnit": "päivää",
     "remove": "Poista",
-    "languageAriaLabel": "Kieli"
+    "languageAriaLabel": "Kieli",
+    "kofiCta": "Tarjoa kahvi",
+    "kofiAriaLabel": "Tue minua Ko‑fi‑palvelussa"
   },
   "js": {
     "available": "Saatavilla:",
@@ -179,7 +181,7 @@
     "faq4Q": "Voinko ‘nollata’ 90 päivää poistumalla yhdeksi päiväksi?",
     "faq4A": "En. Lyhyt poistuminen ei nollaa kiintiötä. Odota, kunnes 180 päivän taaksepäin katsottaessa oleskelupäiviä on alle 90.",
     "faq5Q": "Noudattavatko kaikki Schengen‑maat samoja sääntöjä?",
-    "faq5A": "Kyllä, 90/180 sääntö koskee koko Schengen‑aluetta. Harvinaisia kahdenvälisiä poikkeuksia on olemassa.",
+    "faq5A": "Kyllä, 90/180 sääntö koskee koko Schengen‑aluetta.",
     "faqH2": "Usein kysytyt kysymykset",
     "disclaimerH2": "Tärkeät vastuuvapauslausekkeet",
     "disclaimerP1": "<strong>Tämä Schengen‑laskuri on vain suunnittelutarkoituksiin</strong> eikä ole oikeudellisesti sitova. Varmenna laskelmasi <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EU‑komission virallisella laskurilla</a> ja kysy maahanmuuttoviranomaisilta monimutkaisissa tilanteissa.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Takaisin laskuriin"
   }
 }
-
-

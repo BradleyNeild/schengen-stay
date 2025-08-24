@@ -55,7 +55,9 @@
     "selectionHint": "Cliquez sur une date pour commencer à planifier votre voyage.",
     "daysUnit": "jours",
     "remove": "Supprimer",
-    "languageAriaLabel": "Langue"
+    "languageAriaLabel": "Langue",
+    "kofiCta": "Offrez‑moi un café",
+    "kofiAriaLabel": "Soutenez‑moi sur Ko‑fi"
   },
   "js": {
     "available": "Disponible :",
@@ -179,7 +181,7 @@
     "faq4Q": "Puis‑je réinitialiser en sortant une journée ?",
     "faq4A": "Non. Une courte sortie ne réinitialise pas le quota. Il faut attendre que suffisamment de jours sortent de la fenêtre.",
     "faq5Q": "Tous les pays Schengen appliquent‑ils les mêmes règles ?",
-    "faq5A": "Oui, la règle 90/180 s’applique à tout l’espace Schengen. Des exceptions bilatérales existent mais restent rares.",
+    "faq5A": "Oui, la règle 90/180 s’applique à tout l’espace Schengen.",
     "faqH2": "Questions fréquentes",
     "disclaimerH2": "Avertissements importants",
     "disclaimerP1": "<strong>Ce calculateur sert à la planification</strong> et n’a pas de valeur juridique. Vérifiez vos calculs avec le <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calculateur officiel de l’UE</a> et consultez les autorités en cas de doute.",

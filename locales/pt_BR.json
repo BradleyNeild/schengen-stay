@@ -55,7 +55,9 @@
     "selectionHint": "Clique em uma data para começar a planejar sua viagem!",
     "daysUnit": "dias",
     "remove": "Remover",
-    "languageAriaLabel": "Idioma"
+    "languageAriaLabel": "Idioma",
+    "kofiCta": "Pague‑me um café",
+    "kofiAriaLabel": "Apoie‑me no Ko‑fi"
   },
   "js": {
     "available": "Disponível:",
@@ -115,7 +117,7 @@
     "maxDaysUsedTooltip": "Máximo de dias usados em qualquer período de 180 dias",
     "daysRemainingTooltip": "Dias restantes:",
     "preview": "Pré‑visualização",
-      "daysAbbrev": "d.",
+    "daysAbbrev": "d.",
     "endingHere": "terminando aqui",
     "startingHere": "começando aqui",
     "max": "máx"
@@ -179,7 +181,7 @@
     "faq4Q": "Posso ‘zerar’ os 90 dias saindo por um dia?",
     "faq4A": "Não. Uma saída breve não redefine o limite. Você deve esperar até que, olhando 180 dias para trás, tenha menos de 90 dias de estadias registradas.",
     "faq5Q": "Todos os países Schengen seguem as mesmas regras?",
-    "faq5A": "Sim, a regra 90/180 se aplica a toda a Área Schengen. Existem exceções bilaterais raras.",
+    "faq5A": "Sim, a regra 90/180 se aplica a toda a Área Schengen.",
     "faqH2": "Perguntas frequentes",
     "disclaimerH2": "Avisos importantes",
     "disclaimerP1": "<strong>Esta calculadora serve apenas para planejamento</strong> e não tem valor legal. Verifique sempre com a <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calculadora oficial da Comissão Europeia</a> e consulte as autoridades de imigração para casos complexos.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Voltar à calculadora"
   }
 }
-
-

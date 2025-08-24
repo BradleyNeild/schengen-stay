@@ -55,7 +55,9 @@
     "selectionHint": "Klik tanggal untuk mulai merencanakan perjalanan!",
     "daysUnit": "hari",
     "remove": "Hapus",
-    "languageAriaLabel": "Bahasa"
+    "languageAriaLabel": "Bahasa",
+    "kofiCta": "Belikan saya kopi",
+    "kofiAriaLabel": "Dukung saya di Ko‑fi"
   },
   "js": {
     "available": "Tersedia:",
@@ -179,7 +181,7 @@
     "faq4Q": "Bisakah saya ‘mereset’ 90 hari dengan keluar sehari?",
     "faq4A": "Tidak. Keluar singkat tidak mereset jatah. Anda harus menunggu hingga, saat melihat 180 hari ke belakang, total hari tinggal Anda kurang dari 90.",
     "faq5Q": "Apakah semua negara Schengen mengikuti aturan yang sama?",
-    "faq5A": "Ya, aturan 90/180 berlaku untuk seluruh Kawasan Schengen. Ada pengecualian bilateral yang jarang terjadi.",
+    "faq5A": "Ya, aturan 90/180 berlaku untuk seluruh Kawasan Schengen.",
     "faqH2": "Pertanyaan Umum",
     "disclaimerH2": "Penafian Penting",
     "disclaimerP1": "<strong>Kalkulator Schengen ini hanya untuk perencanaan</strong> dan tidak mengikat secara hukum. Selalu verifikasi dengan <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">kalkulator resmi Komisi UE</a> dan konsultasikan otoritas imigrasi untuk kasus kompleks.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Kembali ke Kalkulator"
   }
 }
-
-

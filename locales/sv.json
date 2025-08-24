@@ -55,7 +55,9 @@
     "selectionHint": "Klicka på ett datum för att börja planera din resa!",
     "daysUnit": "dagar",
     "remove": "Ta bort",
-    "languageAriaLabel": "Språk"
+    "languageAriaLabel": "Språk",
+    "kofiCta": "Bjud mig på kaffe",
+    "kofiAriaLabel": "Stöd mig på Ko‑fi"
   },
   "js": {
     "available": "Tillgängligt:",
@@ -179,7 +181,7 @@
     "faq4Q": "Kan jag nollställa 90 dagar genom att lämna i en dag?",
     "faq4A": "Nej. En kort avresa nollställer inte gränsen. Vänta tills du, när du ser 180 dagar bakåt, har färre än 90 vistelsedagar registrerade.",
     "faq5Q": "Följer alla Schengenländer samma regler?",
-    "faq5A": "Ja, 90/180‑regeln gäller hela Schengenområdet. Bilaterala undantag förekommer men är sällsynta.",
+    "faq5A": "Ja, 90/180‑regeln gäller hela Schengenområdet.",
     "faqH2": "Vanliga frågor",
     "disclaimerH2": "Viktiga förbehåll",
     "disclaimerP1": "<strong>Denna Schengen‑kalkylator är endast för planeringsändamål</strong> och är inte juridiskt bindande. Verifiera alltid med <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EU‑kommissionens officiella kalkylator</a> och rådgör med migrationsmyndigheter i komplexa situationer.",

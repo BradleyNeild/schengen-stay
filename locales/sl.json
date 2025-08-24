@@ -55,7 +55,9 @@
     "selectionHint": "Kliknite datum, da začnete načrtovati potovanje!",
     "daysUnit": "dni",
     "remove": "Odstrani",
-    "languageAriaLabel": "Jezik"
+    "languageAriaLabel": "Jezik",
+    "kofiCta": "Buy me a coffee",
+    "kofiAriaLabel": "Buy me a coffee on Ko‑fi"
   },
   "js": {
     "available": "Na voljo:",
@@ -179,7 +181,7 @@
     "faq4Q": "Ali lahko ‘ponastavim’ 90 dni, če odidem za en dan?",
     "faq4A": "Ne. Kratek odhod ne ponastavi omejitve. Počakati morate, da je ob pogledu 180 dni nazaj zabeleženih manj kot 90 dni bivanja.",
     "faq5Q": "Ali vse schengenske države sledijo enakim pravilom?",
-    "faq5A": "Da, pravilo 90/180 velja za celotno schengensko območje. Obstajajo redke dvostranske izjeme.",
+    "faq5A": "Da, pravilo 90/180 velja za celotno schengensko območje.",
     "faqH2": "Pogosta vprašanja",
     "disclaimerH2": "Pomembne izjave o omejitvi odgovornosti",
     "disclaimerP1": "<strong>Ta schengenski kalkulator je namenjen le načrtovanju</strong> in ni pravno zavezujoč. Vedno preverite z <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">uradnim kalkulatorjem Evropske komisije</a> in se pri zapletenih primerih posvetujte z organi za priseljevanje.",

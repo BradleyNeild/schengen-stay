@@ -55,7 +55,9 @@
     "selectionHint": "Klik tarikh untuk mula merancang perjalanan anda!",
     "daysUnit": "hari",
     "remove": "Buang",
-    "languageAriaLabel": "Bahasa"
+    "languageAriaLabel": "Bahasa",
+    "kofiCta": "Belanja saya kopi",
+    "kofiAriaLabel": "Sokong saya di Ko‑fi"
   },
   "js": {
     "available": "Tersedia:",
@@ -179,7 +181,7 @@
     "faq4Q": "Bolehkah saya ‘set semula’ 90 hari dengan keluar sehari?",
     "faq4A": "Tidak. Keluar seketika tidak menetapkan semula had. Anda perlu tunggu sehingga, apabila melihat 180 hari ke belakang, anda mempunyai kurang daripada 90 hari tinggal direkodkan.",
     "faq5Q": "Adakah semua negara Schengen ikut peraturan sama?",
-    "faq5A": "Ya, peraturan 90/180 terpakai kepada seluruh Kawasan Schengen. Terdapat pengecualian dua hala yang jarang berlaku. ",
+    "faq5A": "Ya, peraturan 90/180 terpakai kepada seluruh Kawasan Schengen.",
     "faqH2": "Soalan Lazim",
     "disclaimerH2": "Penafian Penting",
     "disclaimerP1": "<strong>Kalkulator Schengen ini untuk perancangan sahaja</strong> dan tidak mengikat dari segi undang‑undang. Sahkan sentiasa dengan <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">kalkulator rasmi Suruhanjaya EU</a> dan rujuk pihak berkuasa imigresen untuk kes kompleks.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Kembali ke Kalkulator"
   }
 }
-
-

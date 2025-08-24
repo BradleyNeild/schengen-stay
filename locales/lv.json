@@ -55,7 +55,9 @@
     "selectionHint": "Noklikšķiniet uz datuma, lai sāktu ceļojuma plānošanu!",
     "daysUnit": "dienas",
     "remove": "Noņemt",
-    "languageAriaLabel": "Valoda"
+    "languageAriaLabel": "Valoda",
+    "kofiCta": "Uzcien mani ar kafiju",
+    "kofiAriaLabel": "Atbalsti mani pakalpojumā Ko‑fi"
   },
   "js": {
     "available": "Pieejams:",
@@ -179,7 +181,7 @@
     "faq4Q": "Vai varu ‘atiestatīt’ 90 dienas, ja dodos prom uz vienu dienu?",
     "faq4A": "Nē. Īsa izbraukšana limitu neatiestata. Jāgaida, līdz, skatoties 180 dienas atpakaļ, reģistrēto uzturēšanās dienu būs mazāk par 90.",
     "faq5Q": "Vai visas Šengenas valstis ievēro vienādus noteikumus?",
-    "faq5A": "Jā, 90/180 noteikums attiecas uz visu Šengenas zonu. Pastāv reti divpusēji izņēmumi.",
+    "faq5A": "Jā, 90/180 noteikums attiecas uz visu Šengenas zonu.",
     "faqH2": "Biežāk uzdotie jautājumi",
     "disclaimerH2": "Svarīgi atrunas",
     "disclaimerP1": "<strong>Šī Šengenas kalkulators paredzēts tikai plānošanai</strong> un nav juridiski saistošs. Vienmēr pārbaudiet ar <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EK oficiālo kalkulatoru</a> un sarežģītos gadījumos konsultējieties ar imigrācijas iestādēm.",

@@ -55,7 +55,9 @@
     "selectionHint": "Clique numa data para começar a planear a sua viagem!",
     "daysUnit": "dias",
     "remove": "Remover",
-    "languageAriaLabel": "Idioma"
+    "languageAriaLabel": "Idioma",
+    "kofiCta": "Pague‑me um café",
+    "kofiAriaLabel": "Apoie‑me no Ko‑fi"
   },
   "js": {
     "available": "Disponível:",
@@ -179,7 +181,7 @@
     "faq4Q": "Posso redefinir os 90 dias saindo por um dia?",
     "faq4A": "Não. Uma saída breve não redefine o limite. Deve esperar até que, olhando 180 dias para trás, tenha menos de 90 dias de estadias registadas.",
     "faq5Q": "Todos os países Schengen seguem as mesmas regras?",
-    "faq5A": "Sim, a regra 90/180 aplica‑se a toda a Área Schengen. Alguns países têm acordos bilaterais que podem prever exceções, mas são raros.",
+    "faq5A": "Sim, a regra 90/180 aplica‑se a toda a Área Schengen.",
     "faqH2": "Perguntas frequentes",
     "disclaimerH2": "Avisos importantes",
     "disclaimerP1": "<strong>Esta calculadora serve apenas para planeamento</strong> e não tem valor legal. Verifique sempre com a <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calculadora oficial da Comissão Europeia</a> e consulte as autoridades de imigração para situações complexas.",

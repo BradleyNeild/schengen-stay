@@ -55,7 +55,9 @@
     "selectionHint": "Klõpsa kuupäeval, et alustada reisiplaani!",
     "daysUnit": "päeva",
     "remove": "Eemalda",
-    "languageAriaLabel": "Keel"
+    "languageAriaLabel": "Keel",
+    "kofiCta": "Kutsu mind kohvile",
+    "kofiAriaLabel": "Toeta mind Ko‑fi’s"
   },
   "js": {
     "available": "Saadaval:",
@@ -179,7 +181,7 @@
     "faq4Q": "Kas saan ‘nullida’ 90 päeva, kui lahkun üheks päevaks?",
     "faq4A": "Ei. Lühike lahkumine limiiti ei nulli. Pead ootama, kuni 180 päeva tagasi vaadates on registreeritud alla 90 viibimispäeva.",
     "faq5Q": "Kas kõik Schengeni riigid järgivad samu reegleid?",
-    "faq5A": "Jah, 90/180 reegel kehtib kogu Schengeni alal. Esineb haruldasi kahepoolseid erandeid.",
+    "faq5A": "Jah, 90/180 reegel kehtib kogu Schengeni alal.",
     "faqH2": "Korduma kippuvad küsimused",
     "disclaimerH2": "Olulised märkused",
     "disclaimerP1": "<strong>See Schengeni kalkulaator on vaid planeerimiseks</strong> ega ole õiguslikult siduv. Kontrolli alati <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">EL Komisjoni ametliku kalkulaatoriga</a> ja küsi keerukate olukordade puhul nõu ametitelt.",
@@ -211,5 +213,3 @@
     "backToCalculator": "Tagasi kalkulaatori juurde"
   }
 }
-
-

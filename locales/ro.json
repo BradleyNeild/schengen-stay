@@ -55,7 +55,9 @@
     "selectionHint": "Fă clic pe o dată pentru a începe planificarea călătoriei!",
     "daysUnit": "zile",
     "remove": "Elimină",
-    "languageAriaLabel": "Limbă"
+    "languageAriaLabel": "Limbă",
+    "kofiCta": "Invite‑mă la o cafea",
+    "kofiAriaLabel": "Susține‑mă pe Ko‑fi"
   },
   "js": {
     "available": "Disponibil:",
@@ -179,7 +181,7 @@
     "faq4Q": "Pot ‘reseta’ cele 90 de zile dacă plec pentru o zi?",
     "faq4A": "Nu. O plecare scurtă nu resetează limita. Trebuie să aștepți până când, privind 180 de zile înapoi, ai mai puțin de 90 de zile de șederi înregistrate.",
     "faq5Q": "Toate țările Schengen urmează aceleași reguli?",
-    "faq5A": "Da, regula 90/180 se aplică întregului Spațiu Schengen. Există excepții bilaterale rare.",
+    "faq5A": "Da, regula 90/180 se aplică întregului Spațiu Schengen.",
     "faqH2": "Întrebări frecvente",
     "disclaimerH2": "Avertismente importante",
     "disclaimerP1": "<strong>Acest calculator este doar pentru planificare</strong> și nu are valoare juridică. Verifică întotdeauna cu <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">calculatorul oficial al Comisiei Europene</a> și consultă autoritățile de imigrare pentru cazuri complexe.",

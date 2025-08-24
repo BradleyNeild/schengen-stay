@@ -55,7 +55,9 @@
     "selectionHint": "Kliknij datę, aby rozpocząć planowanie podróży!",
     "daysUnit": "dni",
     "remove": "Usuń",
-    "languageAriaLabel": "Język"
+    "languageAriaLabel": "Język",
+    "kofiCta": "Postaw mi kawę",
+    "kofiAriaLabel": "Wesprzyj mnie na Ko‑fi"
   },
   "js": {
     "available": "Dostępne:",
@@ -179,7 +181,7 @@
     "faq4Q": "Czy mogę zresetować 90 dni, wyjeżdżając na jeden dzień?",
     "faq4A": "Nie. Krótkie wyjazdy nie resetują limitu. Trzeba poczekać, aż patrząc 180 dni wstecz, zarejestrowanych pobytów będzie mniej niż 90 dni.",
     "faq5Q": "Czy wszystkie kraje Schengen stosują te same zasady?",
-    "faq5A": "Tak, zasada 90/180 dotyczy całej strefy Schengen. Zdarzają się rzadkie wyjątki wynikające z umów dwustronnych.",
+    "faq5A": "Tak, zasada 90/180 dotyczy całej strefy Schengen.",
     "faqH2": "Najczęściej zadawane pytania",
     "disclaimerH2": "Ważne zastrzeżenia",
     "disclaimerP1": "<strong>Ten kalkulator służy wyłącznie do planowania</strong> i nie ma mocy prawnej. Zawsze weryfikuj obliczenia w <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">oficjalnym kalkulatorze Komisji Europejskiej</a> i konsultuj się z władzami imigracyjnymi w złożonych sytuacjach.",

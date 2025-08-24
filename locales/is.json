@@ -55,7 +55,9 @@
     "selectionHint": "Smelltu á dagsetningu til að hefja ferðaskipulag!",
     "daysUnit": "dagar",
     "remove": "Fjarlægja",
-    "languageAriaLabel": "Tungumál"
+    "languageAriaLabel": "Tungumál",
+    "kofiCta": "Bjóð mér á kaffi",
+    "kofiAriaLabel": "Styðjið mig á Ko‑fi"
   },
   "js": {
     "available": "Laust:",
@@ -179,7 +181,7 @@
     "faq4Q": "Get ég ‘endurstillt’ 90 dagana með dagsferð út?",
     "faq4A": "Nei. Stutt ferð út endurstillir ekki heimild. Bíða þarf þar til, séð 180 daga aftur, eru skráðir færri en 90 dvalardagar.",
     "faq5Q": "Fylgja öll Schengen‑lönd sömu reglum?",
-    "faq5A": "Já, 90/180 reglan gildir á öllu Schengen‑svæðinu. Til eru fágætar tvíhliða undantekningar.",
+    "faq5A": "Já, 90/180 reglan gildir á öllu Schengen‑svæðinu.",
     "faqH2": "Algengar spurningar",
     "disclaimerH2": "Mikilvægar fyrirvarar",
     "disclaimerP1": "<strong>Þessi Schengen reiknivél er aðeins til áætlanagerðar</strong> og er ekki lagalega bindandi. Staðfestu alltaf með <a href=\"https://ec.europa.eu/assets/home/visa-calculator/calculator.htm\" target=\"_blank\" rel=\"noopener noreferrer\">opinberri reiknivél Evrópunefndar</a> og ráðfærðu þig við yfirvöld í flóknum málum.",
